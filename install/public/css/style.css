@@ -1,0 +1,54 @@
+@charset "utf-8";
+
+/* === Common Style === */
+@font-face {
+  font-family: 'Black Ops One';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Black Ops One'), local('BlackOpsOne-Regular'), url(../fonts/BlackOpsOne-Regular.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215;
+}
+
+body{background:#000000;}
+h1,button,a{font-family: 'Black Ops One';color:#337AB7;}
+h1{padding:0 0 10px 0}
+.divider{border-bottom: 1px solid #eee;margin:10px 0;padding-bottom: 9px}
+button, .cbtn{min-width:120px;padding:5px 20px;border-radius:0;color:#337AB7;border:1px solid #eee;text-align:center;text-decoration:none!important;}
+button, .cbtn:hover{background:#EEEEEE}
+.nav-pills>li.active>a, 
+.nav-pills>li.active>a:focus, 
+.nav-pills>li.active>a:hover, 
+button:hover,
+button:focus, 
+a:hover{background:#337AB7!important;color:white!important;}
+.green{color:green}
+.red{color:red}
+.maroon{color:maroon}
+.white{color:white}
+
+/* === Main Wrapper === */
+.main_wrapper{display:block;padding:10px;background:#ffffff;border:1px solid #ccc;border-radius:0px}
+
+
+/* === Navigation Section === */
+.nav li a{border:1px solid #eee;padding:5px 10px;border-radius:0}
+
+/* === Content Section === */
+.content{border:1px solid #eee;padding:10px;}
+.page-header{margin:20px 0 10px}
+
+/* === Requirement Page === */
+.requirement ul{margin:0;padding:0}
+.requirement ul li{list-style:none;padding:5px; border:1px solid #eee}
+h3{font-family: 'Black Ops One';font-size:20px;margin:0}
+h4{font-family: 'Black Ops One';margin:0}
+table{width:100%;margin:0 0 20px 0;}
+table thead{background:#337AB7;border:1px solid #eee;}
+table thead td{padding:10px;border:1px solid;color:#ffffff;}
+table tbody td{border-bottom:1px solid #EEEEEE;padding:2px;}
+
+
+/* === Setup/Install Page === */
+.form-group{margin-bottom:5px}
+.form-control{border-radius:0!important;height:30px!important}
+ 
