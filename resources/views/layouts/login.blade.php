@@ -20,19 +20,7 @@
 </head>
 <body class="cm-login">
     <div class="loader">
-        <!-- <div>
-            <span>C</span>
-            <span>O</span>
-            <span>D</span>
-            <span>E</span>
-            <span></span>
-            <span>K</span>
-            <span>E</span>
-            <span>R</span>
-            <span>N</span>
-            <span>E</span>
-            <span>L</span>
-        </div> -->
+       <!-- insert loader animation -->
     </div>
 
     <div class="text-center" style="padding:35px 0 30px 0;background:#fff;border-bottom:1px solid #ddd;">
