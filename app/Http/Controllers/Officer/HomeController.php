@@ -23,7 +23,7 @@ class HomeController extends Controller
             'month', 
             'year', 
             'begin',
-            'performance',
+            'performance'
         ));
     } 
     
