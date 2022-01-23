@@ -45,20 +45,6 @@
         ]
     }); 
 
-    //back to top
-    $('body').append('<div id="toTop" class="btn back-top"><span class="fa fa-arrow-up"></span></div>');
-    $(window).on("scroll", function () {
-        if ($(this).scrollTop() !== 0) {
-            $('#toTop').fadeIn();
-        } else {
-            $('#toTop').fadeOut();
-        }
-    });
-
-    $('#toTop').on("click", function () {
-        $("html, body").animate({scrollTop: 0}, 600);
-        return false;
-    });
     
 }(jQuery));
 
