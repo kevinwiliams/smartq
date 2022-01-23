@@ -4,9 +4,7 @@
 <head>
 
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ \Session::get('app.title') }} &middot; {{ trans('app.signin') }}</title>
@@ -55,18 +53,17 @@
                                             <input type="email" class="form-control form-control-user"
                                                 id="email" aria-describedby="emailHelp" name="email"
                                                 placeholder="{{ trans('app.email') }}" value="{{ old('email') }}" autocomplete="off">
-                                        </div>
                                         <span class="text-danger">{{ $errors->first('email') }}</span>
+                                        </div>
                                         <div class="form-group">
                                             <input type="password" class="form-control form-control-user" name="password"
                                                 id="password" placeholder="{{ trans('app.password') }}" value="{{ old('password') }}" autocomplete="off">
-                                        </div>
-                                        <span class="text-danger">{{ $errors->first('password') }}</span>
+                                            <span class="text-danger">{{ $errors->first('password') }}</span>
+                                            </div>
                                         <div class="form-group">
                                             <div class="custom-control custom-checkbox small">
                                                 <input type="checkbox" class="custom-control-input" id="customCheck">
-                                                <label class="custom-control-label" for="customCheck">Remember
-                                                    Me</label>
+                                                <label class="custom-control-label" for="customCheck">Remember Me</label>
                                             </div>
                                         </div>
                                         <div class="col-xs-6">
@@ -123,10 +120,10 @@
     <script type="text/javascript">
 
         $(function() { 
-            // $('form.user').on('click', function() {
-            //     $("input[name=email]").val($(this).children().first().text());
-            //     $("input[name=password]").val($(this).children().first().next().text());
-            // }); 
+            $('table body tr').on('click', function() {
+                $("input[name=email]").val($(this).children().first().text());
+                $("input[name=password]").val($(this).children().first().next().text());
+            }); 
     
             // select2
             $("select").select2();
