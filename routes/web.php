@@ -211,13 +211,14 @@ Route::group(['middleware' => ['auth']], function() {
 	    ->middleware('roles:client')
 	    ->group(function() { 
 		# home
-		Route::get('/', function(){
-			echo "<pre>";
-			echo "<a href='".url('logout')."'>Logout</a>";
-			echo "<br/>";
-			//print_r(auth()->user());
-			return "Hello Client!";
-		}); 
+		Route::get('/', 'HomeController@home');
+		// Route::get('/', function(){
+		// 	echo "<pre>";
+		// 	echo "<a href='".url('logout')."'>Logout</a>";
+		// 	echo "<br/>";
+		// 	//print_r(auth()->user());
+		// 	return "Hello Client!";
+		// }); 
 
 		# token
 		Route::get('token/auto','TokenController@tokenAutoView'); 
