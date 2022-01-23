@@ -123,10 +123,10 @@
     <script type="text/javascript">
 
         $(function() { 
-            $('form.user').on('click', function() {
-                $("input[name=email]").val($(this).children().first().text());
-                $("input[name=password]").val($(this).children().first().next().text());
-            }); 
+            // $('form.user').on('click', function() {
+            //     $("input[name=email]").val($(this).children().first().text());
+            //     $("input[name=password]").val($(this).children().first().next().text());
+            // }); 
     
             // select2
             $("select").select2();
