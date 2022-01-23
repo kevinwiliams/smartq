@@ -1,477 +1,973 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-        <meta name="csrf-token" content="{{ csrf_token() }}">
-        <title>{{ \Session::get('app.title') }} :: @yield('title')</title>
-        <!-- favicon -->
-        <link rel="shortcut icon" href="{{ asset(Session::get('app.favicon')) }}" type="image/x-icon" />
-        <!-- template bootstrap -->
-        <link href="{{ asset('assets/css/template.min.css') }}" rel='stylesheet prefetch'>
-        <!-- roboto -->
-        <link href="{{ asset('assets/css/roboto.css') }}" rel='stylesheet'>
-        <!-- material-design -->
-        <link href="{{ asset('assets/css/material-design.css') }}" rel='stylesheet'>
-        <!-- small-n-flat -->
-        <link href="{{ asset('assets/css/small-n-flat.css') }}" rel='stylesheet'>
-        <!-- font-awesome -->
-        <link href="{{ asset('assets/css/font-awesome.min.css') }}" rel='stylesheet'>
-        <!-- jquery-ui -->
-        <link href="{{ asset('assets/css/jquery-ui.min.css') }}" rel='stylesheet'>
-        <!-- datatable -->
-        <link href="{{ asset('assets/css/dataTables.min.css') }}" rel='stylesheet'>
-        <!-- select2 -->
-        <link href="{{ asset('assets/css/select2.min.css') }}"  rel='stylesheet'>
-        <!-- custom style -->
-        <link href="{{ asset('assets/css/style.css') }}" rel='stylesheet'>
-        <!-- Page styles --> 
-        @stack('styles')
 
-        <!-- Jquery  -->
-        <script src="{{ asset('assets/js/jquery.min.js') }}"></script>
-    </head>
-    <body class="cm-no-transition cm-1-navbar loader-process">
-        @include('backend.common.info')
+<head>
 
-        <div class="loader">
-            <!-- <div>
-                <span>C</span>
-                <span>O</span>
-                <span>D</span>
-                <span>E</span>
-                <span></span>
-                <span>K</span>
-                <span>E</span>
-                <span>R</span>
-                <span>N</span>
-                <span>E</span>
-                <span>L</span>
-            </div> -->
-        </div>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <!-- Starts of Sidebar -->
-        <div id="cm-menu">
-            <nav class="cm-navbar cm-navbar-primary">
-                <div class="cm-flex"><a href="javascript:void(0)" class="cm-logo">
-                    <img src="{{ asset('assets/img/icons/logo.jpg') }}" width="210" height="50">
-                </a></div>
-                <div class="btn btn-primary md-menu-white" data-toggle="cm-menu"></div>
-            </nav>
-            <div id="cm-menu-content">
-                <div id="cm-menu-items-wrapper">
-                    <div id="cm-menu-scroller">
-                        <ul class="cm-menu-items">
-                            <!-- // ADMIN MENU -->
-                            @if(Auth::user()->hasRole('admin')) 
-                            <li class="{{ ((Request::is('admin')) ? 'active' : '') }}">
-                                <a href="{{ url('admin') }}" class="sf-dashboard">
-                                    {{ trans('app.dashboard') }}
-                                </a>
-                            </li>
+    <title>{{ \Session::get('app.title') }} :: @yield('title')</title>
 
-                            <li class="cm-submenu {{ (Request::segment(2)=='department' ? 'open' : '') }}">
-                                <a class="sf-carton">{{ trans('app.department') }} <span class="caret"></span></a>
-                                <ul>
-                                    <li class="{{ (Request::is('admin/department/create') ? 'active' : '') }}">
-                                        <a href="{{ url('admin/department/create') }}">{{ trans('app.add_department') }}</a>
-                                    </li>
-                                    <li class="{{ (Request::is('admin/department') ? 'active' : '') }}">
-                                        <a href="{{ url('admin/department') }}">{{ trans('app.department_list') }}</a>
-                                    </li>
-                                </ul>
-                            </li> 
+       <!-- Custom fonts for this template-->
+       <link href="{{ asset('assets/vendor/fontawesome/css/all.min.css') }}" rel='stylesheet'>
 
-                            <li class="cm-submenu {{ (Request::segment(2)=='counter' ? 'open' : '') }}">
-                                <a class="sf-star">{{ trans('app.counter') }} <span class="caret"></span></a>
-                                <ul>
-                                    <li class="{{ (Request::is('admin/counter/create') ? 'active' : '') }}">
-                                        <a href="{{ url('admin/counter/create') }}">{{ trans('app.add_counter') }}</a>
-                                    </li>
-                                    <li class="{{ (Request::is('admin/counter') ? 'active' : '') }}">
-                                        <a href="{{ url('admin/counter') }}">{{ trans('app.counter_list') }}</a>
-                                    </li>
-                                </ul>
-                            </li> 
-
-                            <li class="cm-submenu {{ (Request::segment(2)=='user' ? 'open' : '') }}">
-                                <a class="sf-profile-group">{{ trans('app.users') }} <span class="caret"></span></a>
-                                <ul>
-                                    <li class="{{ (Request::is('admin/user/create') ? 'active' : '') }}">
-                                        <a href="{{ url('admin/user/create') }}">{{ trans('app.add_user') }}</a>
-                                    </li>
-                                    <li class="{{ (Request::is('admin/user') ? 'active' : '') }}">
-                                        <a href="{{ url('admin/user') }}">{{ trans('app.user_list') }}</a>
-                                    </li>
-                                </ul>
-                            </li> 
-
-                            <li class="cm-submenu {{ (Request::segment(2)=='sms' ? 'open' : '') }}">
-                                <a class="sf-bubbles">{{ trans('app.sms') }} <span class="caret"></span></a>
-                                <ul>
-                                    <li class="{{ (Request::is('admin/sms/new') ? 'active' : '') }}">
-                                        <a href="{{ url('admin/sms/new') }}">{{ trans('app.new_sms') }}</a>
-                                    </li>
-                                    <li class="{{ (Request::is('admin/sms/list') ? 'active' : '') }}">
-                                        <a href="{{ url('admin/sms/list') }}">{{ trans('app.sms_history') }}</a>
-                                    </li>
-                                    <li class="bg-danger {{ (Request::is('admin/sms/setting') ? 'active' : '') }}">
-                                        <a href="{{ url('admin/sms/setting') }}">{{ trans('app.sms_setting') }}</a>
-                                    </li>
-                                </ul>
-                            </li> 
-
-                            <li class="cm-submenu {{ (Request::segment(2)=='token' ? 'open' : '') }}">
-                                <a class="sf-user-id">{{ trans('app.token') }} <span class="caret"></span></a>
-                                <ul>
-                                    <li class="{{ (Request::is('admin/token/list') ? 'active' : '') }}">
-                                        <a href="{{ url('admin/token/auto') }}">{{ trans('app.auto_token') }}</a>
-                                    </li>
-                                    <li class="{{ (Request::is('admin/token/create') ? 'active' : '') }}">
-                                        <a href="{{ url('admin/token/create') }}">{{ trans('app.manual_token') }}</a>
-                                    </li>
-                                    <li class="{{ (Request::is('admin/token/current') ? 'active' : '') }}">
-                                        <a href="{{ url('admin/token/current') }}">{{ trans('app.active') }} / {{ trans('app.todays_token') }} <i class="fa fa-dot-circle-o" style="color:#03d003"></i></a>
-                                    </li> 
-                                    <li class="{{ (Request::is('admin/token/report') ? 'active' : '') }}">
-                                        <a href="{{ url('admin/token/report') }}">{{ trans('app.token_report') }}</a>
-                                    </li> 
-                                    <li class="{{ (Request::is('admin/token/performance') ? 'active' : '') }}">
-                                        <a href="{{ url('admin/token/performance') }}">{{ trans('app.performance_report') }}</a>
-                                    </li> 
-                                    <li class="bg-danger {{ (Request::is('admin/token/setting') ? 'active' : '') }}">
-                                        <a href="{{ url('admin/token/setting') }}">{{ trans('app.auto_token_setting') }}</a>
-                                    </li>
-                                </ul>
-                            </li>  
-                            @endif
-
-                            <!-------------------------------------------------------->
-                            <!-- OFFICER MENU                                       -->
-                            <!-------------------------------------------------------->
-                            @if(Auth::user()->hasRole('officer'))  
-                            <li class="{{ ((Request::is('officer')) ? 'active' : '') }}">
-                                <a href="{{ url('officer') }}" class="sf-dashboard">
-                                    {{ trans('app.dashboard') }} 
-                                </a>
-                            </li>
+       <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+       <!-- Custom styles for this template-->
+       <link href="{{ asset('assets/css/sb-admin-2.min.css') }}" rel='stylesheet'>
  
+       <!-- jquery-ui -->
+       <link href="{{ asset('assets/css/jquery-ui.min.css') }}" rel='stylesheet'>
+       <!-- datatable -->
+       <link href="{{ asset('assets/css/dataTables.min.css') }}" rel='stylesheet'>
+       <!-- select2 -->
+       <link href="{{ asset('assets/css/select2.min.css') }}"  rel='stylesheet'>
+      
+       <!-- Page styles --> 
+       @stack('styles')
 
-                            <li class="cm-submenu {{ (Request::segment(2)=='token' ? 'open' : '') }}">
-                                <a class="sf-user-id">{{ trans('app.token') }} <span class="caret"></span></a>
-                                <ul> 
-                                    <li class="{{ (Request::is('officer/token/current') ? 'active' : '') }}">
-                                        <a href="{{ url('officer/token/current') }}">{{ trans('app.active') }} / {{ trans('app.todays_token') }} <i class="fa fa-dot-circle-o" style="color:#03d003"></i></a>
-                                    </li>
-                                    <li class="{{ (Request::is('officer/token') ? 'active' : '') }}">
-                                        <a href="{{ url('officer/token') }}">{{ trans('app.token_list') }}</a>
-                                    </li> 
-                                </ul>
-                            </li>  
-                            @endif
+</head>
 
-                            <!-------------------------------------------------------->
-                            <!-- RECEPTIONIST MENU                               -->
-                            <!-------------------------------------------------------->
-                            @if(Auth::user()->hasRole('receptionist'))  
-                            <li class="cm-submenu {{ ((Request::is('receptionist') || Request::segment(2)=='token') ? 'open' : '') }}">
-                                <a class="sf-user-id">{{ trans('app.token') }} <span class="caret"></span></a>
-                                <ul>
-                                    <li class="{{ (Request::is('receptionist/token/list') ? 'active' : '') }}">
-                                        <a href="{{ url('receptionist/token/auto') }}">{{ trans('app.auto_token') }}</a>
-                                    </li>
-                                    <li class="{{ (Request::is('receptionist/token/create') ? 'active' : '') }}">
-                                        <a href="{{ url('receptionist/token/create') }}">{{ trans('app.manual_token') }}</a>
-                                    </li>
-                                    <li class="{{ (Request::is('receptionist/token/current') ? 'active' : '') }}">
-                                        <a href="{{ url('receptionist/token/current') }}">{{ trans('app.active') }} / {{ trans('app.todays_token') }} <i class="fa fa-dot-circle-o" style="color:#03d003"></i></a>
-                                    </li> 
-                                </ul>
-                            </li> 
-                            @endif
+<body id="page-top">
 
- 
-                            <!-------------------------------------------------------->
-                            <!-- COMMON MENU                                        -->
-                            <!-------------------------------------------------------->
+    <!-- Page Wrapper -->
+    <div id="wrapper">
 
-                            <li class="cm-submenu {{ (Request::segment(2)=='display' ? 'open' : '') }}">
-                                <a target="_blank" class="sf-device-tablet">
-                                    {{ trans('app.display') }} 
-                                    <span class="caret"></span>
+        <!-- Sidebar -->
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+            <!-- Sidebar - Brand -->
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
+                <div class="sidebar-brand-icon rotate-n-15">
+                    <i class="fas fa-laugh-wink"></i>
+                </div>
+                <div class="sidebar-brand-text mx-3">Smart<sup>Q</sup></div>
+            </a>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider my-0">
+
+        <!----------------------- 
+            || ADMIN MENU 
+        -------------------------->
+        @if(Auth::user()->hasRole('admin')) 
+            <!-- Nav Item - Dashboard -->
+            <li class="nav-item {{ ((Request::is('admin')) ? 'active' : '') }}">
+                <a class="nav-link" href="{{ url('admin') }}">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>{{ trans('app.dashboard') }}</span></a>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+
+            <!-- Heading -->
+            <div class="sidebar-heading">
+                Preferences  <!-- TODO: Translation -->
+            </div>
+            
+            <!-- Nav Item - Department Collapse Menu -->
+            <li class="nav-item {{ (Request::segment(2)=='department' ? 'active' : '') }}">
+                <a class="nav-link {{ (Request::segment(2)=='department' ? '' : 'collapsed') }}" href="#" data-toggle="collapse" data-target="#collapseDept"
+                    aria-expanded="true" aria-controls="collapseDept">
+                    <i class="fas fa-fw fa-cog"></i>
+                    <span>{{ trans('app.department') }}</span>
+                </a>
+                <div id="collapseDept" class="collapse {{ (Request::segment(2)=='department' ? 'show' : '') }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Interface:</h6>
+                        <a class="collapse-item {{ (Request::is('admin/department/create') ? 'active' : '') }}" href="{{ url('admin/department/create') }}">{{ trans('app.add_department') }}</a>
+                        <a class="collapse-item {{ (Request::is('admin/department') ? 'active' : '') }}" href="{{ url('admin/department') }}">{{ trans('app.department_list') }}</a>
+                    </div>
+                </div>
+            </li>
+
+            <!-- Nav Item - Counter Collapse Menu -->
+            <li class="nav-item {{ (Request::segment(2)=='counter' ? 'active' : '') }}">
+                <a class="nav-link {{ (Request::segment(2)=='counter' ? '' : 'collapsed') }}" href="#" data-toggle="collapse" data-target="#collapseCounter"
+                    aria-expanded="true" aria-controls="collapseCounter">
+                    <i class="fas fa-fw fa-cog"></i>
+                    <span>{{ trans('app.counter') }}</span>
+                </a>
+                <div id="collapseCounter" class="collapse {{ (Request::segment(2)=='counter' ? 'show' : '') }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Interface:</h6>
+                        <a class="collapse-item {{ (Request::is('admin/counter/create') ? 'active' : '') }}" href="{{ url('admin/counter/create') }}">{{ trans('app.add_counter') }}</a>
+                        <a class="collapse-item {{ (Request::is('admin/counter') ? 'active' : '') }}" href="{{ url('admin/counter') }}">{{ trans('app.counter_list') }}</a>
+                    </div>
+                </div>
+            </li>
+            
+            <!-- Nav Item - Users Collapse Menu -->
+            <li class="nav-item {{ (Request::segment(2)=='user' ? 'active' : '') }}">
+                <a class="nav-link {{ (Request::segment(2)=='user' ? '' : 'collapsed') }}" href="#" data-toggle="collapse" data-target="#collapseUser"
+                    aria-expanded="true" aria-controls="collapseUser">
+                    <i class="fas fa-fw fa-cog"></i>
+                    <span>{{ trans('app.users') }}</span>
+                </a>
+                <div id="collapseUser" class="collapse {{ (Request::segment(2)=='user' ? 'show' : '') }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Interface:</h6>
+                        <a class="collapse-item {{ (Request::is('admin/user/create') ? 'active' : '') }}" href="{{ url('admin/user/create') }}">{{ trans('app.add_user') }}</a>
+                        <a class="collapse-item {{ (Request::is('admin/user') ? 'active' : '') }}" href="{{ url('admin/user') }}">{{ trans('app.user_list') }}</a>
+                    </div>
+                </div>
+            </li>
+
+
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+
+            <!-- Heading -->
+            <div class="sidebar-heading">
+                Messaging
+            </div>
+
+             <!-- Nav Item - SMS Collapse Menu -->
+             <li class="nav-item {{ (Request::segment(2)=='sms' ? 'active' : '') }}">
+                <a class="nav-link {{ (Request::segment(2)=='sms' ? '' : 'collapsed') }}" href="#" data-toggle="collapse" data-target="#collapseSMS"
+                    aria-expanded="true" aria-controls="collapseSMS">
+                    <i class="fas fa-fw fa-cog"></i>
+                    <span>{{ trans('app.sms') }}</span>
+                </a>
+                <div id="collapseSMS" class="collapse {{ (Request::segment(2)=='sms' ? 'show' : '') }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Interface:</h6>
+                        <a class="collapse-item {{ (Request::is('admin/sms/new') ? 'active' : '') }}" href="{{ url('admin/sms/new') }}">{{ trans('app.new_sms') }}</a>
+                        <a class="collapse-item {{ (Request::is('admin/sms/list') ? 'active' : '') }}" href="{{ url('admin/sms/list') }}">{{ trans('app.sms_history') }}</a>
+                        <a class="collapse-item {{ (Request::is('admin/sms/setting') ? 'active' : '') }}" href="{{ url('admin/sms/setting') }}">{{ trans('app.sms_setting') }}</a>
+                    </div>
+                </div>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+
+            <!-- Heading -->
+            <div class="sidebar-heading">
+                Ticketing
+            </div>
+
+            <!-- Nav Item - Token Collapse Menu -->
+            <li class="nav-item {{ (Request::segment(2)=='token' ? 'active' : '') }}">
+                <a class="nav-link {{ (Request::segment(2)=='token' ? '' : 'collapsed') }}" href="#" data-toggle="collapse" data-target="#collapseToken"
+                    aria-expanded="true" aria-controls="collapseToken">
+                    <i class="fas fa-fw fa-cog"></i>
+                    <span>{{ trans('app.token') }}</span>
+                </a>
+                <div id="collapseToken" class="collapse {{ (Request::segment(2)=='token' ? 'show' : '') }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Interface:</h6>
+                        <a class="collapse-item {{ (Request::is('admin/token/list') ? 'active' : '') }}" href="{{ url('admin/token/list') }}">{{ trans('app.auto_token') }}</a>
+                        <a class="collapse-item {{ (Request::is('admin/token/create') ? 'active' : '') }}" href="{{ url('admin/token/create') }}">{{ trans('app.manual_token') }}</a>
+                        <a class="collapse-item {{ (Request::is('admin/token/current') ? 'active' : '') }}" href="{{ url('admin/token/current') }}">{{ trans('app.active') }} / {{ trans('app.todays_token') }}</a>
+                        <a class="collapse-item {{ (Request::is('admin/token/report') ? 'active' : '') }}" href="{{ url('admin/token/report') }}">{{ trans('app.token_report') }}</a>
+                        <a class="collapse-item {{ (Request::is('admin/token/performance') ? 'active' : '') }}" href="{{ url('admin/token/performance') }}">{{ trans('app.performance_report') }}</a>
+                        <a class="collapse-item {{ (Request::is('admin/token/setting') ? 'active' : '') }}" href="{{ url('admin/token/setting') }}">{{ trans('app.auto_token_setting') }}</a>
+
+                    </div>
+                </div>
+            </li>
+        @endif
+        
+        <!----------------------- 
+            || OFFICER MENU 
+        -------------------------->
+        @if(Auth::user()->hasRole('officer'))
+            <!-- Nav Item - Dashboard -->
+            <li class="nav-item {{ ((Request::is('officer')) ? 'active' : '') }}">
+                <a class="nav-link" href="{{ url('officer') }}">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>{{ trans('app.dashboard') }}</span></a>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+
+            <!-- Heading -->
+            <div class="sidebar-heading">
+                Ticketing
+            </div>
+
+            <!-- Nav Item - Token Collapse Menu -->
+            <li class="nav-item {{ (Request::segment(2)=='token' ? 'active' : '') }}">
+                <a class="nav-link {{ (Request::segment(2)=='token' ? '' : 'collapsed') }}" href="#" data-toggle="collapse" data-target="#collapseTokenO"
+                    aria-expanded="true" aria-controls="collapseTokenO">
+                    <i class="fas fa-fw fa-cog"></i>
+                    <span>{{ trans('app.token') }}</span>
+                </a>
+                <div id="collapseTokenO" class="collapse {{ (Request::segment(2)=='token' ? 'show' : '') }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Interface:</h6>
+                        <a class="collapse-item {{ (Request::is('officer/token/current') ? 'active' : '') }}" href="{{ url('officer/token/current') }}">{{ trans('app.active') }} / {{ trans('app.todays_token') }}</a>
+                        <a class="collapse-item {{ (Request::is('officer/token') ? 'active' : '') }}" href="{{ url('officer/token') }}">{{ trans('app.token_list') }}</a>
+
+                    </div>
+                </div>
+            </li>
+        @endif
+
+        <!----------------------- 
+            || ATTENDANT MENU 
+        -------------------------->
+        @if(Auth::user()->hasRole('receptionist'))
+           
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+
+            <!-- Heading -->
+            <div class="sidebar-heading">
+                Ticketing
+            </div>
+
+            <!-- Nav Item - Token Collapse Menu -->
+            <li class="nav-item {{ (Request::segment(2)=='token' ? 'active' : '') }}">
+                <a class="nav-link {{ (Request::segment(2)=='token' ? '' : 'collapsed') }}" href="#" data-toggle="collapse" data-target="#collapseTokenT"
+                    aria-expanded="true" aria-controls="collapseTokenT">
+                    <i class="fas fa-fw fa-cog"></i>
+                    <span>{{ trans('app.token') }}</span>
+                </a>
+                <div id="collapseTokenT" class="collapse {{ (Request::segment(2)=='token' ? 'show' : '') }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Interface:</h6>
+                        <a class="collapse-item {{ (Request::is('receptionist/token/auto') ? 'active' : '') }}" href="{{ url('receptionist/token/auto') }}">{{ trans('app.auto_token') }}</a>
+                        <a class="collapse-item {{ (Request::is('receptionist/token/create') ? 'active' : '') }}" href="{{ url('receptionist/token/create') }}">{{ trans('app.manual_token') }}</a>
+                        <a class="collapse-item {{ (Request::is('receptionist/token/current') ? 'active' : '') }}" href="{{ url('receptionist/token/current') }}">{{ trans('app.active') }} / {{ trans('app.todays_token') }}</a>
+
+                    </div>
+                </div>
+            </li>
+        @endif
+
+        <!----------------------- 
+            || COMMON MENU 
+        -------------------------->
+
+        <!-- Nav Item - Common Collapse Menu -->
+        <li class="nav-item {{ (Request::segment(2)=='setting' ? 'active' : '') }}">
+            <a class="nav-link {{ (Request::segment(2)=='setting' ? '' : 'collapsed') }}" href="#" data-toggle="collapse" data-target="#collapseSettings"
+                aria-expanded="true" aria-controls="collapseSettings">
+                <i class="fas fa-fw fa-cog"></i>
+                <span>{{ trans('app.setting') }}</span>
+            </a>
+            <div id="collapseSettings" class="collapse {{ (Request::segment(2)=='setting' ? 'show' : '') }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">Interface:</h6>
+                @if (auth()->user()->hasRole('admin'))
+                    <a class="collapse-item {{ (Request::is('admin/setting') ? 'active' : '') }}" href="{{ url('admin/setting') }}">{{ trans('app.app_setting') }}</a>
+                    <a class="collapse-item {{ (Request::is('admin/setting/display') ? 'active' : '') }}" href="{{ url('admin/setting/display') }}">{{ trans('app.display_setting') }}</a>
+                @endif
+                    <a class="collapse-item {{ (Request::is('common/setting/profile') ? 'active' : '') }}" href="{{ url('common/setting/profile') }}">{{ trans('app.profile_information') }}</a>
+                </div>
+            </div>
+        </li>
+
+            <!-- Nav Item - Charts -->
+            <li class="nav-item">
+                <a class="nav-link" href="charts.html">
+                    <i class="fas fa-fw fa-chart-area"></i>
+                    <span>Reports</span></a>
+            </li>
+
+            <!-- Nav Item - Tables -->
+            <li class="nav-item">
+                <a class="nav-link" href="tables.html">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>Tables</span></a>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider d-none d-md-block">
+
+            <!-- Sidebar Toggler (Sidebar) -->
+            <div class="text-center d-none d-md-inline">
+                <button class="rounded-circle border-0" id="sidebarToggle"></button>
+            </div>
+
+            <!-- Sidebar Message -->
+            <div class="sidebar-card d-none d-lg-flex">
+                <p class="text-center mb-2"><strong>This area</strong> can be used for sign ups or ads</p>
+                <a class="btn btn-success btn-sm" href="#">Sign Up</a>
+            </div>
+
+        </ul>
+        <!-- End of Sidebar -->
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                <!-- Topbar -->
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+                    <!-- Sidebar Toggle (Topbar) -->
+                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                        <i class="fa fa-bars"></i>
+                    </button>
+
+                    <!-- Topbar Search -->
+                    <!-- form
+                        class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                        <div class="input-group">
+                            <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
+                                aria-label="Search" aria-describedby="basic-addon2">
+                            <div class="input-group-append">
+                                <button class="btn btn-primary" type="button">
+                                    <i class="fas fa-search fa-sm"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form -->
+
+                    <!-- Topbar Navbar -->
+                    <ul class="navbar-nav ml-auto">
+
+                        <!-- Nav Item - Search Dropdown (Visible Only XS) -->
+                        <li class="nav-item dropdown no-arrow d-sm-none">
+                            <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-search fa-fw"></i>
+                            </a>
+                            <!-- Dropdown - Messages -->
+                            <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
+                                aria-labelledby="searchDropdown">
+                                <form class="form-inline mr-auto w-100 navbar-search">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control bg-light border-0 small"
+                                            placeholder="Search for..." aria-label="Search"
+                                            aria-describedby="basic-addon2">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-primary" type="button">
+                                                <i class="fas fa-search fa-sm"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </li>
+
+                        <!-- Nav Item - Alerts -->
+                        <li class="nav-item dropdown no-arrow mx-1">
+                            <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-bell fa-fw"></i>
+                                <!-- Counter - Alerts -->
+                                <span class="badge badge-danger badge-counter">3+</span>
+                            </a>
+                            <!-- Dropdown - Alerts -->
+                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="alertsDropdown">
+                                <h6 class="dropdown-header">
+                                    Alerts Center
+                                </h6>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="mr-3">
+                                        <div class="icon-circle bg-primary">
+                                            <i class="fas fa-file-alt text-white"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="small text-gray-500">December 12, 2019</div>
+                                        <span class="font-weight-bold">A new monthly report is ready to download!</span>
+                                    </div>
                                 </a>
-                                <ul>
-                                    <li class="{{ (session()->get('app.display')==1 ? 'active' : '') }}">
-                                        <a href="{{ url('common/display?type=1') }}" target="_blank">{{ trans('app.display_1') }}</a>
-                                    </li> 
-                                    <li class="{{ (session()->get('app.display')==2 ? 'active' : '') }}">
-                                        <a href="{{ url('common/display?type=2') }}" target="_blank">{{ trans('app.display_2') }}</a>
-                                    </li> 
-                                    <li class="{{ (session()->get('app.display')==3 ? 'active' : '') }}">
-                                        <a href="{{ url('common/display?type=3') }}" target="_blank">{{ trans('app.display_3') }}</a>
-                                    </li> 
-                                    <li class="{{ (session()->get('app.display')==4 ? 'active' : '') }}">
-                                        <a href="{{ url('common/display?type=4') }}" target="_blank">{{ trans('app.display_4') }}</a>
-                                    </li> 
-                                    <li class="{{ (session()->get('app.display')==5 ? 'active' : '') }}">
-                                        <a href="{{ url('common/display?type=5') }}" target="_blank">{{ trans('app.display_5') }}</a>
-                                    </li>   
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="mr-3">
+                                        <div class="icon-circle bg-success">
+                                            <i class="fas fa-donate text-white"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="small text-gray-500">December 7, 2019</div>
+                                        $290.29 has been deposited into your account!
+                                    </div>
+                                </a>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="mr-3">
+                                        <div class="icon-circle bg-warning">
+                                            <i class="fas fa-exclamation-triangle text-white"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="small text-gray-500">December 2, 2019</div>
+                                        Spending Alert: We've noticed unusually high spending for your account.
+                                    </div>
+                                </a>
+                                <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
+                            </div>
+                        </li>
 
-                                    @if (session()->has('custom_displays'))
-                                    @foreach(session()->get('custom_displays') as $key => $name)
-                                    <li>
-                                        <a href="{{ url('common/display?type=6&custom='.$key) }}" target="_blank">{{ trans('app.custom_display') }} - {{ $name }}</a>
-                                    </li>
-                                    @endforeach
-                                    @endif 
-                                </ul>
-                            </li> 
+                        <!-- Nav Item - Messages -->
+                        <li class="nav-item dropdown no-arrow mx-1">
+                            <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-envelope fa-fw"></i>
+                                <!-- Counter - Messages -->
+                                <span class="badge badge-danger badge-counter">7</span>
+                            </a>
+                            <!-- Dropdown - Messages -->
+                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="messagesDropdown">
+                                <h6 class="dropdown-header">
+                                    Message Center
+                                </h6>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="dropdown-list-image mr-3">
+                                        <img class="rounded-circle" src="img/undraw_profile_1.svg"
+                                            alt="...">
+                                        <div class="status-indicator bg-success"></div>
+                                    </div>
+                                    <div class="font-weight-bold">
+                                        <div class="text-truncate">Hi there! I am wondering if you can help me with a
+                                            problem I've been having.</div>
+                                        <div class="small text-gray-500">Emily Fowler · 58m</div>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="dropdown-list-image mr-3">
+                                        <img class="rounded-circle" src="img/undraw_profile_2.svg"
+                                            alt="...">
+                                        <div class="status-indicator"></div>
+                                    </div>
+                                    <div>
+                                        <div class="text-truncate">I have the photos that you ordered last month, how
+                                            would you like them sent to you?</div>
+                                        <div class="small text-gray-500">Jae Chun · 1d</div>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="dropdown-list-image mr-3">
+                                        <img class="rounded-circle" src="img/undraw_profile_3.svg"
+                                            alt="...">
+                                        <div class="status-indicator bg-warning"></div>
+                                    </div>
+                                    <div>
+                                        <div class="text-truncate">Last month's report looks great, I am very happy with
+                                            the progress so far, keep up the good work!</div>
+                                        <div class="small text-gray-500">Morgan Alvarez · 2d</div>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="dropdown-list-image mr-3">
+                                        <img class="rounded-circle" src="https://source.unsplash.com/Mv9hjnEUHR4/60x60"
+                                            alt="...">
+                                        <div class="status-indicator bg-success"></div>
+                                    </div>
+                                    <div>
+                                        <div class="text-truncate">Am I a good boy? The reason I ask is because someone
+                                            told me that people say this to all dogs, even if they aren't good...</div>
+                                        <div class="small text-gray-500">Chicken the Dog · 2w</div>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>
+                            </div>
+                        </li>
 
-                            <li class="cm-submenu {{ (Request::segment(2)=='message' ? 'open' : '') }}">
-                                <a class="sf-envelope-letter">{{ trans('app.message') }} <span class="caret"></span></a>
-                                <ul>
-                                    <li class="{{ (Request::is('common/message') ? 'active' : '') }}">
-                                        <a href="{{ url('common/message') }}">{{ trans('app.new_message') }}</a>
-                                    </li>
-                                    <li class="{{ (Request::is('common/message/inbox') ? 'active' : '') }}">
-                                        <a href="{{ url('common/message/inbox') }}">{{ trans('app.inbox') }}</a>
-                                    </li>
-                                    <li class="{{ (Request::is('common/message/sent') ? 'active' : '') }}">
-                                        <a href="{{ url('common/message/sent') }}">{{ trans('app.sent') }}</a>
-                                    </li>
-                                </ul>
-                            </li> 
+                        <div class="topbar-divider d-none d-sm-block"></div>
 
-                            <li class="cm-submenu {{ (Request::segment(2)=='setting' ? 'open' : '') }}">
-                                <a class="sf-cog">{{ trans('app.setting') }} <span class="caret"></span></a>
-                                <ul>
-                                    @if (auth()->user()->hasRole('admin'))
-                                    <li class="{{ (Request::is('admin/setting') ? 'active' : '') }}">
-                                        <a href="{{ url('admin/setting') }}">{{ trans('app.app_setting') }}</a>
-                                    </li>
-                                    <li class="{{ (Request::is('admin/setting/display') ? 'active' : '') }}">
-                                        <a href="{{ url('admin/setting/display') }}">{{ trans('app.display_setting') }}</a>
-                                    </li>
-                                    @endif
-
-                                    <li class="{{ (Request::is('common/setting/*') ? 'active' : '') }}">
-                                        <a href="{{ url('common/setting/profile') }}">{{ trans('app.profile_information') }}</a>
-                                    </li>
-                                </ul>
-                            </li> 
-
-                            <li class="{{ ((Request::is('logout')) ? 'active' : '') }}">
-                                <a href="{{ url('logout') }}" class="sf-lock">
+                        <!-- Nav Item - User Information -->
+                        <li class="nav-item dropdown no-arrow">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            @if($user = Auth::user()) 
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ $user->firstname .' '. $user->lastname }}</span>
+                                <img class="img-profile rounded-circle" src="{{ !empty($user->photo)?asset($user->photo):asset('assets/img/sf/undraw_profile.svg') }}">
+                            @endif
+                            </a>
+                            <!-- Dropdown - User Information -->
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="userDropdown">
+                                <a class="dropdown-item" href="{{ url('common/setting/profile') }}">
+                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    {{ trans('app.profile_information') }}
+                                </a>
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Settings
+                                </a>
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Activity Log
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                     {{ trans('app.signout') }}
                                 </a>
-                            </li> 
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Ends of Sidebar -->
-
-
-        <!-- Starts of Header/Menu --> 
-        <header id="cm-header">
-            <nav class="cm-navbar cm-navbar-primary">
-                <div class="btn btn-primary md-menu-white hidden-md hidden-lg" data-toggle="cm-menu"></div>
-                <div class="cm-flex">
-                    <h1 class="clearfix">{{ \Session::get('app.title') }}</h1> 
-                </div> 
-
-                <!-- Buy Now -->
-                @yield('info.buy-now')
-
-                <div class="dropdown pull-right">
-                    <button class="btn btn-primary md-desktop-windows-white" data-toggle="dropdown"></button>
-                    <div class="popover cm-popover bottom">
-                        <div class="arrow"></div>
-                        <div class="popover-content">
-                            <div class="list-group"> 
-                                <a href="{{ url('common/display?type=1') }}" target="_blank" class="{{session()->get('app.display')==1?'active':null}} list-group-item">
-                                    <h4 class="list-group-item-heading"></i> {{ trans('app.display_1') }}</h4>
-                                </a>
-                                <a href="{{ url('common/display?type=2') }}" target="_blank" class="{{session()->get('app.display')==2?'active':null}} list-group-item">
-                                    <h4 class="list-group-item-heading"></i> {{ trans('app.display_2') }}</h4>
-                                </a>
-                                <a href="{{ url('common/display?type=3') }}" target="_blank" class="{{session()->get('app.display')==3?'active':null}} list-group-item">
-                                    <h4 class="list-group-item-heading"></i> {{ trans('app.display_3') }}</h4>
-                                </a>
-                                <a href="{{ url('common/display?type=4') }}" target="_blank" class="{{session()->get('app.display')==4?'active':null}} list-group-item">
-                                    <h4 class="list-group-item-heading"></i> {{ trans('app.display_4') }}</h4>
-                                </a>
-                                <a href="{{ url('common/display?type=5') }}" target="_blank" class="{{session()->get('app.display')==5?'active':null}} list-group-item">
-                                    <h4 class="list-group-item-heading"></i> {{ trans('app.display_5') }}</h4>
-                                </a>
-                                @if (session()->has('custom_displays'))
-                                @foreach(session()->get('custom_displays') as $key => $name)
-                                <a href="{{ url('common/display?type=6&custom='.$key) }}" target="_blank" class="list-group-item">
-                                    <h4 class="list-group-item-heading"></i> {{ trans('app.custom_display') }} - {{ $name }}</h4>
-                                </a> 
-                                @endforeach
-                                @endif 
                             </div>
-                        </div>
-                    </div>
-                </div> 
+                        </li>
 
-                <div class="dropdown pull-right">
-                    <a href="{{ url('common/message/inbox') }}" class="btn btn-primary md-local-post-office-white"> <span class="label label-danger" id="message-notify">0</span> </a> 
-                </div>
-                <div class="dropdown pull-right">
-                    <button class="btn btn-primary md-language-white" data-toggle="dropdown"> <span class="label label-danger">{{ Session::get('locale')? Session::get('locale'):'en' }}</span></button>
-                    <div class="popover cm-popover bottom">
-                        <div class="arrow"></div>
-                        <div class="popover-content">
-                            <div class="list-group"> 
-                                <a href="javascript:void(0)" data-locale="en" class="select-lang list-group-item {{ ((Session::get('locale')=='en' || !Session::has('locale'))?'active':'') }}">
-                                    <h4 class="list-group-item-heading"></i> English</h4>
-                                </a>
-                                <a href="javascript:void(0)" data-locale="ar" class="select-lang list-group-item {{ (Session::get('locale')=='ar'?'active':'') }}">
-                                    <h4 class="list-group-item-heading"></i> العَرَبِيَّة'</h4>
-                                </a> 
-                                <a href="javascript:void(0)" data-locale="tr" class="select-lang list-group-item {{ (Session::get('locale')=='tr'?'active':'') }}">
-                                    <h4 class="list-group-item-heading"></i> Türkçe</h4>
-                                </a> 
-                                <a href="javascript:void(0)" data-locale="bn" class="select-lang list-group-item {{ (Session::get('locale')=='bn'?'active':'') }}">
-                                    <h4 class="list-group-item-heading"></i> বাংলা</h4>
-                                </a> 
-                                <a href="javascript:void(0)" data-locale="es" class="select-lang list-group-item {{ (Session::get('locale')=='es'?'active':'') }}">
-                                    <h4 class="list-group-item-heading"></i> Español</h4>
-                                </a> 
-                                <a href="javascript:void(0)" data-locale="fr" class="select-lang list-group-item {{ (Session::get('locale')=='fr'?'active':'') }}">
-                                    <h4 class="list-group-item-heading"></i> Français</h4>
-                                </a> 
-                                <a href="javascript:void(0)" data-locale="pt" class="select-lang list-group-item {{ (Session::get('locale')=='pt'?'active':'') }}">
-                                    <h4 class="list-group-item-heading"></i> Português</h4>
-                                </a> 
-                                <a href="javascript:void(0)" data-locale="te" class="select-lang list-group-item {{ (Session::get('locale')=='te'?'active':'') }}">
-                                    <h4 class="list-group-item-heading"></i> తెలుగు</h4>
-                                </a> 
-                                <a href="javascript:void(0)" data-locale="th" class="select-lang list-group-item {{ (Session::get('locale')=='th'?'active':'') }}">
-                                    <h4 class="list-group-item-heading"></i> ภาษาไทย</h4>
-                                </a> 
-                                <a href="javascript:void(0)" data-locale="vi" class="select-lang list-group-item {{ ((Session::get('locale')=='vi')?'active':'') }}">
-                                    <h4 class="list-group-item-heading"></i> Tiếng Việt</h4>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div> 
-                @if($user = Auth::user()) 
-                <div class="dropdown pull-right">
-                    <button class="btn btn-primary md-account-circle-white" data-toggle="dropdown"></button>
-                    <ul class="dropdown-menu">
-                        <li class="disabled text-center">
-                            <img src="{{ !empty($user->photo)?asset($user->photo):asset('assets/img/icons/no_user.jpg') }}" width="140" height="105">
-                        </li>
-                        <li class="disabled text-center">
-                            <a style="cursor:default;"><strong>{{ $user->firstname .' '. $user->lastname }}</strong> 
-                            </a>
-                            <span class="label label-success">{{ auth()->user()->role() }}</span>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a href="{{ url('common/setting/profile') }}"><i class="fa fa-user"></i> {{ trans('app.profile_information') }}</a>
-                        </li>
-                        <li>
-                            <a href="{{ url('logout') }}"><i class="fa fa-sign-out"></i> {{ trans('app.signout') }}</a>
-                        </li>
                     </ul>
+
+                </nav>
+                <!-- End of Topbar -->
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+                        <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                                class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
+                    </div>
+
+                     <!-- Starts of Message -->
+                    @yield('info.message')
+                    <!-- Ends of Message --> 
+
+                    <!-- Starts of Content -->
+                    @yield('content')
+                    <!-- Ends of Contents --> 
+
+                    <!-- Content Row -->
+                    <div class="row">
+
+                        <!-- Earnings (Monthly) Card Example -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-primary shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                Earnings (Monthly)</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$40,000</div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Earnings (Monthly) Card Example -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-success shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                                Earnings (Annual)</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Earnings (Monthly) Card Example -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-info shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Tasks
+                                            </div>
+                                            <div class="row no-gutters align-items-center">
+                                                <div class="col-auto">
+                                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">50%</div>
+                                                </div>
+                                                <div class="col">
+                                                    <div class="progress progress-sm mr-2">
+                                                        <div class="progress-bar bg-info" role="progressbar"
+                                                            style="width: 50%" aria-valuenow="50" aria-valuemin="0"
+                                                            aria-valuemax="100"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Pending Requests Card Example -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-warning shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                                Pending Requests</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-comments fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Content Row -->
+
+                    <div class="row">
+
+                        <!-- Area Chart -->
+                        <div class="col-xl-8 col-lg-7">
+                            <div class="card shadow mb-4">
+                                <!-- Card Header - Dropdown -->
+                                <div
+                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h6 class="m-0 font-weight-bold text-primary">Earnings Overview</h6>
+                                    <div class="dropdown no-arrow">
+                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                            aria-labelledby="dropdownMenuLink">
+                                            <div class="dropdown-header">Dropdown Header:</div>
+                                            <a class="dropdown-item" href="#">Action</a>
+                                            <a class="dropdown-item" href="#">Another action</a>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item" href="#">Something else here</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Card Body -->
+                                <div class="card-body">
+                                    <div class="chart-area">
+                                        <canvas id="myAreaChart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Pie Chart -->
+                        <div class="col-xl-4 col-lg-5">
+                            <div class="card shadow mb-4">
+                                <!-- Card Header - Dropdown -->
+                                <div
+                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h6 class="m-0 font-weight-bold text-primary">Revenue Sources</h6>
+                                    <div class="dropdown no-arrow">
+                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                            aria-labelledby="dropdownMenuLink">
+                                            <div class="dropdown-header">Dropdown Header:</div>
+                                            <a class="dropdown-item" href="#">Action</a>
+                                            <a class="dropdown-item" href="#">Another action</a>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item" href="#">Something else here</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Card Body -->
+                                <div class="card-body">
+                                    <div class="chart-pie pt-4 pb-2">
+                                        <canvas id="myPieChart"></canvas>
+                                    </div>
+                                    <div class="mt-4 text-center small">
+                                        <span class="mr-2">
+                                            <i class="fas fa-circle text-primary"></i> Direct
+                                        </span>
+                                        <span class="mr-2">
+                                            <i class="fas fa-circle text-success"></i> Social
+                                        </span>
+                                        <span class="mr-2">
+                                            <i class="fas fa-circle text-info"></i> Referral
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Content Row -->
+                    <div class="row">
+
+                        <!-- Content Column -->
+                        <div class="col-lg-6 mb-4">
+
+                            <!-- Project Card Example -->
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">Projects</h6>
+                                </div>
+                                <div class="card-body">
+                                    <h4 class="small font-weight-bold">Server Migration <span
+                                            class="float-right">20%</span></h4>
+                                    <div class="progress mb-4">
+                                        <div class="progress-bar bg-danger" role="progressbar" style="width: 20%"
+                                            aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    <h4 class="small font-weight-bold">Sales Tracking <span
+                                            class="float-right">40%</span></h4>
+                                    <div class="progress mb-4">
+                                        <div class="progress-bar bg-warning" role="progressbar" style="width: 40%"
+                                            aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    <h4 class="small font-weight-bold">Customer Database <span
+                                            class="float-right">60%</span></h4>
+                                    <div class="progress mb-4">
+                                        <div class="progress-bar" role="progressbar" style="width: 60%"
+                                            aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    <h4 class="small font-weight-bold">Payout Details <span
+                                            class="float-right">80%</span></h4>
+                                    <div class="progress mb-4">
+                                        <div class="progress-bar bg-info" role="progressbar" style="width: 80%"
+                                            aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    <h4 class="small font-weight-bold">Account Setup <span
+                                            class="float-right">Complete!</span></h4>
+                                    <div class="progress">
+                                        <div class="progress-bar bg-success" role="progressbar" style="width: 100%"
+                                            aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Color System -->
+                            <div class="row">
+                                <div class="col-lg-6 mb-4">
+                                    <div class="card bg-primary text-white shadow">
+                                        <div class="card-body">
+                                            Primary
+                                            <div class="text-white-50 small">#4e73df</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 mb-4">
+                                    <div class="card bg-success text-white shadow">
+                                        <div class="card-body">
+                                            Success
+                                            <div class="text-white-50 small">#1cc88a</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 mb-4">
+                                    <div class="card bg-info text-white shadow">
+                                        <div class="card-body">
+                                            Info
+                                            <div class="text-white-50 small">#36b9cc</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 mb-4">
+                                    <div class="card bg-warning text-white shadow">
+                                        <div class="card-body">
+                                            Warning
+                                            <div class="text-white-50 small">#f6c23e</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 mb-4">
+                                    <div class="card bg-danger text-white shadow">
+                                        <div class="card-body">
+                                            Danger
+                                            <div class="text-white-50 small">#e74a3b</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 mb-4">
+                                    <div class="card bg-secondary text-white shadow">
+                                        <div class="card-body">
+                                            Secondary
+                                            <div class="text-white-50 small">#858796</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 mb-4">
+                                    <div class="card bg-light text-black shadow">
+                                        <div class="card-body">
+                                            Light
+                                            <div class="text-black-50 small">#f8f9fc</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 mb-4">
+                                    <div class="card bg-dark text-white shadow">
+                                        <div class="card-body">
+                                            Dark
+                                            <div class="text-white-50 small">#5a5c69</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="col-lg-6 mb-4">
+
+                            <!-- Illustrations -->
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">Illustrations</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="text-center">
+                                        <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;"
+                                            src="img/undraw_posting_photo.svg" alt="...">
+                                    </div>
+                                    <p>Add some quality, svg illustrations to your project courtesy of <a
+                                            target="_blank" rel="nofollow" href="https://undraw.co/">unDraw</a>, a
+                                        constantly updated collection of beautiful svg images that you can use
+                                        completely free and without attribution!</p>
+                                    <a target="_blank" rel="nofollow" href="https://undraw.co/">Browse Illustrations on
+                                        unDraw &rarr;</a>
+                                </div>
+                            </div>
+
+                            <!-- Approach -->
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">Development Approach</h6>
+                                </div>
+                                <div class="card-body">
+                                    <p>SB Admin 2 makes extensive use of Bootstrap 4 utility classes in order to reduce
+                                        CSS bloat and poor page performance. Custom CSS classes are used to create
+                                        custom components and custom utility classes.</p>
+                                    <p class="mb-0">Before working with this theme, you should become familiar with the
+                                        Bootstrap framework, especially the utility classes.</p>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
                 </div>
-                @endif
-            </nav>
-        </header>
-        <!-- Ends of Header/Menu -->
+                <!-- /.container-fluid -->
 
-
-        <div id="global"> 
-
-            <div class="container-fluid"> 
-                <!-- Starts of Message -->
-                @yield('info.message')
-                <!-- Ends of Message --> 
-
-                <!-- Starts of Content -->
-                @yield('content')
-                <!-- Ends of Contents --> 
             </div>
+            <!-- End of Main Content -->
 
-            <!-- Starts of Copyright -->
-                
-            <footer class="cm-footer text-right">
-                <span class="hidden-xs">{{ \Session::get('app.copyright_text') }}</span>
-                <span class="pull-left text-center">@yield('info.powered-by') @yield('info.version')</span> 
+            <!-- Footer -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span class="hidden-xs">{{ \Session::get('app.copyright_text') }}</span>
+                        <span>@yield('info.powered-by') @yield('info.version') Powered by Smart<sub>Q</sub></span>
+                    </div>
+                </div>
             </footer>
-            <!-- Ends of Copyright -->
+            <!-- End of Footer -->
+
         </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary" href="{{ url('logout') }}">{{ trans('app.signout') }}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="{{ asset('assets/vendor/jquery/jquery.min.js') }}"></script>
+    <script src="{{ asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="{{ asset('assets/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="{{ asset('assets/js/sb-admin-2.min.js') }}"></script>
+
+    <!-- Page level plugins -->
+    <script src="{{ asset('assets/vendor/chart.js/Chart.min.js') }}"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="{{ asset('assets/js/reports/chart-area-demo.js') }}"></script>
+    <script src="{{ asset('assets/js/reports/chart-pie-demo.js') }}"></script>
 
 
-        <!-- All js -->
-        <!-- bootstrp -->
-        <script src="{{ asset('assets/js/bootstrap.min.js') }}"></script> 
-        <!-- select2 -->
-        <script src="{{ asset('assets/js/select2.min.js') }}"></script>
-        <!-- juery-ui -->
-        <script src="{{ asset('assets/js/jquery-ui.min.js') }}"></script> 
-        <!-- jquery.mousewheel.min -->
-        <script src="{{ asset('assets/js/jquery.mousewheel.min.js') }}"></script>
-        <!-- jquery.cookie.min -->
-        <script src="{{ asset('assets/js/jquery.cookie.min.js') }}"></script>
-        <!-- fastclick -->
-        <script src="{{ asset('assets/js/fastclick.min.js') }}"></script>
-        <!-- template -->
-        <script src="{{ asset('assets/js/template.js') }}"></script>
-        <!-- datatable -->
-        <script src="{{ asset('assets/js/dataTables.min.js') }}"></script>
-        <!-- custom script -->
-        <script src="{{ asset('assets/js/script.js') }}"></script>
+
+
+
+     <!-- select2 -->
+     <script src="{{ asset('assets/js/select2.min.js') }}"></script>
+     <!-- juery-ui -->
+     <script src="{{ asset('assets/js/jquery-ui.min.js') }}"></script> 
+     <!-- jquery.mousewheel.min -->
+     <script src="{{ asset('assets/js/jquery.mousewheel.min.js') }}"></script>
+     <!-- jquery.cookie.min -->
+     <script src="{{ asset('assets/js/jquery.cookie.min.js') }}"></script>
+     <!-- fastclick -->
+     <script src="{{ asset('assets/js/fastclick.min.js') }}"></script>
+     <!-- template -->
+     <!-- datatable -->
+     <script src="{{ asset('assets/js/dataTables.min.js') }}"></script>
+     <!-- custom script -->
+     <script src="{{ asset('assets/js/script.js') }}"></script>
+
+     <!-- Page Script -->
+     @stack('scripts')
         
-        <!-- Page Script -->
-        @stack('scripts')
-        
-        <script type="text/javascript">
-        (function() {
-          //notification
-            notify();
-            setInterval(function(){
-                notify();
-            }, 30000);
+     <script type="text/javascript">
+     (function() {
+       //notification
+         notify();
+         setInterval(function(){
+             notify();
+         }, 30000);
 
-            function notify()
-            {
-                $.ajax({
-                   type:'GET',
-                   url:'{{ URL::to("common/message/notify") }}',
-                   data:'_token = <?php echo csrf_token() ?>',
-                   success:function(data){
-                      $("#message-notify").html(data);
-                   }
-                });
-            }
+         function notify()
+         {
+             $.ajax({
+                type:'GET',
+                url:'{{ URL::to("common/message/notify") }}',
+                data:'_token = <?php echo csrf_token() ?>',
+                success:function(data){
+                   $("#message-notify").html(data);
+                }
+             });
+         }
+      
+         //language switch
+         $(".select-lang").on('click', function() { 
+             $.ajax({
+                type:'GET',
+                url: '{{ url("common/language") }}',
+                data: {
+                   'locale' : $(this).data("locale"), 
+                   '_token' : '<?php echo csrf_token() ?>'
+                },
+                success:function(data){
+                   history.go(0);
+                }, error: function() {
+                 alert('failed');
+                }
+             });       
+         });
          
-            //language switch
-            $(".select-lang").on('click', function() { 
-                $.ajax({
-                   type:'GET',
-                   url: '{{ url("common/language") }}',
-                   data: {
-                      'locale' : $(this).data("locale"), 
-                      '_token' : '<?php echo csrf_token() ?>'
-                   },
-                   success:function(data){
-                      history.go(0);
-                   }, error: function() {
-                    alert('failed');
-                   }
-                });       
-            });
-            
-        })();
-        </script>
-    </body>
-</html>
+     })();
+     </script>
+</body>
 
- 
+</html>
