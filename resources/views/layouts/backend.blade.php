@@ -8,14 +8,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ \Session::get('app.title') }} :: @yield('title')</title>
+    <title>{{ \Session::get('app.title') }} - @yield('title')</title>
 
        <!-- Custom fonts for this template-->
        <link href="{{ asset('assets/vendor/fontawesome/css/all.min.css') }}" rel='stylesheet'>
 
        <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
        <!-- Custom styles for this template-->
-       <link href="{{ asset('assets/css/sb-admin-2.min.css') }}" rel='stylesheet'>
+       <link href="{{ asset('assets/css/sb-admin-2.css') }}" rel='stylesheet'>
  
        <!-- jquery-ui -->
        <link href="{{ asset('assets/css/jquery-ui.min.css') }}" rel='stylesheet'>
@@ -35,7 +35,7 @@
     <div id="wrapper">
 
         <!-- Sidebar -->
-        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+        <ul class="navbar-nav bg-gradient-primary sidebar toggled sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
@@ -159,7 +159,7 @@
                 <div id="collapseToken" class="collapse {{ (Request::segment(2)=='token' ? 'show' : '') }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Interface:</h6>
-                        <a class="collapse-item {{ (Request::is('admin/token/list') ? 'active' : '') }}" href="{{ url('admin/token/list') }}">{{ trans('app.auto_token') }}</a>
+                        <a class="collapse-item {{ (Request::is('admin/token/auto') ? 'active' : '') }}" href="{{ url('admin/token/auto') }}">{{ trans('app.auto_token') }}</a>
                         <a class="collapse-item {{ (Request::is('admin/token/create') ? 'active' : '') }}" href="{{ url('admin/token/create') }}">{{ trans('app.manual_token') }}</a>
                         <a class="collapse-item {{ (Request::is('admin/token/current') ? 'active' : '') }}" href="{{ url('admin/token/current') }}">{{ trans('app.active') }} / {{ trans('app.todays_token') }}</a>
                         <a class="collapse-item {{ (Request::is('admin/token/report') ? 'active' : '') }}" href="{{ url('admin/token/report') }}">{{ trans('app.token_report') }}</a>
