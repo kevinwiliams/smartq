@@ -296,6 +296,10 @@
         <!----------------------- 
             || COMMON MENU 
         -------------------------->
+         <!-- Heading -->
+        <div class="sidebar-heading">
+            Settings  <!-- TODO: Translation -->
+        </div>
 
         <!-- Nav Item - Common Collapse Menu -->
         @if (auth()->user()->hasRole('admin'))
@@ -318,6 +322,7 @@
             </div>
         </li>
         @endif
+
 
             <!-- Nav Item - Tables -->
             <!-- <li class="nav-item">
