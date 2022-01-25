@@ -4,24 +4,23 @@
 @section('content')  
 <div class="panel panel-primary">
     <div class="panel-heading">
-        <div class="row">
-            <div class="col-sm-12 text-left">
-                <h3>{{ trans('app.token_report') }}</h3>
-            </div> 
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">{{ trans('app.token_report') }}</h1>
+            
         </div>
     </div> 
 
     <div class="panel-body"> 
-        <table class="dataTables-server display table table-bordered" width="100%" cellspacing="0">
+        <table class="dataTables-server display table table-bordered " width="100%" cellspacing="0">
             <thead>
                 <tr>
                     <th rowspan="3">#</th>
                     <td>
-                        <label>{{ trans('app.start_date') }}</label><br/>
+                        {{-- <label>{{ trans('app.start_date') }}</label> --}}
                         <input type="text" class="datepicker form-control input-sm filter" id="start_date" placeholder="{{ trans('app.start_date') }}" autocomplete="off" style="width:100px" />
                     </td>
                     <td>
-                        <label>{{ trans('app.end_date') }}</label><br/>
+                        {{-- <label>{{ trans('app.end_date') }}</label> --}}
                         <input type="text" class="datepicker form-control input-sm filter" id="end_date" placeholder="{{ trans('app.end_date') }}" autocomplete="off" style="width:100px"/>
                     </td>
                     <th colspan="10">

@@ -20,7 +20,8 @@
        <!-- jquery-ui -->
        <link href="{{ asset('assets/css/jquery-ui.min.css') }}" rel='stylesheet'>
        <!-- datatable -->
-       <link href="{{ asset('assets/css/dataTables.min.css') }}" rel='stylesheet'>
+       {{-- <link href="{{ asset('assets/css/dataTables.min.css') }}" rel='stylesheet'> --}}
+       <link href="{{ asset('assets/vendor/datatables/dataTables.bootstrap4.min.css') }}" rel='stylesheet'>
        <!-- select2 -->
        <link href="{{ asset('assets/css/select2.min.css') }}"  rel='stylesheet'>
       
@@ -642,6 +643,7 @@
      <!-- template -->
      <!-- datatable -->
      <script src="{{ asset('assets/js/dataTables.min.js') }}"></script>
+     {{-- <script src="{{ asset('assets/vendor/datatables/jquery.dataTables.min.js') }}"></script> --}}
      <!-- custom script -->
      <script src="{{ asset('assets/js/script.js') }}"></script>
 

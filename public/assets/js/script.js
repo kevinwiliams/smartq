@@ -30,7 +30,8 @@
 
     //datatable 
     $('.datatable').DataTable({ 
-        responsive: true,  
+        // responsive: true,  
+        responsivePriority: 1,
         select    : true,
         pagingType: "full_numbers",
         lengthMenu: [[25, 50, 100, 150, 200, 500, -1], [25, 50, 100, 150, 200, 500, "All"]],

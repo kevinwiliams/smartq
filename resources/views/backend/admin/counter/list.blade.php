@@ -5,17 +5,19 @@
 <div class="panel panel-primary">
 
     <div class="panel-heading">
-        <ul class="row list-inline m-0">
-            <li class="col-xs-10 p-0 text-left">
-                <h3>{{ trans('app.counter_list') }}</h3>
-            </li>             
-            <li class="col-xs-2 p-0 text-right">
-                <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#infoModal">
-                  <i class="fa fa-info-circle"></i>
-                </button>
-            </li> 
-        </ul>
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">{{ trans('app.counter_list') }}</h1>
+            <button type="button" class="btn btn-warning btn-sm btn-circle" data-toggle="modal" data-target="#infoModal">
+                <i class="fa fa-info-circle"></i>
+              </button> 
+        </div>
     </div>
+    <nav class="nav nav-borders">
+        <a class="nav-link {{ (Request::is('admin/department') ? 'active' : '') }} ms-0" href="{{ url('admin/department') }}">{{ trans('app.department') }}</a>
+        <a class="nav-link {{ (Request::is('admin/counter') ? 'active' : '') }}" href="{{ url('admin/counter') }}">{{ trans('app.counter') }}</a>
+        <a class="nav-link {{ (Request::is('admin/user') ? 'active' : '') }}" href="{{ url('admin/user') }}">{{ trans('app.users') }}</a>
+    </nav>
+    <hr >
 
     <div class="panel-body">
         <div class="col-sm-12">

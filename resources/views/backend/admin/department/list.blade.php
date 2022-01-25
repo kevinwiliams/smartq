@@ -4,59 +4,77 @@
 
 @section('content')
 <div class="panel panel-primary">
- 
     <div class="panel-heading">
-        <ul class="row list-inline m-0">
-            <li class="col-xs-10 p-0 text-left">
-                <h3>{{ trans('app.department_list') }}</h3>
-            </li>             
-            <li class="col-xs-2 p-0 text-right">
-                <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#infoModal">
-                  <i class="fa fa-info-circle"></i>
-                </button>
-            </li> 
-        </ul>
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">{{ trans('app.department_list') }}</h1>
+            <button type="button" class="btn btn-warning btn-sm btn-circle" data-toggle="modal" data-target="#infoModal">
+                <i class="fa fa-info-circle"></i>
+              </button> 
+        </div>
     </div>
-
+    <nav class="nav nav-borders">
+        <a class="nav-link {{ (Request::is('admin/department') ? 'active' : '') }} ms-0" href="{{ url('admin/department') }}">{{ trans('app.department') }}</a>
+        <a class="nav-link {{ (Request::is('admin/counter') ? 'active' : '') }}" href="{{ url('admin/counter') }}">{{ trans('app.counter') }}</a>
+        <a class="nav-link {{ (Request::is('admin/user') ? 'active' : '') }}" href="{{ url('admin/user') }}">{{ trans('app.users') }}</a>
+    </nav>
+    <hr >
+    
     <div class="panel-body">
-        <div class="col-sm-12">
-            <table class="datatable table table-bordered" cellspacing="0">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>{{ trans('app.name') }}</th>
-                        <th>{{ trans('app.description') }}</th>
-                        <th>{{ trans('app.key_for_keyboard_mode') }}</th>
-                        <th>{{ trans('app.created_at') }}</th>
-                        <th>{{ trans('app.updated_at') }}</th>
-                        <th>{{ trans('app.status') }}</th>
-                        <th width="80"><i class="fa fa-cogs"></i></th>
-                    </tr>
-                </thead> 
-                <tbody>
+        <div class="col-md-10">
 
-                    @if (!empty($departments))
-                        <?php $sl = 1 ?>
-                        @foreach ($departments as $department)
+            <div class="card shadow mb-4">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">{{ trans('app.department_list') }}</h6>
+                    <a href="#" class="btn btn-success btn-icon-split btn-sm">
+                        <span class="icon text-white-50">
+                            <i class="fas fa-plus"></i>
+                        </span>
+                        <span class="text">Create New</span>
+                    </a>
+                </div>
+                <div class="card-body">
+                    <table class="datatable table table-bordered" cellspacing="0">
+                        <thead>
                             <tr>
-                                <td>{{ $sl++ }}</td>
-                                <td>{{ $department->name }}</td>
-                                <td>{{ $department->description }}</td>
-                                <td>{{ $department->key }}</td>
-                                <td>{{ (!empty($department->created_at)?date('j M Y h:i a',strtotime($department->created_at)):null) }}</td>
-                                <td>{{ (!empty($department->updated_at)?date('j M Y h:i a',strtotime($department->updated_at)):null) }}</td>
-                                <td>{!! (($department->status==1)?"<span class='label label-success'>". trans('app.active') ."</span>":"<span class='label label-dander'>". trans('app.deactive') ."</span>") !!}</td>
-                                <td>
-                                    <div class="btn-group"> 
-                                        <a href="{{ url("admin/department/edit/$department->id") }}" class="btn btn-success btn-sm"><i class="fa fa-edit"></i></a>
-                                        <a href="{{ url("admin/department/delete/$department->id") }}" class="btn btn-danger btn-sm" onclick="return confirm('{{ trans("app.are_you_sure") }}')"><i class="fa fa-times"></i></a>
-                                    </div>
-                                </td>
-                            </tr> 
-                        @endforeach
-                    @endif
-                </tbody>
-            </table>
+                                <th>#</th>
+                                <th>{{ trans('app.name') }}</th>
+                                <th>{{ trans('app.description') }}</th>
+                                <th>{{ trans('app.key_for_keyboard_mode') }}</th>
+                                <th>{{ trans('app.created_at') }}</th>
+                                <th>{{ trans('app.updated_at') }}</th>
+                                <th>{{ trans('app.status') }}</th>
+                                <th width="80"><i class="fa fa-cogs"></i></th>
+                            </tr>
+                        </thead> 
+                        <tbody>
+        
+                            @if (!empty($departments))
+                                <?php $sl = 1 ?>
+                                @foreach ($departments as $department)
+                                    <tr>
+                                        <td>{{ $sl++ }}</td>
+                                        <td>{{ $department->name }}</td>
+                                        <td>{{ $department->description }}</td>
+                                        <td>{{ $department->key }}</td>
+                                        <td>{{ (!empty($department->created_at)?date('j M Y h:i a',strtotime($department->created_at)):null) }}</td>
+                                        <td>{{ (!empty($department->updated_at)?date('j M Y h:i a',strtotime($department->updated_at)):null) }}</td>
+                                        <td>{!! (($department->status==1)?"<span class='label label-success'>". trans('app.active') ."</span>":"<span class='label label-dander'>". trans('app.deactive') ."</span>") !!}</td>
+                                        <td>
+                                            <div class="btn-group"> 
+                                                <a href="{{ url("admin/department/edit/$department->id") }}" class="btn btn-success btn-sm"><i class="fa fa-edit"></i></a>
+                                                <a href="{{ url("admin/department/delete/$department->id") }}" class="btn btn-danger btn-sm" onclick="return confirm('{{ trans("app.are_you_sure") }}')"><i class="fa fa-times"></i></a>
+                                            </div>
+                                        </td>
+                                    </tr> 
+                                @endforeach
+                            @endif
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+
+            
         </div> 
     </div> 
 </div>  
