@@ -81,10 +81,6 @@
                         <a class="collapse-item {{ (Request::is('admin/token/auto') ? 'active' : '') }}" href="{{ url('admin/token/auto') }}">{{ trans('app.auto_token') }}</a>
                         <a class="collapse-item {{ (Request::is('admin/token/create') ? 'active' : '') }}" href="{{ url('admin/token/create') }}">{{ trans('app.manual_token') }}</a>
                         <a class="collapse-item {{ (Request::is('admin/token/current') ? 'active' : '') }}" href="{{ url('admin/token/current') }}">{{ trans('app.active') }} / {{ trans('app.todays_token') }}</a>
-                        <a class="collapse-item {{ (Request::is('admin/token/report') ? 'active' : '') }}" href="{{ url('admin/token/report') }}">{{ trans('app.token_report') }}</a>
-                        <a class="collapse-item {{ (Request::is('admin/token/performance') ? 'active' : '') }}" href="{{ url('admin/token/performance') }}">{{ trans('app.performance_report') }}</a>
-                        <a class="collapse-item {{ (Request::is('admin/token/setting') ? 'active' : '') }}" href="{{ url('admin/token/setting') }}">{{ trans('app.auto_token_setting') }}</a>
-
                     </div>
                 </div>
             </li>
@@ -94,7 +90,7 @@
                 Preferences  <!-- TODO: Translation -->
             </div>
             
-            <!-- Nav Item - Charts -->
+            <!-- Nav Item - Configuration -->
             <li class="nav-item {{ (Request::segment(2)=='department' ? 'active' : '') }} {{ (Request::segment(2)=='counter' ? 'active' : '') }} {{ (Request::segment(2)=='user' ? 'active' : '') }}">
                 <a class="nav-link" href="{{ url('admin/department') }}">
                     <i class="fas fa-fw fa-server"></i>
@@ -169,7 +165,6 @@
                         <h6 class="collapse-header">Interface:</h6>
                         <a class="collapse-item {{ (Request::is('admin/sms/new') ? 'active' : '') }}" href="{{ url('admin/sms/new') }}">{{ trans('app.new_sms') }}</a>
                         <a class="collapse-item {{ (Request::is('admin/sms/list') ? 'active' : '') }}" href="{{ url('admin/sms/list') }}">{{ trans('app.sms_history') }}</a>
-                        <a class="collapse-item {{ (Request::is('admin/sms/setting') ? 'active' : '') }}" href="{{ url('admin/sms/setting') }}">{{ trans('app.sms_setting') }}</a>
                     </div>
                 </div>
             </li>
@@ -178,12 +173,23 @@
             <hr class="sidebar-divider">
 
                         
-            <!-- Nav Item - Charts -->
-            <li class="nav-item">
-                <a class="nav-link" href="charts.html">
+            <!-- Nav Item - Reports -->
+            <li class="nav-item {{ (Request::segment(2)=='token' ? 'active' : '') }}">
+                <a class="nav-link {{ (Request::segment(2)=='token' ? '' : 'collapsed') }}" href="#" data-toggle="collapse" data-target="#collapseReport"
+                    aria-expanded="true" aria-controls="collapseReport">
                     <i class="fas fa-fw fa-chart-area"></i>
-                    <span>Reports</span></a>
+                    <span>Reports</span>
+                </a>
+                <div id="collapseReport" class="collapse {{ (Request::segment(2)=='token' ? '' : '') }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Interface:</h6>
+                        <a class="collapse-item {{ (Request::is('admin/token/report') ? 'active' : '') }}" href="{{ url('admin/token/report') }}">{{ trans('app.token_report') }}</a>
+                        <a class="collapse-item {{ (Request::is('admin/token/performance') ? 'active' : '') }}" href="{{ url('admin/token/performance') }}">{{ trans('app.performance_report') }}</a>
+
+                    </div>
+                </div>
             </li>
+
         @endif
         
         <!----------------------- 
@@ -209,7 +215,7 @@
             <li class="nav-item {{ (Request::segment(2)=='token' ? 'active' : '') }}">
                 <a class="nav-link {{ (Request::segment(2)=='token' ? '' : 'collapsed') }}" href="#" data-toggle="collapse" data-target="#collapseTokenO"
                     aria-expanded="true" aria-controls="collapseTokenO">
-                    <i class="fas fa-fw fa-cog"></i>
+                    <i class="fas fa-fw fa-ticket-alt rotate-15"></i>
                     <span>{{ trans('app.token') }}</span>
                 </a>
                 <div id="collapseTokenO" class="collapse {{ (Request::segment(2)=='token' ? '' : '') }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
@@ -240,7 +246,7 @@
             <li class="nav-item {{ (Request::segment(2)=='token' ? 'active' : '') }}">
                 <a class="nav-link {{ (Request::segment(2)=='token' ? '' : 'collapsed') }}" href="#" data-toggle="collapse" data-target="#collapseTokenT"
                     aria-expanded="true" aria-controls="collapseTokenT">
-                    <i class="fas fa-fw fa-cog"></i>
+                    <i class="fas fa-fw fa-ticket-alt rotate-15"></i>
                     <span>{{ trans('app.token') }}</span>
                 </a>
                 <div id="collapseTokenT" class="collapse {{ (Request::segment(2)=='token' ? '' : '') }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
@@ -272,7 +278,7 @@
             <li class="nav-item {{ (Request::segment(2)=='client' ? 'active' : '') }}">
                 <a class="nav-link {{ (Request::segment(2)=='client' ? '' : 'collapsed') }}" href="#" data-toggle="collapse" data-target="#collapseTokenC"
                     aria-expanded="true" aria-controls="collapseTokenC">
-                    <i class="fas fa-fw fa-cog"></i>
+                    <i class="fas fa-fw fa-ticket-alt rotate-15"></i>
                     <span>{{ trans('app.token') }}</span>
                 </a>
                 <div id="collapseTokenC" class="collapse {{ (Request::segment(2)=='client' ? '' : '') }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
@@ -292,6 +298,7 @@
         -------------------------->
 
         <!-- Nav Item - Common Collapse Menu -->
+        @if (auth()->user()->hasRole('admin'))
         <li class="nav-item {{ (Request::segment(2)=='setting' ? 'active' : '') }}">
             <a class="nav-link {{ (Request::segment(2)=='setting' ? '' : 'collapsed') }}" href="#" data-toggle="collapse" data-target="#collapseSettings"
                 aria-expanded="true" aria-controls="collapseSettings">
@@ -301,15 +308,16 @@
             <div id="collapseSettings" class="collapse {{ (Request::segment(2)=='setting' ? '' : '') }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">Interface:</h6>
-                @if (auth()->user()->hasRole('admin'))
+                
                     <a class="collapse-item {{ (Request::is('admin/setting') ? 'active' : '') }}" href="{{ url('admin/setting') }}">{{ trans('app.app_setting') }}</a>
                     <a class="collapse-item {{ (Request::is('admin/setting/display') ? 'active' : '') }}" href="{{ url('admin/setting/display') }}">{{ trans('app.display_setting') }}</a>
-                @endif
-                    <a class="collapse-item {{ (Request::is('common/setting/profile') ? 'active' : '') }}" href="{{ url('common/setting/profile') }}">{{ trans('app.profile_information') }}</a>
+                    <a class="collapse-item {{ (Request::is('admin/token/setting') ? 'active' : '') }}" href="{{ url('admin/token/setting') }}">{{ trans('app.auto_token_setting') }}</a>
+                    <a class="collapse-item {{ (Request::is('admin/sms/setting') ? 'active' : '') }}" href="{{ url('admin/sms/setting') }}">{{ trans('app.sms_setting') }}</a>
+                    {{-- <a class="collapse-item {{ (Request::is('common/setting/profile') ? 'active' : '') }}" href="{{ url('common/setting/profile') }}">{{ trans('app.profile_information') }}</a> --}}
                 </div>
             </div>
         </li>
-
+        @endif
 
             <!-- Nav Item - Tables -->
             <!-- <li class="nav-item">
