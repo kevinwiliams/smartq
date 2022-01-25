@@ -20,12 +20,12 @@
     <hr >
     
     <div class="panel-body">
-        <div class="col-md-10">
+        <div class="col-sm-12 col-md-10">
 
             <div class="card shadow mb-4">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                     <h6 class="m-0 font-weight-bold text-primary">{{ trans('app.department_list') }}</h6>
-                    <a href="#" class="btn btn-success btn-icon-split btn-sm">
+                    <a href="{{ url('admin/department/create') }}" class="btn btn-success btn-icon-split btn-sm">
                         <span class="icon text-white-50">
                             <i class="fas fa-plus"></i>
                         </span>
@@ -58,7 +58,7 @@
                                         <td>{{ $department->key }}</td>
                                         <td>{{ (!empty($department->created_at)?date('j M Y h:i a',strtotime($department->created_at)):null) }}</td>
                                         <td>{{ (!empty($department->updated_at)?date('j M Y h:i a',strtotime($department->updated_at)):null) }}</td>
-                                        <td>{!! (($department->status==1)?"<span class='label label-success'>". trans('app.active') ."</span>":"<span class='label label-dander'>". trans('app.deactive') ."</span>") !!}</td>
+                                        <td>{!! (($department->status==1)?"<span class='badge bg-success text-white'>". trans('app.active') ."</span>":"<span class='badge bg-danger text-white'>". trans('app.deactive') ."</span>") !!}</td>
                                         <td>
                                             <div class="btn-group"> 
                                                 <a href="{{ url("admin/department/edit/$department->id") }}" class="btn btn-success btn-sm"><i class="fa fa-edit"></i></a>

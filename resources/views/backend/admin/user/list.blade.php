@@ -20,65 +20,82 @@
     <hr >
 
     <div class="panel-body">
-        <table class="dataTables-server table table-bordered" cellspacing="0">
-            <thead>
-                <tr>
-                    <th rowspan="3">#</th>
-                    <td>
-                        <label>{{ trans('app.start_date') }}</label>
-                        <input type="text" class="datepicker form-control input-sm filter" id="start_date" placeholder="{{ trans('app.start_date') }}" autocomplete="off" style="width:100px" />
-                    </td>
-                    <td>
-                        <label>{{ trans('app.end_date') }}</label>
-                        <input type="text" class="datepicker form-control input-sm filter" id="end_date" placeholder="{{ trans('app.end_date') }}" autocomplete="off" style="width:100px"/>
-                    </td>
-                    <th colspan="8">
-                        
-                    </th>
-                </tr>                        
-                <tr>
-                    <th></th> 
-                    <th> 
-                        <select id="user_type" class="select2 filter">
-                            <option value="">{{ trans('app.user_type') }}</option>
-                            <option value="5">{{trans('app.admin')}}</option>
-                            <option value="1">{{trans('app.officer')}}</option>
-                            <option value="2">{{trans('app.receptionist')}}</option>
-                            <option value="3">{{trans('app.client')}}</option>
-                        </select> 
-                    </th> 
-                    <th></th> 
-                    <th></th> 
-                    <th> 
-                        {{ Form::select('department', $departments, null, ['id'=>'department', 'class'=>'select2 filter', 'placeholder'=> trans('app.department')]) }} 
-                    </th>  
-                    <th></th> 
-                    <th> 
-                        <select id="status" class="select2 filter">
-                            <option value="">{{ trans('app.status') }}</option>
-                            <option value="1">{{trans('app.active')}}</option>
-                            <option value="'0'">{{trans('app.deactive')}}</option>
-                        </select> 
-                    </th>  
-                    <th></th> 
-                    <th></th> 
-                    <th></th> 
-                </tr>                      
-                <tr>
-                    <th>{{ trans('app.photo') }}</th>
-                    <th>{{ trans('app.user_type') }}</th> 
-                    <th>{{ trans('app.name') }}</th> 
-                    <th>{{ trans('app.email') }}</th> 
-                    <th>{{ trans('app.department') }}</th>  
-                    <th>{{ trans('app.mobile') }}</th> 
-                    <th>{{ trans('app.status') }}</th>  
-                    <th>{{ trans('app.created_at') }}</th> 
-                    <th>{{ trans('app.updated_at') }}</th>  
-                    <th width="80"><i class="fa fa-cogs"></i></th> 
-                </tr>
-            </thead>  
-        </table>
+        <div class="col-sm-12">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">{{ trans('app.user_list') }}</h6>
+                    <a href="{{ url('admin/user/create') }}" class="btn btn-success btn-icon-split btn-sm">
+                        <span class="icon text-white-50">
+                            <i class="fas fa-plus"></i>
+                        </span>
+                        <span class="text">Create New</span>
+                    </a>
+                </div>
+                <div class="card-body">
+                    <table class="dataTables-server table table-bordered" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th rowspan="3">#</th>
+                                <td>
+                                    <label>{{ trans('app.start_date') }}</label>
+                                    <input type="text" class="datepicker form-control input-sm filter" id="start_date" placeholder="{{ trans('app.start_date') }}" autocomplete="off" style="width:100px" />
+                                </td>
+                                <td>
+                                    <label>{{ trans('app.end_date') }}</label>
+                                    <input type="text" class="datepicker form-control input-sm filter" id="end_date" placeholder="{{ trans('app.end_date') }}" autocomplete="off" style="width:100px"/>
+                                </td>
+                                <th colspan="8">
+                                    
+                                </th>
+                            </tr>                        
+                            <tr>
+                                <th></th> 
+                                <th> 
+                                    <select id="user_type" class="select2 filter">
+                                        <option value="">{{ trans('app.user_type') }}</option>
+                                        <option value="5">{{trans('app.admin')}}</option>
+                                        <option value="1">{{trans('app.officer')}}</option>
+                                        <option value="2">{{trans('app.receptionist')}}</option>
+                                        <option value="3">{{trans('app.client')}}</option>
+                                    </select> 
+                                </th> 
+                                <th></th> 
+                                <th></th> 
+                                <th> 
+                                    {{ Form::select('department', $departments, null, ['id'=>'department', 'class'=>'select2 filter', 'placeholder'=> trans('app.department')]) }} 
+                                </th>  
+                                <th></th> 
+                                <th> 
+                                    <select id="status" class="select2 filter">
+                                        <option value="">{{ trans('app.status') }}</option>
+                                        <option value="1">{{trans('app.active')}}</option>
+                                        <option value="'0'">{{trans('app.deactive')}}</option>
+                                    </select> 
+                                </th>  
+                                <th></th> 
+                                <th></th> 
+                                <th></th> 
+                            </tr>                      
+                            <tr>
+                                <th>{{ trans('app.photo') }}</th>
+                                <th>{{ trans('app.user_type') }}</th> 
+                                <th>{{ trans('app.name') }}</th> 
+                                <th>{{ trans('app.email') }}</th> 
+                                <th>{{ trans('app.department') }}</th>  
+                                <th>{{ trans('app.mobile') }}</th> 
+                                <th>{{ trans('app.status') }}</th>  
+                                <th>{{ trans('app.created_at') }}</th> 
+                                <th>{{ trans('app.updated_at') }}</th>  
+                                <th width="80"><i class="fa fa-cogs"></i></th> 
+                            </tr>
+                        </thead>  
+                    </table>
+                </div>
+            </div>
+            
+        </div>
     </div>
+  
 </div> 
 
 <!-- Modal -->

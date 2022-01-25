@@ -94,8 +94,14 @@
                 Preferences  <!-- TODO: Translation -->
             </div>
             
+            <!-- Nav Item - Charts -->
+            <li class="nav-item {{ (Request::segment(2)=='department' ? 'active' : '') }} {{ (Request::segment(2)=='counter' ? 'active' : '') }} {{ (Request::segment(2)=='user' ? 'active' : '') }}">
+                <a class="nav-link" href="{{ url('admin/department') }}">
+                    <i class="fas fa-fw fa-server"></i>
+                    <span>Configuration</span></a>
+            </li>
             <!-- Nav Item - Department Collapse Menu -->
-            <li class="nav-item {{ (Request::segment(2)=='department' ? 'active' : '') }}">
+            {{-- <li class="nav-item {{ (Request::segment(2)=='department' ? 'active' : '') }}">
                 <a class="nav-link {{ (Request::segment(2)=='department' ? '' : 'collapsed') }}" href="#" data-toggle="collapse" data-target="#collapseDept"
                     aria-expanded="true" aria-controls="collapseDept">
                     <i class="fas fa-fw fa-cog"></i>
@@ -108,10 +114,10 @@
                         <a class="collapse-item {{ (Request::is('admin/department') ? 'active' : '') }}" href="{{ url('admin/department') }}">{{ trans('app.department_list') }}</a>
                     </div>
                 </div>
-            </li>
+            </li> --}}
 
             <!-- Nav Item - Counter Collapse Menu -->
-            <li class="nav-item {{ (Request::segment(2)=='counter' ? 'active' : '') }}">
+            {{-- <li class="nav-item {{ (Request::segment(2)=='counter' ? 'active' : '') }}">
                 <a class="nav-link {{ (Request::segment(2)=='counter' ? '' : 'collapsed') }}" href="#" data-toggle="collapse" data-target="#collapseCounter"
                     aria-expanded="true" aria-controls="collapseCounter">
                     <i class="fas fa-fw fa-cog"></i>
@@ -124,10 +130,10 @@
                         <a class="collapse-item {{ (Request::is('admin/counter') ? 'active' : '') }}" href="{{ url('admin/counter') }}">{{ trans('app.counter_list') }}</a>
                     </div>
                 </div>
-            </li>
+            </li> --}}
             
             <!-- Nav Item - Users Collapse Menu -->
-            <li class="nav-item {{ (Request::segment(2)=='user' ? 'active' : '') }}">
+            {{-- <li class="nav-item {{ (Request::segment(2)=='user' ? 'active' : '') }}">
                 <a class="nav-link {{ (Request::segment(2)=='user' ? '' : 'collapsed') }}" href="#" data-toggle="collapse" data-target="#collapseUser"
                     aria-expanded="true" aria-controls="collapseUser">
                     <i class="fas fa-fw fa-cog"></i>
@@ -140,7 +146,7 @@
                         <a class="collapse-item {{ (Request::is('admin/user') ? 'active' : '') }}" href="{{ url('admin/user') }}">{{ trans('app.user_list') }}</a>
                     </div>
                 </div>
-            </li>
+            </li> --}}
 
 
             <!-- Divider -->
@@ -171,9 +177,7 @@
             <!-- Divider -->
             <hr class="sidebar-divider">
 
-            
-
-            
+                        
             <!-- Nav Item - Charts -->
             <li class="nav-item">
                 <a class="nav-link" href="charts.html">

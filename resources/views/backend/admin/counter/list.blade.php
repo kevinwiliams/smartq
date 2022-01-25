@@ -20,42 +20,58 @@
     <hr >
 
     <div class="panel-body">
-        <div class="col-sm-12">
-            <table class="datatable table table-bordered" cellspacing="0">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>{{ trans('app.counter') }}</th>
-                        <th>{{ trans('app.description') }}</th>
-                        <th>{{ trans('app.created_at') }}</th>
-                        <th>{{ trans('app.updated_at') }}</th>
-                        <th>{{ trans('app.status') }}</th>
-                        <th width="80"><i class="fa fa-cogs"></i></th>
-                    </tr>
-                </thead> 
-                <tbody>
+        <div class="col-sm-10">
 
-                    @if (!empty($counters))
-                        <?php $sl = 1 ?>
-                        @foreach ($counters as $counter)
+            <div class="card shadow mb-4">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">{{ trans('app.counter_list') }}</h6>
+                    <a href="{{ url('admin/counter/create') }}" class="btn btn-success btn-icon-split btn-sm">
+                        <span class="icon text-white-50">
+                            <i class="fas fa-plus"></i>
+                        </span>
+                        <span class="text">Create New</span>
+                    </a>
+                </div>
+                <div class="card-body">
+                    <table class="datatable table table-bordered" cellspacing="0">
+                        <thead>
                             <tr>
-                                <td>{{ $sl++ }}</td>
-                                <td>{{ $counter->name }}</td>
-                                <td>{{ $counter->description }}</td>
-                                <td>{{ (!empty($counter->created_at)?date('j M Y h:i a',strtotime($counter->created_at)):null) }}</td>
-                                <td>{{ (!empty($counter->updated_at)?date('j M Y h:i a',strtotime($counter->updated_at)):null) }}</td>
-                                <td>{!! (($counter->status==1)?"<span class='label label-success'>". trans('app.active') ."</span>":"<span class='label label-dander'>". trans('app.deactive') ."</span>") !!}</td>
-                                <td>
-                                    <div class="btn-group">
-                                        <a href="{{ url("admin/counter/edit/$counter->id") }}" class="btn btn-success btn-sm"><i class="fa fa-edit"></i></a>
-                                        <a href="{{ url("admin/counter/delete/$counter->id") }}" class="btn btn-danger btn-sm" onclick="return confirm('{{ trans("app.are_you_sure") }}')"><i class="fa fa-times"></i></a>
-                                    </div>
-                                </td>
-                            </tr> 
-                        @endforeach
-                    @endif
-                </tbody>
-            </table>
+                                <th>#</th>
+                                <th>{{ trans('app.counter') }}</th>
+                                <th>{{ trans('app.description') }}</th>
+                                <th>{{ trans('app.created_at') }}</th>
+                                <th>{{ trans('app.updated_at') }}</th>
+                                <th>{{ trans('app.status') }}</th>
+                                <th width="80"><i class="fa fa-cogs"></i></th>
+                            </tr>
+                        </thead> 
+                        <tbody>
+        
+                            @if (!empty($counters))
+                                <?php $sl = 1 ?>
+                                @foreach ($counters as $counter)
+                                    <tr>
+                                        <td>{{ $sl++ }}</td>
+                                        <td>{{ $counter->name }}</td>
+                                        <td>{{ $counter->description }}</td>
+                                        <td>{{ (!empty($counter->created_at)?date('j M Y h:i a',strtotime($counter->created_at)):null) }}</td>
+                                        <td>{{ (!empty($counter->updated_at)?date('j M Y h:i a',strtotime($counter->updated_at)):null) }}</td>
+                                        <td>{!! (($counter->status==1)?"<span class='badge bg-success text-white'>". trans('app.active') ."</span>":"<span class='badge bg-danger text-white'>". trans('app.deactive') ."</span>") !!}</td>
+                                        <td>
+                                            <div class="btn-group">
+                                                <a href="{{ url("admin/counter/edit/$counter->id") }}" class="btn btn-success btn-sm"><i class="fa fa-edit"></i></a>
+                                                <a href="{{ url("admin/counter/delete/$counter->id") }}" class="btn btn-danger btn-sm" onclick="return confirm('{{ trans("app.are_you_sure") }}')"><i class="fa fa-times"></i></a>
+                                            </div>
+                                        </td>
+                                    </tr> 
+                                @endforeach
+                            @endif
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            
         </div> 
     </div> 
 </div>  

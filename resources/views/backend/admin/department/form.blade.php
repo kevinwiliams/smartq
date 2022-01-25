@@ -4,16 +4,28 @@
 @section('content')
 <div class="panel panel-primary" id="printMe">
     <div class="panel-heading">
-        <div class="row">
-            <div class="col-sm-12 text-left">
-                <h3>{{ trans('app.add_department') }}</h3>
-            </div> 
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">{{ trans('app.add_department') }}</h1>
+            {{-- <button type="button" onclick="printContent('PrintMe')" class="btn btn-info" ><i class="fa fa-print"></i></button>  --}}
         </div>
     </div>
 
     <div class="panel-body"> 
-
-        {{ Form::open(['url' => 'admin/department/create', 'class'=>'col-md-7 col-sm-8']) }}
+        <div class="col-md-8">
+            <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Enter required fields below</h6>
+                    <a href="{{ url('admin/department') }}" class="btn btn-danger btn-icon-split btn-sm">
+                        <span class="icon text-white-50">
+                            <i class="fas fa-undo"></i>
+                        </span>
+                        <span class="text">Cancel</span>
+                    </a>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                    {{ Form::open(['url' => 'admin/department/create', 'class'=>'col-md-7 col-sm-8']) }}
 
             <div class="form-group @error('name') has-error @enderror">
                 <label for="name">{{ trans('app.name') }} <i class="text-danger">*</i></label> 
@@ -50,6 +62,12 @@
                 <button class="button btn btn-success" type="submit"><span>{{ trans('app.save') }}</span></button>
             </div>
         {{ Form::close() }}
+                </div>
+            </div>
+    
+        </div>
+
+        
         
     </div>
 </div> 
