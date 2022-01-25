@@ -63,7 +63,7 @@
                             <td>
                                 <div class="btn-group"> 
                                     <a href="{{ url("admin/token/complete/$token->id") }}"  class="btn btn-success btn-sm" onclick="return confirm('Are you sure?')" title="Complete"><i class="fa fa-check"></i></a>
-                                    <button type="button" data-toggle="modal" data-target=".transferModal" data-token-id='{{ $token->id }}' class="btn btn-primary btn-sm" title="Transfer"><i class="fa fa-exchange"></i></button> 
+                                    <button type="button" data-toggle="modal" data-target=".transferModal" data-token-id='{{ $token->id }}' class="btn btn-primary btn-sm" title="Transfer"><i class="fa fa-exchange-alt"></i></button> 
 
                                     <a href="{{ url("admin/token/stoped/$token->id") }}"  class="btn btn-warning btn-sm" onclick="return confirm('Are you sure?')" title="Stoped"><i class="fa fa-stop"></i></a>
 

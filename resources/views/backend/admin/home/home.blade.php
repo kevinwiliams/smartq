@@ -5,8 +5,8 @@
 <div class="panel panel-primary">
     {{-- <div class="panel-heading"><h3 class="text-left">{{ trans('app.dashboard') }}</h3></div> --}}
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
-        <a href="{{ url('admin/token/create') }}" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm"><i class="fas fa-ticket-alt fa-sm text-white-50"></i> {{ trans('app.manual_token') }}</a>
+        <h1 class="h3 mb-0 text-gray-800">{{ trans('app.dashboard') }}</h1>
+        <a href="{{ url('admin/token/create') }}" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm"><i class="fas fa-ticket-alt fa-sm text-white-50 rotate-15"></i> {{ trans('app.manual_token') }}</a>
     </div>
     <div class="panel-body">
 
@@ -22,7 +22,7 @@
                                 <div class="h5 mb-0 font-weight-bold text-gray-800">{{ (isset($infobox->token->pending)?$infobox->token->pending:0) }} </div>
                             </div>
                             <div class="col-auto">
-                                <i class="fas fa-ticket-alt fa-2x text-gray-300"></i>
+                                <i class="fas fa-ticket-alt fa-2x text-gray-300 rotate-15"></i>
                             </div>
                         </div>
                     </div>
@@ -39,7 +39,7 @@
                                 <div class="h5 mb-0 font-weight-bold text-gray-800">{{ (isset($infobox->token->complete)?$infobox->token->complete:0) }} </div>
                             </div>
                             <div class="col-auto">
-                                <i class="fas fa-ticket-alt fa-2x text-gray-300"></i>
+                                <i class="fas fa-ticket-alt fa-2x text-gray-300 rotate-15"></i>
                             </div>
                         </div>
                     </div>
@@ -56,7 +56,7 @@
                                 <div class="h5 mb-0 font-weight-bold text-gray-800">{{ (isset($infobox->token->complete)?$infobox->token->total:0) }} </div>
                             </div>
                             <div class="col-auto">
-                                <i class="fas fa-ticket-alt fa-2x text-gray-300"></i>
+                                <i class="fas fa-ticket-alt fa-2x text-gray-300 rotate-15"></i>
                             </div>
                         </div>
                     </div>

@@ -6,7 +6,7 @@
     <div class="panel-heading">
         <div class="row">
             <div class="col-sm-8 text-left">
-                <h3>{{ trans('app.user_information') }}</h3>
+                <h1 class="h3 mb-0 text-gray-800">{{ trans('app.user_information') }}</h1>
             </div>
             <div class="col-sm-4 text-right">
                 <div class="btn-group">

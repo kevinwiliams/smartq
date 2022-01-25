@@ -3,17 +3,16 @@
 
 @section('content')
 <div class="panel panel-primary" id="toggleScreenArea">
-    <div class="panel-heading pt-0 pb-0">
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <div>
+        <h1 class="h3 mb-0 text-gray-800">{{ trans('app.auto_token') }}</h1>
+        </div>
+        <div>
         <ul class="row m-0 list-inline">
-            <li class="col-xs-6 col-sm-4 p-0 text-left">
-                <img src="{{ asset('assets/img/icons/logo.jpg') }}" width="210" height="50">
-            </li>  
-            <li class="col-xs-4 col-sm-4 hidden-xs" id="screen-title">
-                <h3 class="mt-1 pt-1">{{ trans('app.auto_token') }}</h3>
-            </li>         
-            <li class="col-xs-6 col-sm-4 p-1 text-right">
+           
+            <li class=" text-right">
                 <div class="mt-1 pt-1">
-                    <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#infoModal">
+                    <button type="button" class="btn btn-warning btn-sm mx-1 btn-circle" data-toggle="modal" data-target="#infoModal">
                       <i class="fa fa-info-circle"></i>
                     </button>
                     @if ($display->keyboard_mode)
@@ -25,11 +24,13 @@
                         <i class="fa fa-keyboard-o"></i>&nbsp;&nbsp;<i class="fa fa-times"></i>
                     </div> 
                     @endif
-                    <button id="toggleScreen" class="btn btn-sm btn-primary"><i class="fa fa-arrows-alt"></i></button>
+                    {{-- <button id="toggleScreen" class="btn btn-sm btn-primary"><i class="fa fa-arrows-alt"></i></button> --}}
                 </div> 
             </li> 
-        </ul>
-    </div>   
+        </ul>    
+    </div>
+    </div>
+      
 
     <div class="panel-body">
         <div class="col-sm-12" id="screen-content">

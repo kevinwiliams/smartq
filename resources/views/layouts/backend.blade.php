@@ -39,8 +39,8 @@
 
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
-                <div class="sidebar-brand-icon rotate-n-15">
-                    <i class="fas fa-laugh-wink"></i>
+                <div class="sidebar-brand-icon">
+                    <i class="fab fa-quora"></i>
                 </div>
                 <div class="sidebar-brand-text mx-3">Smart<sup>Q</sup></div>
             </a>
@@ -64,6 +64,32 @@
 
             <!-- Heading -->
             <div class="sidebar-heading">
+                Ticketing
+            </div>
+
+            <!-- Nav Item - Token Collapse Menu -->
+            <li class="nav-item {{ (Request::segment(2)=='token' ? 'active' : '') }}">
+                <a class="nav-link {{ (Request::segment(2)=='token' ? '' : 'collapsed') }}" href="#" data-toggle="collapse" data-target="#collapseToken"
+                    aria-expanded="true" aria-controls="collapseToken">
+                    <i class="fas fa-fw fa-ticket-alt rotate-15"></i>
+                    <span>{{ trans('app.token') }}</span>
+                </a>
+                <div id="collapseToken" class="collapse {{ (Request::segment(2)=='token' ? '' : '') }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Interface:</h6>
+                        <a class="collapse-item {{ (Request::is('admin/token/auto') ? 'active' : '') }}" href="{{ url('admin/token/auto') }}">{{ trans('app.auto_token') }}</a>
+                        <a class="collapse-item {{ (Request::is('admin/token/create') ? 'active' : '') }}" href="{{ url('admin/token/create') }}">{{ trans('app.manual_token') }}</a>
+                        <a class="collapse-item {{ (Request::is('admin/token/current') ? 'active' : '') }}" href="{{ url('admin/token/current') }}">{{ trans('app.active') }} / {{ trans('app.todays_token') }}</a>
+                        <a class="collapse-item {{ (Request::is('admin/token/report') ? 'active' : '') }}" href="{{ url('admin/token/report') }}">{{ trans('app.token_report') }}</a>
+                        <a class="collapse-item {{ (Request::is('admin/token/performance') ? 'active' : '') }}" href="{{ url('admin/token/performance') }}">{{ trans('app.performance_report') }}</a>
+                        <a class="collapse-item {{ (Request::is('admin/token/setting') ? 'active' : '') }}" href="{{ url('admin/token/setting') }}">{{ trans('app.auto_token_setting') }}</a>
+
+                    </div>
+                </div>
+            </li>
+
+            <!-- Heading -->
+            <div class="sidebar-heading">
                 Preferences  <!-- TODO: Translation -->
             </div>
             
@@ -74,7 +100,7 @@
                     <i class="fas fa-fw fa-cog"></i>
                     <span>{{ trans('app.department') }}</span>
                 </a>
-                <div id="collapseDept" class="collapse {{ (Request::segment(2)=='department' ? 'show' : '') }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div id="collapseDept" class="collapse {{ (Request::segment(2)=='department' ? '' : '') }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Interface:</h6>
                         <a class="collapse-item {{ (Request::is('admin/department/create') ? 'active' : '') }}" href="{{ url('admin/department/create') }}">{{ trans('app.add_department') }}</a>
@@ -90,7 +116,7 @@
                     <i class="fas fa-fw fa-cog"></i>
                     <span>{{ trans('app.counter') }}</span>
                 </a>
-                <div id="collapseCounter" class="collapse {{ (Request::segment(2)=='counter' ? 'show' : '') }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div id="collapseCounter" class="collapse {{ (Request::segment(2)=='counter' ? '' : '') }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Interface:</h6>
                         <a class="collapse-item {{ (Request::is('admin/counter/create') ? 'active' : '') }}" href="{{ url('admin/counter/create') }}">{{ trans('app.add_counter') }}</a>
@@ -106,7 +132,7 @@
                     <i class="fas fa-fw fa-cog"></i>
                     <span>{{ trans('app.users') }}</span>
                 </a>
-                <div id="collapseUser" class="collapse {{ (Request::segment(2)=='user' ? 'show' : '') }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div id="collapseUser" class="collapse {{ (Request::segment(2)=='user' ? '' : '') }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Interface:</h6>
                         <a class="collapse-item {{ (Request::is('admin/user/create') ? 'active' : '') }}" href="{{ url('admin/user/create') }}">{{ trans('app.add_user') }}</a>
@@ -128,10 +154,10 @@
              <li class="nav-item {{ (Request::segment(2)=='sms' ? 'active' : '') }}">
                 <a class="nav-link {{ (Request::segment(2)=='sms' ? '' : 'collapsed') }}" href="#" data-toggle="collapse" data-target="#collapseSMS"
                     aria-expanded="true" aria-controls="collapseSMS">
-                    <i class="fas fa-fw fa-cog"></i>
+                    <i class="fas fa-fw fa-comment-alt"></i>
                     <span>{{ trans('app.sms') }}</span>
                 </a>
-                <div id="collapseSMS" class="collapse {{ (Request::segment(2)=='sms' ? 'show' : '') }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div id="collapseSMS" class="collapse {{ (Request::segment(2)=='sms' ? '' : '') }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Interface:</h6>
                         <a class="collapse-item {{ (Request::is('admin/sms/new') ? 'active' : '') }}" href="{{ url('admin/sms/new') }}">{{ trans('app.new_sms') }}</a>
@@ -144,31 +170,7 @@
             <!-- Divider -->
             <hr class="sidebar-divider">
 
-            <!-- Heading -->
-            <div class="sidebar-heading">
-                Ticketing
-            </div>
-
-            <!-- Nav Item - Token Collapse Menu -->
-            <li class="nav-item {{ (Request::segment(2)=='token' ? 'active' : '') }}">
-                <a class="nav-link {{ (Request::segment(2)=='token' ? '' : 'collapsed') }}" href="#" data-toggle="collapse" data-target="#collapseToken"
-                    aria-expanded="true" aria-controls="collapseToken">
-                    <i class="fas fa-fw fa-cog"></i>
-                    <span>{{ trans('app.token') }}</span>
-                </a>
-                <div id="collapseToken" class="collapse {{ (Request::segment(2)=='token' ? 'show' : '') }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Interface:</h6>
-                        <a class="collapse-item {{ (Request::is('admin/token/auto') ? 'active' : '') }}" href="{{ url('admin/token/auto') }}">{{ trans('app.auto_token') }}</a>
-                        <a class="collapse-item {{ (Request::is('admin/token/create') ? 'active' : '') }}" href="{{ url('admin/token/create') }}">{{ trans('app.manual_token') }}</a>
-                        <a class="collapse-item {{ (Request::is('admin/token/current') ? 'active' : '') }}" href="{{ url('admin/token/current') }}">{{ trans('app.active') }} / {{ trans('app.todays_token') }}</a>
-                        <a class="collapse-item {{ (Request::is('admin/token/report') ? 'active' : '') }}" href="{{ url('admin/token/report') }}">{{ trans('app.token_report') }}</a>
-                        <a class="collapse-item {{ (Request::is('admin/token/performance') ? 'active' : '') }}" href="{{ url('admin/token/performance') }}">{{ trans('app.performance_report') }}</a>
-                        <a class="collapse-item {{ (Request::is('admin/token/setting') ? 'active' : '') }}" href="{{ url('admin/token/setting') }}">{{ trans('app.auto_token_setting') }}</a>
-
-                    </div>
-                </div>
-            </li>
+            
 
             
             <!-- Nav Item - Charts -->
@@ -205,7 +207,7 @@
                     <i class="fas fa-fw fa-cog"></i>
                     <span>{{ trans('app.token') }}</span>
                 </a>
-                <div id="collapseTokenO" class="collapse {{ (Request::segment(2)=='token' ? 'show' : '') }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div id="collapseTokenO" class="collapse {{ (Request::segment(2)=='token' ? '' : '') }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Interface:</h6>
                         <a class="collapse-item {{ (Request::is('officer/token/current') ? 'active' : '') }}" href="{{ url('officer/token/current') }}">{{ trans('app.active') }} / {{ trans('app.todays_token') }}</a>
@@ -236,7 +238,7 @@
                     <i class="fas fa-fw fa-cog"></i>
                     <span>{{ trans('app.token') }}</span>
                 </a>
-                <div id="collapseTokenT" class="collapse {{ (Request::segment(2)=='token' ? 'show' : '') }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div id="collapseTokenT" class="collapse {{ (Request::segment(2)=='token' ? '' : '') }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Interface:</h6>
                         <a class="collapse-item {{ (Request::is('receptionist/token/auto') ? 'active' : '') }}" href="{{ url('receptionist/token/auto') }}">{{ trans('app.auto_token') }}</a>
@@ -268,7 +270,7 @@
                     <i class="fas fa-fw fa-cog"></i>
                     <span>{{ trans('app.token') }}</span>
                 </a>
-                <div id="collapseTokenC" class="collapse {{ (Request::segment(2)=='client' ? 'show' : '') }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div id="collapseTokenC" class="collapse {{ (Request::segment(2)=='client' ? '' : '') }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Interface:</h6>
                         <a class="collapse-item {{ (Request::is('client/token/auto') ? 'active' : '') }}" href="{{ url('client/token/auto') }}">{{ trans('app.auto_token') }}</a>
@@ -291,7 +293,7 @@
                 <i class="fas fa-fw fa-cog"></i>
                 <span>{{ trans('app.setting') }}</span>
             </a>
-            <div id="collapseSettings" class="collapse {{ (Request::segment(2)=='setting' ? 'show' : '') }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div id="collapseSettings" class="collapse {{ (Request::segment(2)=='setting' ? '' : '') }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">Interface:</h6>
                 @if (auth()->user()->hasRole('admin'))
@@ -341,6 +343,7 @@
                     <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
                         <i class="fa fa-bars"></i>
                     </button>
+                    <span class="text-xs text-gray-800">Location: <i class="fas fa-map-marker fa-fw text-danger"></i>Kingston, Jamaica</span>
 
                     <!-- Topbar Search -->
                     <!-- form

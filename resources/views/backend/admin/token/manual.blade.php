@@ -3,72 +3,82 @@
 
 @section('content')
 <div class="panel panel-primary">
+    
  
     <div class="panel-heading">
-        <ul class="row list-inline m-0">
-            <li class="col-xs-10 xs-view p-0 text-left" id="screen-title">
-                <h3>{{ trans('app.manual_token') }}</h3>
-            </li>         
-            <li class="col-xs-2 p-0 text-right">
-                <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#infoModal">
-                  <i class="fa fa-info-circle"></i>
-                </button>
-            </li> 
-        </ul>
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">{{ trans('app.manual_token') }}</h1>
+            <button type="button" class="btn btn-warning btn-sm btn-circle" data-toggle="modal" data-target="#infoModal">
+                <i class="fa fa-info-circle"></i>
+              </button> 
+        </div>
     </div> 
 
     <div class="panel-body">
 
-        <div id="output" class="hide alert alert-danger alert-dismissible fade in shadowed mb-1"></div>
+        <div class="col-lg-6">
 
-        {{ Form::open(['url' => 'admin/token/create', 'class'=>'manualFrm mt-1  col-md-7 col-sm-8']) }}
+            <!-- Default Card Example -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    Enter client information
+                </div>
+                <div class="card-body">
+                    <div id="output" class="hide alert alert-danger alert-dismissible fade in shadowed mb-1"></div>
 
-            @if($display->sms_alert)
-            <div class="form-group @error('client_mobile') has-error @enderror">
-                <label for="client_mobile">{{ trans('app.client_mobile') }} <i class="text-danger">*</i></label><br/>
-                <input type="text" name="client_mobile" class="form-control" placeholder="{{ trans('app.client_mobile') }}"/>  
-                <span class="text-danger">{{ $errors->first('client_mobile') }}</span>
-            </div>   
-            @endif
+                    {{ Form::open(['url' => 'admin/token/create', 'class'=>'manualFrm mt-1  col-md-7 col-sm-8']) }}
+                        @if($display->sms_alert)
+                        <div class="form-group @error('client_mobile') has-error @enderror">
+                            <label for="client_mobile">{{ trans('app.client_mobile') }} <i class="text-danger">*</i></label><br/>
+                            <input type="text" name="client_mobile" class="form-control" placeholder="{{ trans('app.client_mobile') }}"/>  
+                            <span class="text-danger">{{ $errors->first('client_mobile') }}</span>
+                        </div>   
+                        @endif
 
-            <div class="form-group @error('department_id') has-error @enderror">
-                <label for="department_id">{{ trans('app.department') }} <i class="text-danger">*</i></label><br/>
-                {{ Form::select('department_id', $departments, null, ['placeholder' => 'Select Option', 'class'=>'select2 form-control']) }}<br/>
-                <span class="text-danger">{{ $errors->first('department_id') }}</span>
-            </div> 
+                        <div class="form-group @error('department_id') has-error @enderror">
+                            <label for="department_id">{{ trans('app.department') }} <i class="text-danger">*</i></label><br/>
+                            {{ Form::select('department_id', $departments, null, ['placeholder' => 'Select Option', 'class'=>'select2 form-control']) }}<br/>
+                            <span class="text-danger">{{ $errors->first('department_id') }}</span>
+                        </div> 
 
-            <div class="form-group @error('counter_id') has-error @enderror">
-                <label for="user">{{ trans('app.counter') }} <i class="text-danger">*</i></label><br/>
-                {{ Form::select('counter_id', $counters, null, ['placeholder' => 'Select Option', 'class'=>'select2 form-control']) }}<br/>
-                <span class="text-danger">{{ $errors->first('counter_id') }}</span>
-            </div> 
+                        <div class="form-group @error('counter_id') has-error @enderror">
+                            <label for="user">{{ trans('app.counter') }} <i class="text-danger">*</i></label><br/>
+                            {{ Form::select('counter_id', $counters, null, ['placeholder' => 'Select Option', 'class'=>'select2 form-control']) }}<br/>
+                            <span class="text-danger">{{ $errors->first('counter_id') }}</span>
+                        </div> 
 
-            <div class="form-group @error('user_id') has-error @enderror">
-                <label for="user">{{ trans('app.officer') }} <i class="text-danger">*</i></label><br/>
-                {{ Form::select('user_id', $officers, null, ['placeholder' => 'Select Option', 'class'=>'select2 form-control']) }}<br/>
-                <span class="text-danger">{{ $errors->first('user_id') }}</span>
-            </div>  
+                        <div class="form-group @error('user_id') has-error @enderror">
+                            <label for="user">{{ trans('app.officer') }} <i class="text-danger">*</i></label><br/>
+                            {{ Form::select('user_id', $officers, null, ['placeholder' => 'Select Option', 'class'=>'select2 form-control']) }}<br/>
+                            <span class="text-danger">{{ $errors->first('user_id') }}</span>
+                        </div>  
 
-            @if($display->show_note)
-            <div class="form-group @error('note') has-error @enderror">
-                <label for="note">{{ trans('app.note') }} <i class="text-danger">*</i></label> 
-                <textarea name="note" id="note" class="form-control"  placeholder="{{ trans('app.note') }}">{{ old('note') }}</textarea>
-                <span class="text-danger">{{ $errors->first('note') }}</span> 
+                        @if($display->show_note)
+                        <div class="form-group @error('note') has-error @enderror">
+                            <label for="note">{{ trans('app.note') }} <i class="text-danger">*</i></label> 
+                            <textarea name="note" id="note" class="form-control"  placeholder="{{ trans('app.note') }}">{{ old('note') }}</textarea>
+                            <span class="text-danger">{{ $errors->first('note') }}</span> 
+                        </div>
+                        @endif
+
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" name="is_vip" value="1"> {{ trans('app.is_vip') }}
+                            </label>
+                        </div>
+
+                        <div class="form-group">
+                            <button class="btn btn-info" type="reset"><span>Reset</span></button>
+                            &nbsp;
+                            <button class="btn btn-success" type="submit"><span>Add Request</span></button>
+                        </div>
+                
+                    {{ Form::close() }}
+                </div>
             </div>
-            @endif
+        </div>
 
-            <div class="checkbox">
-                <label>
-                    <input type="checkbox" name="is_vip" value="1"> {{ trans('app.is_vip') }}
-                </label>
-            </div>
-
-            <div class="form-group">
-                <button class="button btn btn-info" type="reset"><span>Reset</span></button>
-                <button class="button btn btn-success" type="submit"><span>Submit</span></button>
-            </div>
-      
-        {{ Form::close() }}
+        
     </div> 
 </div>  
 
