@@ -9,10 +9,12 @@
         <link rel="shortcut icon" href="{{ asset(Session::get('app.favicon')) }}" type="image/x-icon" />
         <!-- template bootstrap -->
         <link href="{{ asset('assets/css/template.min.css') }}" rel='stylesheet prefetch'>
-        <!-- roboto -->
-        <link href="{{ asset('assets/css/roboto.css') }}" rel='stylesheet'> 
-        <!-- font-awesome -->
-        <link href="{{ asset('assets/css/font-awesome.min.css') }}" rel='stylesheet'> 
+        <!-- Custom fonts for this template-->
+       <link href="{{ asset('assets/vendor/fontawesome/css/all.min.css') }}" rel='stylesheet'>
+
+       <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+       <!-- Custom styles for this template-->
+       <link href="{{ asset('assets/css/sb-admin-2.css') }}" rel='stylesheet'>
         <!-- custom style -->
         <link href="{{ asset('assets/css/style.css') }}" rel='stylesheet'>
          
@@ -21,19 +23,7 @@
     </head>
     <body class="cm-no-transition cm-1-navbar loader-process">
         <div class="loader">
-            <!-- <div>
-                <span>C</span>
-                <span>O</span>
-                <span>D</span>
-                <span>E</span>
-                <span></span>
-                <span>K</span>
-                <span>E</span>
-                <span>R</span>
-                <span>N</span>
-                <span>E</span>
-                <span>L</span>
-            </div> -->
+           
         </div>
         <!-- Starts of Content -->
         @yield('content')

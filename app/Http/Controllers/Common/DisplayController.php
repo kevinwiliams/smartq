@@ -96,7 +96,7 @@ class DisplayController extends Controller
         $width = (($request->width-150-($size*13.5))/$size);
         $height = round(($request->height-160)/8);
 
-        $result = "<div class=\"col-sm-4 row\">";
+        $result = "<div class=\"col-sm-4\">";
         foreach ($displays as $display):  
             if ($loop==1) 
             {

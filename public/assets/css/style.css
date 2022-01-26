@@ -197,7 +197,7 @@ div.dt-button-collection > .dropdown-menu>li>a:focus {
     height: 100%;
 }
 .queue {
-    font-family: 'Display';
+    font-family: 'Nunito';
     position: relative;
     height: 120px;
     z-index: 1;
@@ -217,7 +217,7 @@ div.dt-button-collection > .dropdown-menu>li>a:focus {
 .queue-box {
     float: left;
     margin: 0 2px;
-    font-family: 'Display';
+    font-family: 'Nunito';
 }
 .queue-box-status {
     width: 120px !important;

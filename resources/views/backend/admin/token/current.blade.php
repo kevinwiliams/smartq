@@ -50,13 +50,13 @@
                             <td>{{ $token->note }}</td>
                             <td> 
                                 @if($token->status==0) 
-                                <span class="label label-primary">{{ trans('app.pending') }}</span> 
+                                <span class="badge bg-primary text-white">{{ trans('app.pending') }}</span> 
                                 @elseif($token->status==1)   
-                                <span class="label label-success">{{ trans('app.complete') }}</span>
+                                <span class="badge bg-success text-white">{{ trans('app.complete') }}</span>
                                 @elseif($token->status==2) 
-                                <span class="label label-danger">{{ trans('app.stop') }}</span>
+                                <span class="badge bg-danger text-white">{{ trans('app.stop') }}</span>
                                 @endif
-                                {!! (!empty($token->is_vip)?('<span class="label label-danger" title="VIP">VIP</span>'):'') !!}
+                                {!! (!empty($token->is_vip)?('<span class="badge bg-danger text-white" title="VIP">VIP</span>'):'') !!}
                             </td>
                             <td>{!! (!empty($token->generated_by)?("<a href='".url("admin/user/view/{$token->generated_by->id}")."'>".$token->generated_by->firstname." ". $token->generated_by->lastname."</a>"):null) !!}</td> 
                             <td>{{ (!empty($token->created_at)?date('j M Y h:i a',strtotime($token->created_at)):null) }}</td>
