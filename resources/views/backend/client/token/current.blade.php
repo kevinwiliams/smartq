@@ -48,7 +48,7 @@
                             <td>{{ $token->note }}</td>
                             <td> 
                                 @if($token->status==0) 
-                                <span class="label label-primary">{{ trans('app.pending') }}</span> 
+                                <span class="badge bg-primary text-white">{{ trans('app.pending') }}</span> 
                                 @elseif($token->status==1)   
                                 <span class="badge bg-success text-white">{{ trans('app.complete') }}</span>
                                 @elseif($token->status==2) 
