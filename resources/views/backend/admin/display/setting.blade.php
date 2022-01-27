@@ -217,13 +217,13 @@
                     @if (!empty($display->counters))
                     @foreach(explode(',', $display->counters) as $c) 
                         @if(!empty($counters[$c]))
-                            <span class="label label-success">{{ $counters[$c] }}</span>&nbsp;
+                            <span class="badge bg-success text-white">{{ $counters[$c] }}</span>&nbsp;
                         @endif 
                     @endforeach
                     @endif
                     </td>
                     <td>{{ $display->description }}</td>
-                    <td>{!! (($display->status==1)?"<span class='label label-success'>". trans('app.active') ."</span>":"<span class='label label-danger'>". trans('app.deactive') ."</span>") !!}</td>
+                    <td>{!! (($display->status==1)?"<span class='badge bg-success text-white'>". trans('app.active') ."</span>":"<span class='badge bg-danger text-white'>". trans('app.deactive') ."</span>") !!}</td>
                     <td>
                         <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target=".customDisplayModal" title="{{ trans('app.update_display') }}" data-id="{{ $display->id }}">
                             <i class="fa fa-edit"></i>

@@ -86,8 +86,8 @@
         <h4 class="modal-title" id="infoModalLabel"><?= trans('app.note') ?></h4>
       </div>
       <div class="modal-body">
-        <p><strong class="label label-warning"> Note 1 </strong> &nbsp;If you delete a Counter then, the related tokens are not calling on the Display screen. Because the token is dependent on Counter ID</p>
-        <p><strong class="label label-warning"> Note 2 </strong> &nbsp;If you want to change a Counter name you must rename the Counter instead of deleting it. 
+        <p><strong class="badge bg-warning"> Note 1 </strong> &nbsp;If you delete a Counter then, the related tokens are not calling on the Display screen. Because the token is dependent on Counter ID</p>
+        <p><strong class="badge bg-warning"> Note 2 </strong> &nbsp;If you want to change a Counter name you must rename the Counter instead of deleting it. 
         </p>
       </div>
       <div class="modal-footer">

@@ -86,15 +86,15 @@
         <h4 class="modal-title" id="infoModalLabel"><?= trans('app.note') ?></h4>
       </div>
       <div class="modal-body">
-        <p><strong class="label label-warning"> Note 1 </strong> &nbsp;
-            <strong>SMS Alert: {!! (!empty($display->sms_alert)?("<span class='label label-success'>Active</span>"):("<span class='label label-warning'>Deactive</span>")) !!} </strong><br>
+        <p><strong class="badge bg-warning"> Note 1 </strong> &nbsp;
+            <strong>SMS Alert: {!! (!empty($display->sms_alert)?("<span class='badge bg-success text-white'>Active</span>"):("<span class='badge bg-warning text-white'>Deactive</span>")) !!} </strong><br>
                         To active or deactive SMS Alert, please change the status of SMS Alert in Setting->Display Settings page
         </p>
-        <p><strong class="label label-warning"> Note 2 </strong> &nbsp; To display a department on the auto token setting page, you need to set up it in Auto Token Setting page. 
+        <p><strong class="badge bg-warning"> Note 2 </strong> &nbsp; To display a department on the auto token setting page, you need to set up it in Auto Token Setting page. 
         </p>
-        <p><strong class="label label-warning"> Note 3 </strong> &nbsp; 
+        <p><strong class="badge bg-warning"> Note 3 </strong> &nbsp; 
             You can create a token by click on a key of the keyboard. 
-            Enable <span class='label label-success'>Keyboard Mode</span> from the display setting page. 
+            Enable <span class='badge bg-success text-white'>Keyboard Mode</span> from the display setting page. 
             To create a token for a department, press on the key which you have denoted in the <strong>key for keyboard mode</strong> field in the add department page. 
             The <strong>key for keyboard mode</strong> filed is also used to manage the token serial. 
         </p>

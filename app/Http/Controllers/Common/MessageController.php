@@ -143,13 +143,13 @@ class MessageController extends Controller
             $data[] = [
                 'serial'     => $loop++, 
                 'photo'      => '<img src="'.asset((!empty($message->sender->photo)?$message->sender->photo:'public/assets/img/icons/no_user.jpg')).'" alt="" width="64">',
-                'sender'     => !empty($message->sender)?($message->sender->firstname. ' '.$message->sender->lastname . '<br/><i class="label label-success">'. auth()->user()->roles($message->sender->user_type).'</i>'):null,
+                'sender'     => !empty($message->sender)?($message->sender->firstname. ' '.$message->sender->lastname . '<br/><i class="badge bg-success text-white">'. auth()->user()->roles($message->sender->user_type).'</i>'):null,
                 'subject'    => $message->subject,
                 'message'    => Str::limit($message->message, 500, '...'),
                 'datetime'   => (!empty($message->datetime)?date('j M Y h:i a',strtotime($message->datetime)):null),
                 'attachment' => (!empty($message->attachment)?'<i class="text-success fa fa-2x fa-check"></i>':'<i class="text-danger fa fa-2x fa-times"></i>'),
 
-                'receiver_status' => (($message->receiver_status==0)?'<i class="label label-warning">'.trans('app.not_seen').'</i>':'<i class="label label-success">'.trans('app.seen').'</i>'),
+                'receiver_status' => (($message->receiver_status==0)?'<i class="badge bg-warning">'.trans('app.not_seen').'</i>':'<i class="badge bg-success text-white">'.trans('app.seen').'</i>'),
 
                 'options'    => "<div class=\"btn-group\"> 
                     <a href='".url("common/message/details/$message->id/inbox")."'  class=\"btn btn-sm btn-success\"><i class=\"fa fa-eye\"></i></a>
@@ -252,13 +252,13 @@ class MessageController extends Controller
             $data[] = [
                 'serial'     => $loop++, 
                 'photo'      => '<img src="'.asset((!empty($message->receiver->photo)?$message->receiver->photo:'public/assets/img/icons/no_user.jpg')).'" alt="" width="64">',
-                'receiver'     => !empty($message->receiver)?($message->receiver->firstname. ' '.$message->receiver->lastname . '<br/><i class="label label-success">'. auth()->user()->roles($message->receiver->user_type).'</i>'):null,
+                'receiver'     => !empty($message->receiver)?($message->receiver->firstname. ' '.$message->receiver->lastname . '<br/><i class="badge bg-success text-white">'. auth()->user()->roles($message->receiver->user_type).'</i>'):null,
                 'subject'    => $message->subject,
                 'message'    => Str::limit($message->message, 500, '...'),
                 'datetime'   => (!empty($message->datetime)?date('j M Y h:i a',strtotime($message->datetime)):null),
                 'attachment' => (!empty($message->attachment)?'<i class="text-success fa fa-2x fa-check"></i>':'<i class="text-danger fa fa-2x fa-times"></i>'),
 
-                'sender_status' => (($message->sender_status==0)?'<i class="label label-warning">'.trans('app.not_seen').'</i>':'<i class="label label-success">'.trans('app.seen').'</i>'),
+                'sender_status' => (($message->sender_status==0)?'<i class="badge bg-warning">'.trans('app.not_seen').'</i>':'<i class="badge bg-success text-white">'.trans('app.seen').'</i>'),
 
                 'options'    => "<div class=\"btn-group\"> 
                     <a href='".url("common/message/details/$message->id/inbox")."'  class=\"btn btn-sm btn-success\"><i class=\"fa fa-eye\"></i></a>

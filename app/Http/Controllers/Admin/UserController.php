@@ -110,7 +110,7 @@ class UserController extends Controller
                     'created_at' => (!empty($user->created_at)?date('j M Y h:i a',strtotime($user->created_at)):null),
                     'updated_at' => (!empty($user->updated_at)?date('j M Y h:i a',strtotime($user->updated_at)):null),
 
-                    'status'     => (($user->status==1)?"<span class='label label-success'>".trans('app.active')."</span>":"<span class='label label-danger'>".trans('app.deactive')."</span>"),
+                    'status'     => (($user->status==1)?"<span class='badge bg-success text-white'>".trans('app.active')."</span>":"<span class='badge bg-danger text-white'>".trans('app.deactive')."</span>"),
 
                     'options'    => "<div class=\"btn-group\">
                         <a href='".url("admin/user/view/$user->id")."' class=\"btn btn-sm btn-info\"><i class=\"fa fa-eye\"></i></a>". 

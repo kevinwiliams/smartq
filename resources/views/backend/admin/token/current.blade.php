@@ -36,7 +36,7 @@
                         <tr>
                             <td>{{ $sl++ }}</td>
                             <td>
-                                {!! (!empty($token->is_vip)?("<span class=\"label label-danger\" title=\"VIP\">$token->token_no</span>"):$token->token_no) !!} 
+                                {!! (!empty($token->is_vip)?("<span class=\"badge bg-danger text-white\" title=\"VIP\">$token->token_no</span>"):$token->token_no) !!} 
                             </td>
                             <td>{{ !empty($token->department)?$token->department->name:null }}</td>
                             <td>{{ !empty($token->counter)?$token->counter->name:null }}</td>

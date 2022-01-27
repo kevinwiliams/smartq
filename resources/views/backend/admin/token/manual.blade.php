@@ -92,12 +92,12 @@
         <h4 class="modal-title" id="infoModalLabel"><?= trans('app.note') ?></h4>
       </div>
       <div class="modal-body">
-       <p><strong class="label label-warning"> Note 1 </strong> &nbsp;
-            <strong>SMS Alert {!! (!empty($display->sms_alert)?("<span class='label label-success'>Active</span>"):("<span class='label label-warning'>Deactive</span>")) !!} </strong>
+       <p><strong class="badge bg-warning"> Note 1 </strong> &nbsp;
+            <strong>SMS Alert {!! (!empty($display->sms_alert)?("<span class='badge bg-success text-white'>Active</span>"):("<span class='badge bg-warning text-white'>Deactive</span>")) !!} </strong>
                         To active or deactive SMS Alert, please change the status of SMS Alert in Setting->Display Settings page
         </p>
-        <p><strong class="label label-warning"> Note 2 </strong> &nbsp;
-            <strong>Show Note {!! (!empty($display->show_note)?("<span class='label label-success'>Active</span>"):("<span class='label label-warning'>Deactive</span>")) !!} </strong>
+        <p><strong class="badge bg-warning"> Note 2 </strong> &nbsp;
+            <strong>Show Note {!! (!empty($display->show_note)?("<span class='badge bg-success text-white'>Active</span>"):("<span class='badge bg-warning text-white'>Deactive</span>")) !!} </strong>
             To display note, please change the status of Show Note in Setting->Display Settings page
         </p>
       </div>

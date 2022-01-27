@@ -89,8 +89,8 @@
         <h4 class="modal-title" id="infoModalLabel"><?= trans('app.note') ?></h4>
       </div>
       <div class="modal-body">
-        <p><strong class="label label-warning"> Note 1 </strong> &nbsp;If you delete a Department then, the related tokens are not calling on the Display screen. Because the token is dependent on Department ID</p>
-        <p><strong class="label label-warning"> Note 2 </strong> &nbsp;If you want to change a Department name you must rename the Department instead of deleting it. 
+        <p><strong class="badge bg-warning"> Note 1 </strong> &nbsp;If you delete a Department then, the related tokens are not calling on the Display screen. Because the token is dependent on Department ID</p>
+        <p><strong class="badge bg-warning"> Note 2 </strong> &nbsp;If you want to change a Department name you must rename the Department instead of deleting it. 
         </p>
       </div>
       <div class="modal-footer">

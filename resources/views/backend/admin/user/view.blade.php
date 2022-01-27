@@ -26,7 +26,7 @@
                 <h3>
                     {{ $user->firstname .' '. $user->lastname }}
                 </h3>
-                <span class="label label-info">{{ auth()->user()->roles($user->user_type) }}</span> 
+                <span class="badge bg-info text-white">{{ auth()->user()->roles($user->user_type) }}</span> 
 
             </div> 
 
@@ -40,9 +40,9 @@
                     <dt>{{ trans('app.status') }}</dt>
                     <dd>
                         @if ($user->status==1)
-                        <span class="label label-success">{{ trans('app.active') }}</span>
+                        <span class="badge bg-success text-white">{{ trans('app.active') }}</span>
                         @else
-                        <span class="label label-danger">{{ trans('app.deactive') }}</span>
+                        <span class="badge bg-danger text-white">{{ trans('app.deactive') }}</span>
                         @endif
                     </dd>
                 </dl> 

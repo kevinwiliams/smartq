@@ -36,7 +36,7 @@
                         <tr>
                             <td>{{ $sl++ }}</td>
                             <td>
-                                {!! (!empty($token->is_vip)?("<span class=\"label label-danger\" title=\"VIP\">$token->token_no</span>"):$token->token_no) !!} 
+                                {!! (!empty($token->is_vip)?("<span class=\"badge bg-danger text-white\" title=\"VIP\">$token->token_no</span>"):$token->token_no) !!} 
                             </td>
                             <td>{{ !empty($token->department)?$token->department->name:null }}</td>
                             <td>{{ !empty($token->counter)?$token->counter->name:null }}</td>
@@ -50,11 +50,11 @@
                                 @if($token->status==0) 
                                 <span class="label label-primary">{{ trans('app.pending') }}</span> 
                                 @elseif($token->status==1)   
-                                <span class="label label-success">{{ trans('app.complete') }}</span>
+                                <span class="badge bg-success text-white">{{ trans('app.complete') }}</span>
                                 @elseif($token->status==2) 
-                                <span class="label label-danger">{{ trans('app.stop') }}</span>
+                                <span class="badge bg-danger text-white">{{ trans('app.stop') }}</span>
                                 @endif
-                                {!! (!empty($token->is_vip)?('<span class="label label-danger" title="VIP">VIP</span>'):'') !!}
+                                {!! (!empty($token->is_vip)?('<span class="badge bg-danger text-white" title="VIP">VIP</span>'):'') !!}
                             </td>
                             <td>{!! (!empty($token->generated_by)?($token->generated_by->firstname." ". $token->generated_by->lastname):null) !!}</td> 
                             <td>{{ (!empty($token->created_at)?date('j M Y h:i a',strtotime($token->created_at)):null) }}</td>

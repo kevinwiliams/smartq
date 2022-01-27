@@ -13,6 +13,11 @@
   color: #3C8DBC;
   background:#E0F7FF;
 }
+
+.btn-huge{
+    padding-top:20px;
+    padding-bottom:20px;
+}
  
 .carousel-indicators li,
 .popover-title,
