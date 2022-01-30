@@ -5,14 +5,33 @@
 <div class="panel panel-primary">
 
     <div class="panel-heading">
-        <div class="row">
-            <div class="col-sm-12 text-left">
-                <h3>{{ trans('app.new_sms') }}</h3>
-            </div> 
+        <div class="panel-heading">
+            <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                <h1 class="h3 mb-0 text-gray-800">{{ trans('app.new_sms') }}</h1>
+            </div>
         </div>
     </div>
+    <nav class="nav nav-borders">
+        <a class="nav-link {{ (Request::is('admin/sms/list') ? 'active' : '') }} ms-0" href="{{ url('admin/sms/list') }}">{{ trans('app.sms_history') }}</a>
+        <a class="nav-link {{ (Request::is('admin/sms/new') ? 'active' : '') }}" href="{{ url('admin/sms/new') }}">{{ trans('app.new_sms') }}</a>
+    </nav>
+    <hr >
 
     <div class="panel-body"> 
+        <div class="col-md-8">
+            <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Enter required fields below</h6>
+                    <a href="{{ url('admin/counter') }}" class="btn btn-danger btn-icon-split btn-sm">
+                        <span class="icon text-white-50">
+                            <i class="fas fa-undo"></i>
+                        </span>
+                        <span class="text">Cancel</span>
+                    </a>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
         {{ Form::open(['url' => 'admin/sms/new', 'files' => true, 'class'=>'col-md-7 col-sm-8']) }}
 
             <div class="form-group @error('to') has-error @enderror">
@@ -33,6 +52,11 @@
             </div> 
 
         {{ Form::close() }}
+
+            </div>
+        </div>
+
+        </div>
     </div>
 </div>  
 @endsection

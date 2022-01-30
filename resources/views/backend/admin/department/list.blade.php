@@ -20,7 +20,7 @@
     <hr >
     
     <div class="panel-body">
-        <div class="col-sm-12 col-md-10">
+        <div class="col-sm-12 col-md-12">
 
             <div class="card shadow mb-4">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">

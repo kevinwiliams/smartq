@@ -5,38 +5,65 @@
 <div class="panel panel-primary">
 
     <div class="panel-heading">
-        <div class="row">
-            <div class="col-sm-12 text-left">
-                <h3>{{ trans('app.sms_history') }}</h3>
-            </div> 
+        
+        <div class="panel-heading">
+            <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                <h1 class="h3 mb-0 text-gray-800">{{ trans('app.sms_history') }}</h1>
+            </div>
         </div>
     </div>
 
+    <nav class="nav nav-borders">
+        <a class="nav-link {{ (Request::is('admin/sms/list') ? 'active' : '') }} ms-0" href="{{ url('admin/sms/list') }}">{{ trans('app.sms_history') }}</a>
+        <a class="nav-link {{ (Request::is('admin/sms/new') ? 'active' : '') }}" href="{{ url('admin/sms/new') }}">{{ trans('app.new_sms') }}</a>
+    </nav>
+    <hr >
+
     <div class="panel-body">
-        <table class="dataTables-server display table table-bordered" width="100%" cellspacing="0">
-            <thead>
-                <tr>
-                    <th rowspan="2">#</th>
-                    <td>
-                        <label>{{ trans('app.start_date') }}</label><br/>
-                        <input type="text" class="datepicker form-control input-sm filter" id="start_date" placeholder="{{ trans('app.start_date') }}" autocomplete="off" style="width:100px" />
-                    </td>
-                    <td>
-                        <label>{{ trans('app.end_date') }}</label><br/>
-                        <input type="text" class="datepicker form-control input-sm filter" id="end_date" placeholder="{{ trans('app.end_date') }}" autocomplete="off" style="width:100px"/>
-                    </td>
-                    <th colspan="2">
-                        
-                    </th>
-                </tr> 
-                <tr>
-                    <th>{{ trans('app.send_to') }}</th>
-                    <th>{{ trans('app.message') }}</th>
-                    <th>{{ trans('app.date') }}</th>
-                    <th width="80"><i class="fa fa-cogs"></i></th>
-                </tr>
-            </thead>   
-        </table>
+        <div class="col-md-12">
+            
+
+            <div class="card shadow mb-4">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">{{ trans('app.sms_history') }}</h6>
+                    <a href="{{ url('admin/sms/new') }}" class="btn btn-success btn-icon-split btn-sm">
+                        <span class="icon text-white-50">
+                            <i class="fas fa-plus"></i>
+                        </span>
+                        <span class="text">{{ trans('app.new_sms') }}</span>
+                    </a>
+                </div>
+                <div class="card-body">
+                    <table class="dataTables-server display table " width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th rowspan="2">#</th>
+                                <td>
+                                    <label>{{ trans('app.start_date') }}</label><br/>
+                                    <input type="text" class="datepicker form-control input-sm filter" id="start_date" placeholder="{{ trans('app.start_date') }}" autocomplete="off" style="width:100px" />
+                                </td>
+                                <td>
+                                    <label>{{ trans('app.end_date') }}</label><br/>
+                                    <input type="text" class="datepicker form-control input-sm filter" id="end_date" placeholder="{{ trans('app.end_date') }}" autocomplete="off" style="width:100px"/>
+                                </td>
+                                <th colspan="2">
+                                    
+                                </th>
+                            </tr> 
+                            <tr>
+                                <th>{{ trans('app.send_to') }}</th>
+                                <th>{{ trans('app.message') }}</th>
+                                <th>{{ trans('app.date') }}</th>
+                                <th width="80"><i class="fa fa-cogs"></i></th>
+                            </tr>
+                        </thead>   
+                    </table>
+                </div>
+                
+            </div>
+        </div>
+
+        
     </div> 
 </div>  
 
@@ -99,7 +126,7 @@ $(document).ready(function(){
             select    : true,
             pagingType: "full_numbers",
             lengthMenu: [[25, 50, 100, 150, 200, 500, -1], [25, 50, 100, 150, 200, 500, "All"]],
-            dom: "<'row'<'col-sm-4'l><'col-sm-4 text-center'B><'col-sm-4'f>><'row'<'col-sm-12't>><'row'<'col-sm-6'i><'col-sm-6'p>>", 
+            dom: "<'row'<'col-sm-4'l><'col-sm-4 text-center'B><'col-sm-4'f>><'row'<'col-md-12't>><'row'<'col-sm-6'i><'col-sm-6'p>>", 
             buttons: [
                 { extend:'copy', text:'<i class="fa fa-copy"></i>', className:'btn-sm',exportOptions:{columns:':visible'}},
                 { extend: 'print', text  :'<i class="fa fa-print"></i>', className:'btn-sm', exportOptions: { columns: ':visible',  modifier: { selected: null } }},  

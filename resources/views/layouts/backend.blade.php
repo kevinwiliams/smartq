@@ -70,19 +70,18 @@
 
             <!-- Nav Item - Token Collapse Menu -->
             <li class="nav-item {{ (Request::segment(2)=='token' ? 'active' : '') }}">
-                <a class="nav-link {{ (Request::segment(2)=='token' ? '' : 'collapsed') }}" href="#" data-toggle="collapse" data-target="#collapseToken"
-                    aria-expanded="true" aria-controls="collapseToken">
+                <a class="nav-link" href="{{ url('admin/token/auto') }}">
                     <i class="fas fa-fw fa-ticket-alt rotate-15"></i>
                     <span>{{ trans('app.token') }}</span>
                 </a>
-                <div id="collapseToken" class="collapse {{ (Request::segment(2)=='token' ? '' : '') }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                {{-- <div id="collapseToken" class="collapse {{ (Request::segment(2)=='token' ? '' : '') }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Interface:</h6>
                         <a class="collapse-item {{ (Request::is('admin/token/auto') ? 'active' : '') }}" href="{{ url('admin/token/auto') }}">{{ trans('app.auto_token') }}</a>
                         <a class="collapse-item {{ (Request::is('admin/token/create') ? 'active' : '') }}" href="{{ url('admin/token/create') }}">{{ trans('app.manual_token') }}</a>
                         <a class="collapse-item {{ (Request::is('admin/token/current') ? 'active' : '') }}" href="{{ url('admin/token/current') }}">{{ trans('app.active') }} / {{ trans('app.todays_token') }}</a>
                     </div>
-                </div>
+                </div> --}}
             </li>
 
             <!-- Heading -->
@@ -155,18 +154,17 @@
 
              <!-- Nav Item - SMS Collapse Menu -->
              <li class="nav-item {{ (Request::segment(2)=='sms' ? 'active' : '') }}">
-                <a class="nav-link {{ (Request::segment(2)=='sms' ? '' : 'collapsed') }}" href="#" data-toggle="collapse" data-target="#collapseSMS"
-                    aria-expanded="true" aria-controls="collapseSMS">
+                <a class="nav-link" href="{{ url('admin/sms/list') }}">
                     <i class="fas fa-fw fa-comment-alt"></i>
                     <span>{{ trans('app.sms') }}</span>
                 </a>
-                <div id="collapseSMS" class="collapse {{ (Request::segment(2)=='sms' ? '' : '') }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                {{-- <div id="collapseSMS" class="collapse {{ (Request::segment(2)=='sms' ? '' : '') }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Interface:</h6>
                         <a class="collapse-item {{ (Request::is('admin/sms/new') ? 'active' : '') }}" href="{{ url('admin/sms/new') }}">{{ trans('app.new_sms') }}</a>
                         <a class="collapse-item {{ (Request::is('admin/sms/list') ? 'active' : '') }}" href="{{ url('admin/sms/list') }}">{{ trans('app.sms_history') }}</a>
                     </div>
-                </div>
+                </div> --}}
             </li>
 
             <!-- Divider -->
@@ -503,7 +501,7 @@
                                         <div class="small text-gray-500">Chicken the Dog · 2w</div>
                                     </div>
                                 </a>-->
-                                <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a> 
+                                <a class="dropdown-item text-center small text-gray-500" href="{{ url('common/message/inbox') }}">Read More Messages</a> 
                             </div>
                         </li>
 

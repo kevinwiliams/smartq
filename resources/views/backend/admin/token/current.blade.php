@@ -5,13 +5,20 @@
 <div class="panel panel-primary">
 
     <div class="panel-heading">
-        <div class="row">
-            <div class="col-sm-12 text-left">
-                <h3>{{ trans('app.active') }} / {{ trans('app.todays_token') }}</h3>
-            </div> 
+        
+        <div class="panel-heading">
+            <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                <h1 class="h3 mb-0 text-gray-800">{{ trans('app.active') }} / {{ trans('app.todays_token') }}</h1>
+                
+            </div>
         </div>
     </div>
-
+    <nav class="nav nav-borders">
+        <a class="nav-link {{ (Request::is('admin/token/auto') ? 'active' : '') }} ms-0" href="{{ url('admin/token/auto') }}">{{ trans('app.auto_token') }}</a>
+        <a class="nav-link {{ (Request::is('admin/token/create') ? 'active' : '') }}" href="{{ url('admin/token/create') }}">{{ trans('app.manual_token') }}</a>
+        <a class="nav-link {{ (Request::is('admin/token/current') ? 'active' : '') }}" href="{{ url('admin/token/current') }}">{{ trans('app.todays_token') }}</a>
+    </nav>
+    <hr >
     <div class="panel-body">
         <table class="datatable display table table-bordered" width="100%" cellspacing="0">
             <thead>

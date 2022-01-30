@@ -30,18 +30,18 @@
 
     //datatable 
     $('.datatable').DataTable({ 
-        // responsive: true,  
+        responsive: true,  
         responsivePriority: 1,
         select    : true,
-        pagingType: "full_numbers",
+        //pagingType: "full_numbers",
         lengthMenu: [[25, 50, 100, 150, 200, 500, -1], [25, 50, 100, 150, 200, 500, "All"]],
         dom: "<'row'<'col-sm-4'l><'col-sm-4 text-center'B><'col-sm-4'f>><'row'<'col-sm-12't>><'row'<'col-sm-6'i><'col-sm-6'p>>", 
         buttons: [
-            { extend:'copy', footer:true, text:'<i class="fa fa-copy"></i>', className:'btn-sm',exportOptions:{columns:':visible'}},
-            { extend: 'print', footer:true, text:'<i class="fa fa-print"></i>', className:'btn-sm', exportOptions: { columns: ':visible',  modifier: { selected: null } }},  
-            { extend: 'print', footer:true, text:'<i class="fa fa-print"></i>  Selected', className:'btn-sm', exportOptions:{columns: ':visible'}},  
-            { extend:'excel',  footer:true, text:'<i class="fa fa-file-excel-o"></i>', className:'btn-sm',exportOptions:{columns:':visible'}},
-            { extend:'pdf',  footer:true, text:'<i class="fa fa-file-pdf-o"></i>',  className:'btn-sm',exportOptions:{columns:':visible'}},
+            // { extend:'copy', footer:true, text:'<i class="fa fa-copy"></i>', className:'btn-sm',exportOptions:{columns:':visible'}},
+            // { extend:'print', footer:true, text:'<i class="fa fa-print"></i>', className:'btn-sm', exportOptions: { columns: ':visible',  modifier: { selected: null } }},  
+            // { extend:'print', footer:true, text:'<i class="fa fa-print"></i>  Selected', className:'btn-sm', exportOptions:{columns: ':visible'}},  
+            { extend:'excel',  footer:true, text:'<i class="fa fa-file-excel"></i>', className:'btn-sm',exportOptions:{columns:':visible'}},
+            { extend:'pdf',  footer:true, text:'<i class="fa fa-file-pdf"></i>',  className:'btn-sm',exportOptions:{columns:':visible'}},
             { extend:'colvis', footer:true, text:'<i class="fa fa-eye"></i>',className:'btn-sm'} 
         ]
     }); 

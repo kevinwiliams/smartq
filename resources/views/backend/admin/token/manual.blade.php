@@ -13,6 +13,12 @@
               </button> 
         </div>
     </div> 
+    <nav class="nav nav-borders">
+        <a class="nav-link {{ (Request::is('admin/token/auto') ? 'active' : '') }} ms-0" href="{{ url('admin/token/auto') }}">{{ trans('app.auto_token') }}</a>
+        <a class="nav-link {{ (Request::is('admin/token/create') ? 'active' : '') }}" href="{{ url('admin/token/create') }}">{{ trans('app.manual_token') }}</a>
+        <a class="nav-link {{ (Request::is('admin/token/current') ? 'active' : '') }}" href="{{ url('admin/token/current') }}">{{ trans('app.todays_token') }}</a>
+    </nav>
+    <hr >
 
     <div class="panel-body">
 

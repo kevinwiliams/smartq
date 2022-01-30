@@ -25,7 +25,7 @@
                 </div>
                 <!-- Card Body -->
                 <div class="card-body">
-                    {{ Form::open(['url' => 'admin/counter/create', 'class'=>'col-md-7 col-sm-8']) }}
+        {{ Form::open(['url' => 'admin/counter/create', 'class'=>'col-md-7 col-sm-8']) }}
      
             <div class="form-group @error('name') has-error @enderror">
                 <label for="name">{{ trans('app.name') }} <i class="text-danger">*</i></label>
