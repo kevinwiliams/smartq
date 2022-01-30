@@ -5,10 +5,8 @@
 <div class="panel panel-primary">
 
     <div class="panel-heading">
-        <div class="panel-heading">
-            <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                <h1 class="h3 mb-0 text-gray-800">{{ trans('app.new_sms') }}</h1>
-            </div>
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">{{ trans('app.new_sms') }}</h1>
         </div>
     </div>
     <nav class="nav nav-borders">

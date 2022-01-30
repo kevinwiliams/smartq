@@ -4,12 +4,10 @@
 @section('content')
 <div class="panel panel-primary">
 
-    <div class="panel-heading">
         
-        <div class="panel-heading">
-            <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                <h1 class="h3 mb-0 text-gray-800">{{ trans('app.sms_history') }}</h1>
-            </div>
+    <div class="panel-heading">
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">{{ trans('app.sms_history') }}</h1>
         </div>
     </div>
 

@@ -5,12 +5,17 @@
 <div class="panel panel-primary" id="printMe">
 
     <div class="panel-heading">
-        <div class="row">
-            <div class="col-sm-12 text-left">
-                <h3>{{ trans('app.app_setting') }}</h3>
-            </div> 
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">{{ trans('app.app_setting') }}</h1>
         </div>
     </div>
+    <nav class="nav nav-borders">
+        <a class="nav-link {{ (Request::is('admin/setting') ? 'active' : '') }} ms-0" href="{{ url('admin/setting') }}">{{ trans('app.app_setting') }}</a>
+        <a class="nav-link {{ (Request::is('admin/setting/display') ? 'active' : '') }}" href="{{ url('admin/setting/display') }}">{{ trans('app.display_setting') }}</a>
+        <a class="nav-link {{ (Request::is('admin/token/setting') ? 'active' : '') }}" href="{{ url('admin/token/setting') }}">{{ trans('app.auto_token_setting') }}</a>
+        <a class="nav-link {{ (Request::is('admin/sms/setting') ? 'active' : '') }}" href="{{ url('admin/sms/setting') }}">{{ trans('app.sms_setting') }}</a>
+    </nav>
+    <hr >
 
     <div class="panel-body"> 
 

@@ -5,20 +5,25 @@
 <div class="panel panel-primary" id="printMe">
 
     <div class="panel-heading">
-        <div class="row">
-            <div class="col-sm-12 text-left">
-                <h3>{{ trans('app.display_setting') }}</h3>
-            </div> 
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">{{ trans('app.display_setting') }}</h1>
         </div>
     </div>
+    <nav class="nav nav-borders">
+        <a class="nav-link {{ (Request::is('admin/setting') ? 'active' : '') }} ms-0" href="{{ url('admin/setting') }}">{{ trans('app.app_setting') }}</a>
+        <a class="nav-link {{ (Request::is('admin/setting/display') ? 'active' : '') }}" href="{{ url('admin/setting/display') }}">{{ trans('app.display_setting') }}</a>
+        <a class="nav-link {{ (Request::is('admin/token/setting') ? 'active' : '') }}" href="{{ url('admin/token/setting') }}">{{ trans('app.auto_token_setting') }}</a>
+        <a class="nav-link {{ (Request::is('admin/sms/setting') ? 'active' : '') }}" href="{{ url('admin/sms/setting') }}">{{ trans('app.sms_setting') }}</a>
+    </nav>
+    <hr >
 
     <div class="panel-body"> 
 
-        {{ Form::open(['url' => 'admin/setting/display']) }}
+        {{ Form::open(['url' => 'admin/setting/display', 'class'=>'row']) }}
 
         <input type="hidden" name="id" value="{{ $setting->id }}">
      
-        <div class="col-sm-6">
+        <div class="col-md-6 col-lg-6">
 
             <div class="form-group @error('display') has-error @enderror">
                 <?php 
@@ -93,7 +98,7 @@
         </div>
   
 
-        <div class="col-sm-6">
+        <div class="col-md-6 col-lg-6">
 
             <div class="form-group">
                 <h2 for="corn_info">Cron Job Setting for SMS Alert</h2>
@@ -179,8 +184,8 @@
 
     </div> 
 </div> 
-
-
+<hr>
+<div class="col-md-6">
 <!-- Custom Display -->
 <div class="panel panel-primary"> 
     <div class="panel-heading"> 
@@ -238,7 +243,7 @@
         </table> 
     </div>
 </div>
-
+</div>
 <!-- Modal -->
 <div class="modal fade customDisplayModal" tabindex="-1" role="dialog" aria-labelledby="customDisplayModalLabel">
   <div class="modal-dialog" role="document"> 

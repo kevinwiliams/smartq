@@ -83,6 +83,8 @@
                     </div>
                 </div> --}}
             </li>
+            <!-- Divider -->
+            <hr class="sidebar-divider">
 
             <!-- Heading -->
             <div class="sidebar-heading">
@@ -172,13 +174,13 @@
 
                         
             <!-- Nav Item - Reports -->
-            <li class="nav-item {{ (Request::segment(2)=='token' ? 'active' : '') }}">
-                <a class="nav-link {{ (Request::segment(2)=='token' ? '' : 'collapsed') }}" href="#" data-toggle="collapse" data-target="#collapseReport"
+            <li class="nav-item {{ (Request::segment(3)=='report' ? 'active' : '') }}">
+                <a class="nav-link {{ (Request::segment(3)=='report' ? '' : 'collapsed') }}" href="#" data-toggle="collapse" data-target="#collapseReport"
                     aria-expanded="true" aria-controls="collapseReport">
                     <i class="fas fa-fw fa-chart-area"></i>
                     <span>Reports</span>
                 </a>
-                <div id="collapseReport" class="collapse {{ (Request::segment(2)=='token' ? '' : '') }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div id="collapseReport" class="collapse {{ (Request::segment(3)=='report' ? '' : '') }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Interface:</h6>
                         <a class="collapse-item {{ (Request::is('admin/token/report') ? 'active' : '') }}" href="{{ url('admin/token/report') }}">{{ trans('app.token_report') }}</a>
@@ -301,13 +303,12 @@
 
         <!-- Nav Item - Common Collapse Menu -->
         @if (auth()->user()->hasRole('admin'))
-        <li class="nav-item {{ (Request::segment(2)=='setting' ? 'active' : '') }}">
-            <a class="nav-link {{ (Request::segment(2)=='setting' ? '' : 'collapsed') }}" href="#" data-toggle="collapse" data-target="#collapseSettings"
-                aria-expanded="true" aria-controls="collapseSettings">
+        <li class="nav-item {{ ((Request::segment(2)=='setting' || Request::segment(3)=='setting') ? 'active' : '') }}">
+            <a class="nav-link" href="{{ url('admin/setting') }}">
                 <i class="fas fa-fw fa-cog"></i>
                 <span>{{ trans('app.setting') }}</span>
             </a>
-            <div id="collapseSettings" class="collapse {{ (Request::segment(2)=='setting' ? '' : '') }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div id="collapseSettings" class="collapse {{ ((Request::segment(2)=='setting' || Request::segment(3)=='setting') ? '' : '') }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">Interface:</h6>
                 
