@@ -182,6 +182,192 @@ class TokenController extends Controller
         return view('backend.officer.token.current', compact('tokens'));
     } 
 
+    public function currentView(Request $request)
+    { 
+        $allTokens = []; //all token
+        $viewTokens = []; //all token form view
+        $newTokens = []; //new token
+        $vTokens = [];
+        $cTokens = [];
+
+        $setting = DisplaySetting::first(); 
+        $appSetting = Setting::first();   
+        date_default_timezone_set(session('app.timezone')?session('app.timezone'):$appSetting->timezone);
+        $departments = DB::table('department')
+            ->where('status', 1)
+            ->orderBy('name', 'ASC')
+            ->get();
+
+
+        $token_list = array(); 
+        foreach ($departments as $department) 
+        {
+            $tokens = DB::select("
+                SELECT 
+                    token.token_no AS token,
+                    token.client_mobile AS mobile,
+                    token.note AS note,
+                    token.updated_at,
+                    department.name AS department,
+                    counter.name AS counter,
+                    CONCAT_WS(' ', user.firstname, user.lastname) as officer
+                FROM (
+                        SELECT t.* 
+                        FROM token t 
+                        WHERE 
+                            t.status = 0 
+                            AND t.department_id = $department->id
+                        ORDER BY t.id ASC 
+                        LIMIT 5
+                    ) AS token
+                LEFT JOIN
+                    department ON department.id = token.department_id
+                LEFT JOIN 
+                    counter ON counter.id = token.counter_id
+                LEFT JOIN 
+                    user ON user.id = token.user_id
+                ORDER BY token.is_vip ASC, token.id DESC
+                LIMIT 5
+            ");
+
+            foreach ($tokens as $token) 
+            {
+                $token_list[$token->department][] = array(
+                    'counter'    => $token->counter,
+                    'token'      => $token->token,
+                    'mobile'     => $token->mobile,
+                    'department' => $token->department,
+                    'officer'    => $token->officer,
+                    'note'       => $token->note,
+                    'updated_at' => $token->updated_at
+                );  
+            }    
+        }  
+
+
+        $size  = sizeof($token_list)>0?sizeof($token_list):1;
+        $width = (($request->width-150-($size*13.5))/$size);
+        $height = (($request->height-200)/5);
+            
+        $html = "<div id=\"clock\" class=\"well text-center\" style=\"background-color:".(!empty($setting->background_color)?$setting->background_color:'#cdcdcd') .";border-color:".(!empty($setting->border_color)?$setting->border_color:'#fff') .";color:".(!empty($setting->color)?$setting->color:'#fff') .";padding:5px 0;margin:-20px 0 0 0;font-size:24px;\">".date("$setting->date_format $setting->time_format")."</div>
+            <div class=\"queue-box queue-box-status\">
+                <h4 class='deprt'>".trans('app.q_c')."</h4> 
+                <div class=\"item text-center\">
+                    <div class='queue2' style='height:{$height}px;'>".trans('app.waiting_4')." </div>
+                    <div class='queue2' style='height:{$height}px;'>".trans('app.waiting_3')." </div>
+                    <div class='queue2' style='height:{$height}px;'>".trans('app.waiting_2')."</div>
+                    <div class='queue2' style='height:{$height}px;'>".trans('app.waiting_1')."</div>
+                    <div class='queue2 active' style='height:{$height}px;'>".trans('app.now_serving')."</div>
+                </div>
+            </div>";
+
+        foreach ($token_list as $key => $value):
+            $html .= "<div class=\"queue-box queue-box-element\" style=\"width:{$width}px\">
+                <h4 class='deprt'>$key</h4> 
+                <div class=\"item text-center\">";
+
+                $sl = 5;
+                $x  = 1; 
+                label:
+                foreach ($value as $html2):
+
+                if (sizeof($value) < $sl):
+                    $html .=  "<div class='queue2 ' style='height:{$height}px;background-color:".(!empty($setting->background_color)?$setting->background_color:'#cdcdcd') .";border-color:".(!empty($setting->border_color)?$setting->border_color:'#fff') .";color:".(!empty($setting->color)?$setting->color:'#cdcdcd') .";'>-----</div>";
+                    $sl--;
+                    goto label;
+                endif;
+ 
+                if ($x == $sl)
+                {
+                    $allTokens[] = $html2;  
+                }
+
+
+                $html .=  "<div class=\"queue2 ".(($x==$sl)?'active':null)." \" style='height:{$height}px;background-color:".(!empty($setting->background_color)?$setting->background_color:'#cdcdcd') .";border-color:".(!empty($setting->border_color)?$setting->border_color:'#fff') .";color:".(!empty($setting->color)?$setting->color:'#cdcdcd') .";'>";
+                    foreach ($html2 as $key => $item):
+                        if ($key=='token')
+                        {
+                            $html .=  "<h1 class=\"title\">$item</h1>";
+                        }
+                        else
+                        {
+                            if ($setting->show_note == "1" && $key=='note')
+                            {
+                                $html .=  "<strong>".trans("app.note")."</strong>: <span>$item</span><br>";
+                            }
+                            if ($setting->sms_alert == "1" && $key=='mobile')
+                            {
+                                $html .=  "<strong>".trans("app.mobile")."</strong>: <span>$item</span><br>";
+                            }
+                            if ($setting->show_department == "1" && $key=='department')
+                            {
+                                $html .=  "<strong>".trans("app.department")."</strong>: <span>$item</span><br>";
+                            }
+                            if ($setting->show_officer == "1" && $key=='officer')
+                            {
+                                $html .=  "<strong>".trans("app.officer")."</strong>: <span>$item</span><br>";
+                            }
+                        }
+                    endforeach;
+                    $html .=  "</div>";
+                $x++;
+                endforeach;
+
+                $html .=  "</div>";
+            $html .=  "</div>";
+        endforeach;
+
+
+        /*NOTIFICATION*/
+        $viewTokens = $request->get('view_token'); 
+        // compare between view_token & all_token
+        if (is_array($viewTokens) && sizeof($viewTokens)>0)
+        { 
+            // extract view token
+            foreach($viewTokens as $t)
+            {
+                $vTokens[$t['counter']] = $t['token'];
+            }  
+
+            // extract controller/all token
+            foreach ($allTokens as $t) 
+            {
+                $recall = (!empty($t['updated_at']) && ((strtotime(date("Y-m-d H:i:s"))-strtotime($t['updated_at'])) <= 15));  
+
+                if ($recall) 
+                {
+                    $data['status'] = true;
+                    $newTokens[] = array(
+                        'counter' => $t['counter'],
+                        'token'   => $t['token']
+                    ); 
+                }
+                $cTokens[$t['counter']] = $t['token'];
+            }  
+
+            //get new token
+            $nts = array_diff($cTokens,$vTokens);
+            if (sizeof($nts)>0)
+            {
+                foreach ($nts as $key => $value) 
+                {
+                    $newTokens[] = array(
+                        'counter' => $key,
+                        'token'   => $value
+                    );
+                }
+                $data['status'] = true;
+            }
+        }
+ 
+        $data['result']    = $html;
+        $data['new_token'] = $newTokens;
+        $data['all_token'] = $allTokens;
+        $data['interval']  = 10000*(count($newTokens)?count($newTokens):1);
+
+        return Response::json($data);
+    } 
+
     public function viewSingleToken(Request $request)
     {
         return Token::select('token.*', 'department.name as department', 'counter.name as counter', 'user.firstname', 'user.lastname')
