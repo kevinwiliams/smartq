@@ -221,6 +221,8 @@
                 <div id="collapseTokenO" class="collapse {{ (Request::segment(2)=='token' ? '' : '') }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Interface:</h6>
+                        
+                        <a class="collapse-item {{ (Request::is('officer/token/display') ? 'active' : '') }}" target="_blank" href="{{ url('officer/token/display') }}">{{ trans('app.display') }}</a>
                         <a class="collapse-item {{ (Request::is('officer/token/current') ? 'active' : '') }}" href="{{ url('officer/token/current') }}">{{ trans('app.active') }} / {{ trans('app.todays_token') }}</a>
                         <a class="collapse-item {{ (Request::is('officer/token') ? 'active' : '') }}" href="{{ url('officer/token') }}">{{ trans('app.token_list') }}</a>
 

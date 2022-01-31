@@ -21,7 +21,7 @@ class DisplayController extends Controller
         date_default_timezone_set(session('app.timezone')?session('app.timezone'):$setting->timezone);
 
         $setting->display = request()->get('type')?request()->get('type'):$setting->display;
-
+       
         if ($setting->display==6)
         {
             $display = DisplayCustom::where('status', 1)
@@ -363,7 +363,7 @@ class DisplayController extends Controller
     } 
 
     public function display4(Request $request)
-    { 
+    {     
         $allTokens = []; //all token
         $viewTokens = []; //all token form view
         $newTokens = []; //new token

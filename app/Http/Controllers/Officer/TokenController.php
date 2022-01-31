@@ -8,6 +8,8 @@ use App\Http\Requests;
 use App\Models\Token;
 use App\Models\Department;
 use App\Models\Counter;
+use App\Models\DisplaySetting;
+use App\Models\Setting;
 use App\Models\User;
 use App\Models\SmsSetting;
 use App\Models\SmsHistory;
@@ -171,7 +173,7 @@ class TokenController extends Controller
     }
  
     public function current()
-    {  
+    {       
         @date_default_timezone_set(session('app.timezone'));
         $tokens = Token::where('status', '0')
             ->where('user_id', auth()->user()->id )
@@ -181,6 +183,23 @@ class TokenController extends Controller
 
         return view('backend.officer.token.current', compact('tokens'));
     } 
+
+    public function display()
+    {  
+        $appSetting = Setting::first();  
+        $setting    = DisplaySetting::first();  
+        $setting->languages = ['ar', 'bn', 'en', 'vi'];
+        $setting->title     = $appSetting->title;
+        $setting->timezone  = $appSetting->timezone;
+        date_default_timezone_set(session('app.timezone')?session('app.timezone'):$setting->timezone);
+
+        $setting->display = 4;
+            
+        //department wise display
+        return view('backend.officer.token.display4', compact('setting'));
+   
+    }
+
 
     public function currentView(Request $request)
     { 

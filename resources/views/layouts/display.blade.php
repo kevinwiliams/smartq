@@ -22,9 +22,9 @@
         <script src="{{ asset('assets/js/jquery.min.js') }}"></script>
     </head>
     <body class="cm-no-transition cm-1-navbar loader-process">
-        <div class="loader">
+        <!-- <div class="loader">
            
-        </div>
+        </div> -->
         <!-- Starts of Content -->
         @yield('content')
         <!-- Ends of Contents -->

@@ -178,6 +178,8 @@ Route::group(['middleware' => ['auth']], function() {
 		Route::get('token','TokenController@index');
 		Route::post('token/data','TokenController@tokenData');  
 		Route::get('token/current','TokenController@current');
+		Route::get('token/display','TokenController@display');
+		Route::get('token/currentview','TokenController@currentview');
 		Route::get('token/complete/{id}','TokenController@complete');
 		Route::get('token/recall/{id}','TokenController@recall');
 		Route::get('token/stoped/{id}','TokenController@stoped');
