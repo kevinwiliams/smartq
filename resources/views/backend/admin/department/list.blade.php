@@ -20,7 +20,7 @@
     <hr >
     
     <div class="panel-body">
-        <div class="col-sm-12 col-md-12">
+        <div class="col-sm-12 col-md-12 col-lg-10">
 
             <div class="card shadow mb-4">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
@@ -33,7 +33,7 @@
                     </a>
                 </div>
                 <div class="card-body">
-                    <table class="datatable table table-bordered" cellspacing="0">
+                    <table class="datatable table" cellspacing="0">
                         <thead>
                             <tr>
                                 <th>#</th>

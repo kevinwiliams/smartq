@@ -52,7 +52,7 @@
  
 //preloader
 $(window).load(function() {
-    $(".loader").fadeOut("slow");
+    // $(".loader").fadeOut("slow");
 });
 
 

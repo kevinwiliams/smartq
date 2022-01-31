@@ -625,8 +625,8 @@
     <script src="{{ asset('assets/vendor/chart.js/Chart.min.js') }}"></script>
 
     <!-- Page level custom scripts -->
-    <script src="{{ asset('assets/js/reports/chart-area-demo.js') }}"></script>
-    <script src="{{ asset('assets/js/reports/chart-pie-demo.js') }}"></script>
+    {{-- <script src="{{ asset('assets/js/reports/chart-area-demo.js') }}"></script> --}}
+    {{-- <script src="{{ asset('assets/js/reports/chart-pie-demo.js') }}"></script> --}}
 
 
 
