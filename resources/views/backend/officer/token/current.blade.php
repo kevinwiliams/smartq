@@ -53,29 +53,30 @@
         </div>
         <div class="col-md-8 col-lg-8">
             <div class="col-xl-12 col-md-12 mb-4" >
-                <div class="card {!! (!empty($tokens[0]->is_vip)? "border-left-danger" :"border-left-primary") !!}  shadow h-100 py-2" style="min-height: 500px;">
+                <div class="card {!! (!empty($tokens[0]->is_vip)? "border-left-danger" :"border-left-primary") !!}  bg-gradient-light shadow h-100 py-2" style="min-height: 500px;">
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
+                                
                                 <div class="text-xs font-weight-bold {!! (!empty($tokens[0]->is_vip)? "text-danger" :"text-primary") !!}  text-uppercase mb-1">
                                     {{ !empty($tokens[0]->department)?$tokens[0]->department->name:null }}</div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800"><i class="fas fa-user text-gray-500"></i> Client L.</div>
-                                <div class="mb-0 text-gray-800"><i class="fas fa-ticket-alt rotate-15 text-gray-500"></i> {!! (!empty($tokens[0]->is_vip)?("<span class=\"badge bg-danger text-white\" title=\"VIP\">".$tokens[0]->token_no."</span>"):$tokens[0]->token_no) !!}</div>
-                                <div class="mb-0 text-gray-800"><i class="fas fa-tv text-gray-500"></i> {{ !empty($tokens[0]->counter)?$tokens[0]->counter->name:null }}</div>
-                                <div class="mb-0 text-gray-800"><i class="fas fa-phone text-gray-500"></i> {{ $tokens[0]->client_mobile }}<br/>
+                                <div class="h1 mb-0 font-weight-bold text-gray-800"><i class="fas fa-user text-gray-500"></i> Client L.</div>
+                                <div class="h3 mb-0 text-gray-800">{!! (!empty($tokens[0]->is_vip)?("<span class=\"badge bg-danger text-white\" title=\"VIP\">".$tokens[0]->token_no."</span>"):$tokens[0]->token_no) !!}</div>
+                                {{-- <div class="h5 b-0 text-gray-800">{{ !empty($tokens[0]->counter)?$tokens[0]->counter->name:null }}</div> --}}
+                                <div class="h5 mb-0 text-gray-800">{{ $tokens[0]->client_mobile }}<br/>
                                     {!! (!empty($tokens[0]->client)?("(<a href='".url("officer/user/view/{$tokens[0]->client->id}")."'>".$tokens[0]->client->firstname." ". $tokens[0]->client->lastname."</a>)"):null) !!}
                                 </div>
-                                <div class="mb-0 text-gray-800"><i class="fas fa-calendar text-gray-500"></i> {{ (!empty($tokens[0]->created_at)?date('j M Y h:i a',strtotime($tokens[0]->created_at)):null) }}</div>
-
+                                <div class="h5 mb-0 text-gray-800"><i class="fas fa-calendar text-gray-500"></i> {{ (!empty($tokens[0]->created_at)?date('j M Y h:i a',strtotime($tokens[0]->created_at)):null) }}</div>
+                                <br><br>
+                                
+                                
+                                <a href="{{ url("officer/token/stoped/$tokens[0]->id") }}"  class="btn btn-warning btn-sm mx-2" onclick="return confirm('Are you sure?')" title="Stoped"><i class="fa fa-stop"></i></a>
+                                <a href="{{ url("officer/token/complete/$tokens[0]->id") }}"  class="btn btn-success btn-sm" onclick="return confirm('Are you sure?')" title="Complete"><i class="fa fa-check"></i> Next</a> 
                                 
                             </div>
                             <div class="col-auto">
-                                <i class="fas fa-user-tie fa-2x text-gray-300"></i>
-                                <br><br>
-                                <a href="{{ url("officer/token/complete/$tokens[0]->id") }}"  class="btn btn-success btn-sm" onclick="return confirm('Are you sure?')" title="Complete"><i class="fa fa-check"></i></a> 
-                                <br><br>
-                                <a href="{{ url("officer/token/stoped/$tokens[0]->id") }}"  class="btn btn-warning btn-sm" onclick="return confirm('Are you sure?')" title="Stoped"><i class="fa fa-stop"></i></a>
-
+                                <i class="fas fa-user-tie fa-8x text-gray-300"></i>
+                                
                             </div>
                         </div>
                     </div>
