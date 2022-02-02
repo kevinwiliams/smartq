@@ -5,26 +5,30 @@
 <div class="panel panel-primary">
 
     <div class="panel-heading">
-        <div class="row">
-            <div class="col-sm-12 text-left">
-                <h3>{{ trans('app.active') }} / {{ trans('app.todays_token') }}</h3>
-            </div> 
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">{{ trans('app.active') }} / {{ trans('app.todays_token') }}</h1>
         </div>
     </div>
+    <div class="h5 mb-3 font-weight-bold text-gray-800">Customers waiting: {{ count($tokens)}}</div>
     <div class="row">
+        
         <div class="col-md-4 col-lg-4" style=" max-height: 500px; overflow: scroll">
 
             @if (!empty($tokens))
-                <?php $sl = 1 ?>
+                <?php $sl = 0 ?>
                 @foreach ($tokens as $token)
-            {{-- Waiting list cards --}}
+                <?php $sl++; 
+                ?>
+                    @if ($sl > 1)
+                    
+                {{-- Waiting list cards --}}
                     <div class="col-xl-12 col-md-12 mb-4">
                         
-                        <div class="card {!! (!empty($token->is_vip)? "border-left-danger" :"border-left-primary") !!}  shadow h-100 py-2">
+                        <div class="card {!! (!empty($token->is_vip)? "border-left-danger" :"border-left-primary") !!}  shadow h-100 py-0">
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
-                                        #{{ $sl++ }} <div class="text-xs font-weight-bold {!! (!empty($token->is_vip)? "text-danger" :"text-primary") !!}  text-uppercase mb-1">
+                                        #{{ $sl }} <div class="text-xs font-weight-bold {!! (!empty($token->is_vip)? "text-danger" :"text-primary") !!}  text-uppercase mb-1">
                                             {{ !empty($token->department)?$token->department->name:null }}</div>
                                         <div class="mb-0 font-weight-bold text-gray-800"><i class="fas fa-user text-gray-500"></i> Client L.</div>
                                         <div class="mb-0 text-gray-800"><i class="fas fa-ticket-alt rotate-15 text-gray-500"></i> {!! (!empty($token->is_vip)?("<span class=\"badge bg-danger text-white\" title=\"VIP\">$token->token_no</span>"):$token->token_no) !!}</div>
@@ -48,6 +52,7 @@
                             </div>
                         </div>
                     </div>
+                    @endif
                 @endforeach
             @endif
         </div>
@@ -56,22 +61,22 @@
                 <div class="card {!! (!empty($tokens[0]->is_vip)? "border-left-danger" :"border-left-primary") !!}  bg-gradient-light shadow h-100 py-2" style="min-height: 500px;">
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
-                            <div class="col mr-2">
+                            <div class="col text-center" >
                                 
                                 <div class="text-xs font-weight-bold {!! (!empty($tokens[0]->is_vip)? "text-danger" :"text-primary") !!}  text-uppercase mb-1">
                                     {{ !empty($tokens[0]->department)?$tokens[0]->department->name:null }}</div>
-                                <div class="h1 mb-0 font-weight-bold text-gray-800"><i class="fas fa-user text-gray-500"></i> Client L.</div>
-                                <div class="h3 mb-0 text-gray-800">{!! (!empty($tokens[0]->is_vip)?("<span class=\"badge bg-danger text-white\" title=\"VIP\">".$tokens[0]->token_no."</span>"):$tokens[0]->token_no) !!}</div>
+                                <div class="h1 mb-5 font-weight-bold text-gray-800"></i> Client L.</div>
+                                <div class="h3 mb-3 text-gray-800">{!! (!empty($tokens[0]->is_vip)?("<span class=\"badge bg-danger text-white\" title=\"VIP\">".$tokens[0]->token_no."</span>"):$tokens[0]->token_no) !!}</div>
                                 {{-- <div class="h5 b-0 text-gray-800">{{ !empty($tokens[0]->counter)?$tokens[0]->counter->name:null }}</div> --}}
-                                <div class="h5 mb-0 text-gray-800">{{ $tokens[0]->client_mobile }}<br/>
+                                <div class="h5 mb-3 text-gray-800">{{ $tokens[0]->client_mobile }}<br/>
                                     {!! (!empty($tokens[0]->client)?("(<a href='".url("officer/user/view/{$tokens[0]->client->id}")."'>".$tokens[0]->client->firstname." ". $tokens[0]->client->lastname."</a>)"):null) !!}
                                 </div>
-                                <div class="h5 mb-0 text-gray-800"><i class="fas fa-calendar text-gray-500"></i> {{ (!empty($tokens[0]->created_at)?date('j M Y h:i a',strtotime($tokens[0]->created_at)):null) }}</div>
+                                <div class="h5 mb-5 text-gray-800"><i class="fas fa-calendar text-gray-500"></i> {{ (!empty($tokens[0]->created_at)?date('j M Y h:i a',strtotime($tokens[0]->created_at)):null) }}</div>
                                 <br><br>
                                 
                                 
-                                <a href="{{ url("officer/token/stoped/".$tokens[0]->id."") }}"  class="btn btn-warning btn-sm mx-2" onclick="return confirm('Are you sure?')" title="Stoped"><i class="fa fa-stop"></i></a>
-                                <a href="{{ url("officer/token/complete/".$tokens[0]->id."") }}"  class="btn btn-success btn-sm" onclick="return confirm('Are you sure?')" title="Complete"><i class="fa fa-check"></i> Next</a> 
+                                <a href="{{ url("officer/token/stoped/".$tokens[0]->id."") }}"  class="btn btn-warning btn-sm mx-2" onclick="return confirm('Are you sure?')" title="Stop"><i class="fa fa-stop"></i></a>
+                                <a href="{{ url("officer/token/complete/".$tokens[0]->id."") }}"  class="btn btn-success btn-sm" onclick="return confirm('Are you sure?')" title="Next Customer"><i class="fa fa-check"></i> Next</a> 
                                 
                             </div>
                             <div class="col-auto">
