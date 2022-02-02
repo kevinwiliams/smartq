@@ -362,7 +362,7 @@
                     <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
                         <i class="fa fa-bars"></i>
                     </button>
-                    <span class="text-xs text-gray-800">Location: <i class="fas fa-map-marker fa-fw text-danger"></i>Kingston, Jamaica</span>
+                    <span class="text-xs text-gray-800">Location: <i class="fas fa-map-marker fa-fw text-danger"></i>Port Of Spain, Trinidad &amp; Tobago</span>
 
                     <!-- Topbar Search -->
                     <!-- form

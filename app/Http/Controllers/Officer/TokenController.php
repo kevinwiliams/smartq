@@ -193,196 +193,122 @@ class TokenController extends Controller
         $setting->timezone  = $appSetting->timezone;
         date_default_timezone_set(session('app.timezone')?session('app.timezone'):$setting->timezone);
 
-        $setting->display = 4;
+        $setting->display = 1;
             
         //department wise display
-        return view('backend.officer.token.display4', compact('setting'));
+        return view('backend.officer.token.display', compact('setting'));
    
     }
 
 
     public function currentView(Request $request)
-    { 
-        $allTokens = []; //all token
-        $viewTokens = []; //all token form view
-        $newTokens = []; //new token
-        $vTokens = [];
-        $cTokens = [];
-
-        $setting = DisplaySetting::first(); 
+    {  
+        $nowServing = [];
+        $newToken   = [];
+        $setting  = DisplaySetting::first(); 
         $appSetting = Setting::first();   
         date_default_timezone_set(session('app.timezone')?session('app.timezone'):$appSetting->timezone);
-        $departments = DB::table('department')
-            ->where('status', 1)
-            ->orderBy('name', 'ASC')
-            ->get();
 
+        $displays = DB::select("
+            SELECT 
+                token.token_no,
+                token.updated_at,
+                department.name AS department,
+                counter.name AS counter,
+                CONCAT_WS(' ', user.firstname, user.lastname) as officer
+            FROM (
+                    SELECT t.* 
+                    FROM token t 
+                    WHERE t.status = 0
+                    ORDER BY t.is_vip DESC, t.id ASC 
+                    LIMIT 8
+                ) AS token
+            LEFT JOIN
+                department ON department.id = token.department_id
+            LEFT JOIN 
+                counter ON counter.id = token.counter_id
+            LEFT JOIN 
+                user ON user.id = token.user_id
+            ORDER BY token.is_vip DESC, token.id ASC
+        ");
 
-        $token_list = array(); 
-        foreach ($departments as $department) 
-        {
-            $tokens = DB::select("
-                SELECT 
-                    token.token_no AS token,
-                    token.client_mobile AS mobile,
-                    token.note AS note,
-                    token.updated_at,
-                    department.name AS department,
-                    counter.name AS counter,
-                    CONCAT_WS(' ', user.firstname, user.lastname) as officer
-                FROM (
-                        SELECT t.* 
-                        FROM token t 
-                        WHERE 
-                            t.status = 0 
-                            AND t.department_id = $department->id
-                        ORDER BY t.id ASC 
-                        LIMIT 5
-                    ) AS token
-                LEFT JOIN
-                    department ON department.id = token.department_id
-                LEFT JOIN 
-                    counter ON counter.id = token.counter_id
-                LEFT JOIN 
-                    user ON user.id = token.user_id
-                ORDER BY token.is_vip ASC, token.id DESC
-                LIMIT 5
-            ");
-
-            foreach ($tokens as $token) 
-            {
-                $token_list[$token->department][] = array(
-                    'counter'    => $token->counter,
-                    'token'      => $token->token,
-                    'mobile'     => $token->mobile,
-                    'department' => $token->department,
-                    'officer'    => $token->officer,
-                    'note'       => $token->note,
-                    'updated_at' => $token->updated_at
-                );  
-            }    
-        }  
-
-
-        $size  = sizeof($token_list)>0?sizeof($token_list):1;
-        $width = (($request->width-150-($size*13.5))/$size);
-        $height = (($request->height-200)/5);
-            
-        $html = "<div id=\"clock\" class=\"well text-center\" style=\"background-color:".(!empty($setting->background_color)?$setting->background_color:'#cdcdcd') .";border-color:".(!empty($setting->border_color)?$setting->border_color:'#fff') .";color:".(!empty($setting->color)?$setting->color:'#fff') .";padding:5px 0;margin:-20px 0 0 0;font-size:24px;\">".date("$setting->date_format $setting->time_format")."</div>
-            <div class=\"queue-box queue-box-status\">
-                <h4 class='deprt'>".trans('app.q_c')."</h4> 
-                <div class=\"item text-center\">
-                    <div class='queue2' style='height:{$height}px;'>".trans('app.waiting_4')." </div>
-                    <div class='queue2' style='height:{$height}px;'>".trans('app.waiting_3')." </div>
-                    <div class='queue2' style='height:{$height}px;'>".trans('app.waiting_2')."</div>
-                    <div class='queue2' style='height:{$height}px;'>".trans('app.waiting_1')."</div>
-                    <div class='queue2 active' style='height:{$height}px;'>".trans('app.now_serving')."</div>
-                </div>
-            </div>";
-
-        foreach ($token_list as $key => $value):
-            $html .= "<div class=\"queue-box queue-box-element\" style=\"width:{$width}px\">
-                <h4 class='deprt'>$key</h4> 
-                <div class=\"item text-center\">";
-
-                $sl = 5;
-                $x  = 1; 
-                label:
-                foreach ($value as $html2):
-
-                if (sizeof($value) < $sl):
-                    $html .=  "<div class='queue2 ' style='height:{$height}px;background-color:".(!empty($setting->background_color)?$setting->background_color:'#cdcdcd') .";border-color:".(!empty($setting->border_color)?$setting->border_color:'#fff') .";color:".(!empty($setting->color)?$setting->color:'#cdcdcd') .";'>-----</div>";
-                    $sl--;
-                    goto label;
-                endif;
+        $loop = 1;
+        $main = null;
  
-                if ($x == $sl)
-                {
-                    $allTokens[] = $html2;  
-                }
+        $size  = sizeof($displays)>0?sizeof($displays):1;
+        $width = (($request->width-150-($size*13.5))/$size);
+        $height = round(($request->height-160)/8);
 
-
-                $html .=  "<div class=\"queue2 ".(($x==$sl)?'active':null)." \" style='height:{$height}px;background-color:".(!empty($setting->background_color)?$setting->background_color:'#cdcdcd') .";border-color:".(!empty($setting->border_color)?$setting->border_color:'#fff') .";color:".(!empty($setting->color)?$setting->color:'#cdcdcd') .";'>";
-                    foreach ($html2 as $key => $item):
-                        if ($key=='token')
-                        {
-                            $html .=  "<h1 class=\"title\">$item</h1>";
-                        }
-                        else
-                        {
-                            if ($setting->show_note == "1" && $key=='note')
-                            {
-                                $html .=  "<strong>".trans("app.note")."</strong>: <span>$item</span><br>";
-                            }
-                            if ($setting->sms_alert == "1" && $key=='mobile')
-                            {
-                                $html .=  "<strong>".trans("app.mobile")."</strong>: <span>$item</span><br>";
-                            }
-                            if ($setting->show_department == "1" && $key=='department')
-                            {
-                                $html .=  "<strong>".trans("app.department")."</strong>: <span>$item</span><br>";
-                            }
-                            if ($setting->show_officer == "1" && $key=='officer')
-                            {
-                                $html .=  "<strong>".trans("app.officer")."</strong>: <span>$item</span><br>";
-                            }
-                        }
-                    endforeach;
-                    $html .=  "</div>";
-                $x++;
-                endforeach;
-
-                $html .=  "</div>";
-            $html .=  "</div>";
-        endforeach;
-
-
-        /*NOTIFICATION*/
-        $viewTokens = $request->get('view_token'); 
-        // compare between view_token & all_token
-        if (is_array($viewTokens) && sizeof($viewTokens)>0)
-        { 
-            // extract view token
-            foreach($viewTokens as $t)
+        $result = "<div class=\"col-sm-4\">";
+        foreach ($displays as $display):  
+            if ($loop==1) 
             {
-                $vTokens[$t['counter']] = $t['token'];
-            }  
+                $main = "<div class=\"col-sm-8\">
+                    <div id=\"clock\" class=\"well text-center\" style=\"background-color:".(!empty($setting->background_color)?$setting->background_color:'#cdcdcd') .";border-color:".(!empty($setting->border_color)?$setting->border_color:'#fff') .";padding:25px 0;font-size:28px;margin-bottom:0\">".date("$setting->date_format $setting->time_format")."</div>
+                    <div class=\"text-center \" style=\"background-color:".(!empty($setting->background_color)?$setting->background_color:'#cdcdcd') .";border-color:".(!empty($setting->border_color)?$setting->border_color:'#fff') .";font-size:32px;padding:5px;height:50px\">".trans('app.now_serving')."</div>
+                    <div class=\"queue well text-center ".(($loop==1)?'active':null)." \" style=\"height:auto;padding:160px 0;margin:0;font-size:36px\"> 
+                        <h1 class=\"token\" style=\"font-size:90px\">$display->token_no</h1>
+                    </div>
+                </div>";
 
-            // extract controller/all token
-            foreach ($allTokens as $t) 
-            {
-                $recall = (!empty($t['updated_at']) && ((strtotime(date("Y-m-d H:i:s"))-strtotime($t['updated_at'])) <= 15));  
+                $nowServing = array(
+                    'counter' => $display->counter,
+                    'token'   => $display->token_no
+                ); 
 
+                $recall = (!empty($display->updated_at) && ((strtotime(date("Y-m-d H:i:s"))-strtotime($display->updated_at)) <= 15)); 
                 if ($recall) 
                 {
                     $data['status'] = true;
-                    $newTokens[] = array(
-                        'counter' => $t['counter'],
-                        'token'   => $t['token']
-                    ); 
-                }
-                $cTokens[$t['counter']] = $t['token'];
-            }  
-
-            //get new token
-            $nts = array_diff($cTokens,$vTokens);
-            if (sizeof($nts)>0)
+                    $newToken = $nowServing;
+                } 
+            } 
+            else 
             {
-                foreach ($nts as $key => $value) 
+
+                if ($loop==2)
                 {
-                    $newTokens[] = array(
-                        'counter' => $key,
-                        'token'   => $value
-                    );
+                    $result .= "<div class=\"col-sm-12\"> 
+                        <div class=\"queue well text-center \" style=\"height:60px;padding:0;text-align:center;font-size:25px;line-height:60px;margin-bottom:2px;background:#222;color:#fff\">
+                            <strong style=\" padding-left:15px; height:58px;float:left;\">".explode(' ', trans('app.waiting_1'))[0]."</strong>
+                            <strong style=\"display:inline-block;\">".trans('app.token')."
+                            </strong>
+                        </div>
+                    </div>";
                 }
-                $data['status'] = true;
+
+                $result .= "<div class=\"col-sm-12\"> 
+                    <div class=\"queue well text-center \" style=\"background-color:".(!empty($setting->background_color)?$setting->background_color:'#cdcdcd') .";border-color:".(!empty($setting->border_color)?$setting->border_color:'#fff') .";min-height:75px;height:{$height}px;padding:0;margin:0 0 5px 0\">
+                        <div style=\"width:80px;min-height:72px;height:100%;float:left;background:#222;color:#fff\"><h1>".($loop-1)."</h1></div>
+                        <div class=\"text-center\" style=\"display:inline-block;padding:10px 0\">
+                            <h1 class=\"token\"><b>$display->token_no</b></h1>
+                        </div>
+                    </div>
+                </div>";
             }
-        }
- 
-        $data['result']    = $html;
-        $data['new_token'] = $newTokens;
-        $data['all_token'] = $allTokens;
-        $data['interval']  = 10000*(count($newTokens)?count($newTokens):1);
+        $loop++;
+        endforeach;
+        $result .= "</div>";
+        $result .= $main;
+
+
+        /*NOTIFICATION*/
+        $viewToken = $request->get('view_token');
+        // compare between $nowServing and $viewToken
+        if (is_array($viewToken) && sizeof($viewToken)>0)
+        {
+            // get new_token
+            if ($nowServing['token'] != $viewToken['token'])
+            {
+                $data['status'] = true;
+                $newToken = $nowServing;
+            }   
+        } 
+
+        $data['result']     = $result;
+        $data['view_token'] = $nowServing;
+        $data['new_token']  = $newToken;
+        $data['interval']   = 10000;
 
         return Response::json($data);
     } 

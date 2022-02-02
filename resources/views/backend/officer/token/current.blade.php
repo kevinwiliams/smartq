@@ -11,8 +11,82 @@
             </div> 
         </div>
     </div>
+    <div class="row">
+        <div class="col-md-4 col-lg-4" style=" max-height: 500px; overflow: scroll">
 
-    <div class="panel-body">
+            @if (!empty($tokens))
+                <?php $sl = 1 ?>
+                @foreach ($tokens as $token)
+            {{-- Waiting list cards --}}
+                    <div class="col-xl-12 col-md-12 mb-4">
+                        
+                        <div class="card {!! (!empty($token->is_vip)? "border-left-danger" :"border-left-primary") !!}  shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        #{{ $sl++ }} <div class="text-xs font-weight-bold {!! (!empty($token->is_vip)? "text-danger" :"text-primary") !!}  text-uppercase mb-1">
+                                            {{ !empty($token->department)?$token->department->name:null }}</div>
+                                        <div class="mb-0 font-weight-bold text-gray-800"><i class="fas fa-user text-gray-500"></i> Client L.</div>
+                                        <div class="mb-0 text-gray-800"><i class="fas fa-ticket-alt rotate-15 text-gray-500"></i> {!! (!empty($token->is_vip)?("<span class=\"badge bg-danger text-white\" title=\"VIP\">$token->token_no</span>"):$token->token_no) !!}</div>
+                                        <div class="mb-0 text-gray-800"><i class="fas fa-tv text-gray-500"></i> {{ !empty($token->counter)?$token->counter->name:null }}</div>
+                                        <div class="mb-0 text-gray-800"><i class="fas fa-phone text-gray-500"></i> {{ $token->client_mobile }}<br/>
+                                            {!! (!empty($token->client)?("(<a href='".url("officer/user/view/{$token->client->id}")."'>".$token->client->firstname." ". $token->client->lastname."</a>)"):null) !!}
+                                        </div>
+                                        <div class="mb-0 text-gray-800"><i class="fas fa-calendar text-gray-500"></i> {{ (!empty($token->created_at)?date('j M Y h:i a',strtotime($token->created_at)):null) }}</div>
+
+                                        
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-user-tie fa-2x text-gray-300"></i>
+                                        <br><br>
+                                        <a href="{{ url("officer/token/complete/$token->id") }}"  class="btn btn-success btn-sm" onclick="return confirm('Are you sure?')" title="Complete"><i class="fa fa-check"></i></a> 
+                                        <br><br>
+                                        <a href="{{ url("officer/token/stoped/$token->id") }}"  class="btn btn-warning btn-sm" onclick="return confirm('Are you sure?')" title="Stoped"><i class="fa fa-stop"></i></a>
+    
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            @endif
+        </div>
+        <div class="col-md-8 col-lg-8">
+            <div class="col-xl-12 col-md-12 mb-4" >
+                <div class="card {!! (!empty($tokens[0]->is_vip)? "border-left-danger" :"border-left-primary") !!}  shadow h-100 py-2" style="min-height: 500px;">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold {!! (!empty($tokens[0]->is_vip)? "text-danger" :"text-primary") !!}  text-uppercase mb-1">
+                                    {{ !empty($tokens[0]->department)?$tokens[0]->department->name:null }}</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800"><i class="fas fa-user text-gray-500"></i> Client L.</div>
+                                <div class="mb-0 text-gray-800"><i class="fas fa-ticket-alt rotate-15 text-gray-500"></i> {!! (!empty($tokens[0]->is_vip)?("<span class=\"badge bg-danger text-white\" title=\"VIP\">".$tokens[0]->token_no."</span>"):$tokens[0]->token_no) !!}</div>
+                                <div class="mb-0 text-gray-800"><i class="fas fa-tv text-gray-500"></i> {{ !empty($tokens[0]->counter)?$tokens[0]->counter->name:null }}</div>
+                                <div class="mb-0 text-gray-800"><i class="fas fa-phone text-gray-500"></i> {{ $tokens[0]->client_mobile }}<br/>
+                                    {!! (!empty($tokens[0]->client)?("(<a href='".url("officer/user/view/{$tokens[0]->client->id}")."'>".$tokens[0]->client->firstname." ". $tokens[0]->client->lastname."</a>)"):null) !!}
+                                </div>
+                                <div class="mb-0 text-gray-800"><i class="fas fa-calendar text-gray-500"></i> {{ (!empty($tokens[0]->created_at)?date('j M Y h:i a',strtotime($tokens[0]->created_at)):null) }}</div>
+
+                                
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-user-tie fa-2x text-gray-300"></i>
+                                <br><br>
+                                <a href="{{ url("officer/token/complete/$tokens[0]->id") }}"  class="btn btn-success btn-sm" onclick="return confirm('Are you sure?')" title="Complete"><i class="fa fa-check"></i></a> 
+                                <br><br>
+                                <a href="{{ url("officer/token/stoped/$tokens[0]->id") }}"  class="btn btn-warning btn-sm" onclick="return confirm('Are you sure?')" title="Stoped"><i class="fa fa-stop"></i></a>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <hr>
+    {{-- <div class="panel-body">
         <table class="datatable display table table-bordered" width="100%" cellspacing="0">
             <thead>
                 <tr>
@@ -70,7 +144,7 @@
                 @endif
             </tbody>
         </table>
-    </div> 
+    </div>  --}}
 </div>   
 @endsection
 
