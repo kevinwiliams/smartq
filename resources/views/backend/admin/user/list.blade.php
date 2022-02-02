@@ -32,7 +32,7 @@
                     </a>
                 </div>
                 <div class="card-body">
-                    <table class="dataTables-server table table-bordered" cellspacing="0">
+                    <table class="dataTables-server table" cellspacing="0">
                         <thead>
                             <tr>
                                 <th rowspan="3">#</th>

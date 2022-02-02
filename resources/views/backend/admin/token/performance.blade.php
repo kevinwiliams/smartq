@@ -15,7 +15,7 @@
 
     <div class="panel-body"> 
         {{ Form::open(['url' => 'admin/token/performance', 'class' => 'form-inline mb-0', 'method' => 'get']) }}
-        <table class="datatable display table table-bordered" width="100%" cellspacing="0">
+        <table class="datatable display table" width="100%" cellspacing="0">
             <thead>
                 <tr>
                     <th rowspan="2">#</th>
