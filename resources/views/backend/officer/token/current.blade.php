@@ -70,8 +70,8 @@
                                 <br><br>
                                 
                                 
-                                <a href="{{ url("officer/token/stoped/$tokens[0]->id") }}"  class="btn btn-warning btn-sm mx-2" onclick="return confirm('Are you sure?')" title="Stoped"><i class="fa fa-stop"></i></a>
-                                <a href="{{ url("officer/token/complete/$tokens[0]->id") }}"  class="btn btn-success btn-sm" onclick="return confirm('Are you sure?')" title="Complete"><i class="fa fa-check"></i> Next</a> 
+                                <a href="{{ url("officer/token/stoped/".$tokens[0]->id."") }}"  class="btn btn-warning btn-sm mx-2" onclick="return confirm('Are you sure?')" title="Stoped"><i class="fa fa-stop"></i></a>
+                                <a href="{{ url("officer/token/complete/".$tokens[0]->id."") }}"  class="btn btn-success btn-sm" onclick="return confirm('Are you sure?')" title="Complete"><i class="fa fa-check"></i> Next</a> 
                                 
                             </div>
                             <div class="col-auto">
