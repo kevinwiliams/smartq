@@ -222,7 +222,7 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Interface:</h6>
                         
-                        <a class="collapse-item {{ (Request::is('officer/token/display') ? 'active' : '') }}" target="_blank" href="{{ url('officer/token/display') }}">{{ trans('app.display') }}</a>
+                        <!-- <a class="collapse-item {{ (Request::is('officer/token/display') ? 'active' : '') }}" target="_blank" href="{{ url('officer/token/display') }}">{{ trans('app.display') }}</a> -->
                         <a class="collapse-item {{ (Request::is('officer/token/current') ? 'active' : '') }}" href="{{ url('officer/token/current') }}">{{ trans('app.active') }} / {{ trans('app.todays_token') }}</a>
                         <a class="collapse-item {{ (Request::is('officer/token') ? 'active' : '') }}" href="{{ url('officer/token') }}">{{ trans('app.token_list') }}</a>
 
@@ -648,6 +648,10 @@
      <!-- datatable -->
      <script src="{{ asset('assets/js/dataTables.min.js') }}"></script>
      {{-- <script src="{{ asset('assets/vendor/datatables/jquery.dataTables.min.js') }}"></script> --}}
+   
+     <!-- sweet alert -->
+     <script src="{{ asset('assets/js/sweetalert.min.js') }}"></script>
+
      <!-- custom script -->
      <script src="{{ asset('assets/js/script.js') }}"></script>
 

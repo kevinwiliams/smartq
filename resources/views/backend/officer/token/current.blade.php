@@ -39,9 +39,9 @@
                                     <div class="col-auto">
                                         <i class="fas fa-user-tie fa-2x text-gray-300"></i>
                                         <br><br>
-                                        <a href="{{ url("officer/token/complete/$token->id") }}"  class="btn btn-success btn-sm" onclick="return confirm('Are you sure?')" title="Complete"><i class="fa fa-check"></i></a> 
+                                        <a href="#"  class="btn btn-success btn-sm" onclick="confirmation('{{ url("officer/token/complete/$token->id") }}')" title="Complete"><i class="fa fa-check"></i></a> 
                                         <br><br>
-                                        <a href="{{ url("officer/token/stoped/$token->id") }}"  class="btn btn-warning btn-sm" onclick="return confirm('Are you sure?')" title="Stoped"><i class="fa fa-stop"></i></a>
+                                        <a href="#"  class="btn btn-warning btn-sm" onclick="confirmation('{{ url("officer/token/stoped/$token->id") }}')" title="Stoped"><i class="fa fa-stop"></i></a>
     
                                     </div>
                                 </div>
@@ -70,8 +70,8 @@
                                 <br><br>
                                 
                                 
-                                <a href="{{ url("officer/token/stoped/".$tokens[0]->id."") }}"  class="btn btn-warning btn-sm mx-2" onclick="return confirm('Are you sure?')" title="Stoped"><i class="fa fa-stop"></i></a>
-                                <a href="{{ url("officer/token/complete/".$tokens[0]->id."") }}"  class="btn btn-success btn-sm" onclick="return confirm('Are you sure?')" title="Complete"><i class="fa fa-check"></i> Next</a> 
+                                <a href="#"  class="btn btn-warning btn-sm mx-2" onclick="confirmation('{{ url("officer/token/stoped/".$tokens[0]->id."") }}')" title="Stoped"><i class="fa fa-stop"></i></a>
+                                <a href="#"  class="btn btn-success btn-sm" onclick="confirmation('{{ url("officer/token/complete/".$tokens[0]->id."") }}')" title="Complete"><i class="fa fa-check"></i> Next</a> 
                                 
                             </div>
                             <div class="col-auto">
@@ -133,9 +133,9 @@
                             <td>{{ (!empty($token->created_at)?date('j M Y h:i a',strtotime($token->created_at)):null) }}</td>
                             <td>
                                 <div class="btn-group"> 
-                                    <a href="{{ url("officer/token/complete/$token->id") }}"  class="btn btn-success btn-sm" onclick="return confirm('Are you sure?')" title="Complete"><i class="fa fa-check"></i></a> 
+                                    <a href="#"  class="btn btn-success btn-sm" onclick="confirmation('{{ url("officer/token/complete/$token->id") }}')" title="Complete"><i class="fa fa-check"></i></a> 
 
-                                    <a href="{{ url("officer/token/stoped/$token->id") }}"  class="btn btn-warning btn-sm" onclick="return confirm('Are you sure?')" title="Stoped"><i class="fa fa-stop"></i></a>
+                                    <a href="#"  class="btn btn-warning btn-sm" onclick="confirmation('{{ url("officer/token/stoped/$token->id") }}')" title="Stoped"><i class="fa fa-stop"></i></a>
 
                                     <button type="button" href='{{ url("officer/token/print") }}' data-token-id='{{ $token->id }}' class="tokenPrint btn btn-default btn-sm" title="Print" ><i class="fa fa-print"></i></button>
                                 </div>
@@ -151,7 +151,13 @@
 
 @push("scripts")
 <script type="text/javascript">
+
 (function() {
+
+
+
+
+
     if (window.addEventListener) {
         window.addEventListener("load", loadHandler, false);
     }
@@ -223,6 +229,26 @@
     });
     
 })();
+
+function confirmation(url){
+
+        swal("Are you sure?", {
+            title: 'Are you sure?',
+            icon : 'warning',
+            buttons: {
+                cancel: "No!!!",
+                ok: true
+            }
+        })
+        .then((value) => {
+
+            switch (value) {            
+                case "ok":
+                    document.location.href = url;
+                    break;          
+            }
+        });    
+}
 </script>
 @endpush
  
