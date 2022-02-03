@@ -34,13 +34,13 @@
             </div>
 
             <div class="form-group @error('password') has-error @enderror">
-                <label for="password">{{ trans('app.password') }} <i class="text-danger">*</i></label> 
+                <label for="password">{{ trans('app.password') }}</label> 
                 <input type="password" name="password" id="password" class="form-control" placeholder="{{ trans('app.password') }}" value="{{ old('password') }}">
                 <span class="text-danger">{{ $errors->first('password') }}</span>
             </div>
 
             <div class="form-group @error('conf_password') has-error @enderror">
-                <label for="conf_password">{{ trans('app.conf_password') }} <i class="text-danger">*</i></label> 
+                <label for="conf_password">{{ trans('app.conf_password') }}</label> 
                 <input type="password" name="conf_password" id="conf_password" class="form-control" placeholder="{{ trans('app.conf_password') }}" value="{{ old('conf_password') }}">
                 <span class="text-danger">{{ $errors->first('conf_password') }}</span>
             </div>

@@ -160,9 +160,12 @@ class LoginController extends Controller
             $user = User::where('email', $providerUser->getEmail())->first();
 
             if (! $user) {
+                
+                $fullname = explode(" ", $providerUser->getName());
+
                 $user = User::create([  
-                    'firstname' => $providerUser->getName(),
-                    'lastname'  => $providerUser->getNickname(),
+                    'firstname' => $fullname[0],
+                    'lastname'  => isset($fullname[1]) ? $fullname[1] : '',
                     'email'     => $providerUser->getEmail(),
                     'password'  => Hash::make($providerUser->getId()), 
                     'photo'     => $providerUser->getAvatar(),
