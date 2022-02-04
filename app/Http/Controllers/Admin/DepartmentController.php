@@ -30,12 +30,14 @@ class DepartmentController extends Controller
             'description' => 'max:255',
             'key'         => 'required|unique:department,key|max:1',
             'status'      => 'required',
+            'avg_wait_time'      => 'required',
         ])
         ->setAttributeNames(array(
            'name' => trans('app.name'),
            'description' => trans('app.description'),
            'key' => trans('app.key_for_keyboard_mode'),
-           'status' => trans('app.status')
+           'status' => trans('app.status'),
+           'avg_wait_time' => trans('app.avg_wait_time')
         ));
 
         if ($validator->fails()) {
@@ -50,7 +52,8 @@ class DepartmentController extends Controller
                 'key'         => $request->key,
                 'created_at'  => date('Y-m-d H:i:s'),
                 'updated_at'  => null,
-                'status'      => $request->status
+                'status'      => $request->status,
+                'avg_wait_time'      => $request->avg_wait_time
             ]);
 
             if ($save) {
@@ -81,12 +84,14 @@ class DepartmentController extends Controller
             'description' => 'max:255',
             'key'         => 'required|max:1|unique:department,key,'.$request->id,
             'status'      => 'required',
+            'avg_wait_time'      => 'required',
         ])
         ->setAttributeNames(array(
            'name' => trans('app.name'),
            'description' => trans('app.description'),
             'key' => trans('app.key_for_keyboard_mode'),
-           'status' => trans('app.status')
+           'status' => trans('app.status'),
+           'avg_wait_time' => trans('app.avg_wait_time')
         ));
 
         if ($validator->fails()) {
@@ -101,7 +106,8 @@ class DepartmentController extends Controller
                     'description' => $request->description,
                     'key'         => $request->key,
                     'updated_at'  => date('Y-m-d H:i:s'),
-                    'status'      => $request->status
+                    'status'      => $request->status,
+                    'avg_wait_time'      => $request->avg_wait_time
                 ]);
 
             if ($update) {

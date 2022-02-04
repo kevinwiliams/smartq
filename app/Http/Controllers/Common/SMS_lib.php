@@ -2,7 +2,8 @@
 namespace App\Http\Controllers\Common;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;  
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Config;
 
 /*
 *---------------------------------------------------------------
@@ -46,7 +47,7 @@ use Illuminate\Http\Request;
 
 class SMS_lib extends Controller
 { 
-    private $_provider = "nexmo";
+    private $_provider = "d7";
     private $_url;
     private $_data;
     private $_api_key;
@@ -133,6 +134,10 @@ class SMS_lib extends Controller
                 break; 
              case 'robi':
                     $this->_campaigntag();
+                    return $this->_postRequest($this->_url);
+                break; 
+            case 'd7':
+                    $this->_d7();
                     return $this->_postRequest($this->_url);
                 break; 
             default:
@@ -227,6 +232,18 @@ class SMS_lib extends Controller
             'msg'        => $this->_message,
         );   
         $this->_url = "http://sms.campaigntag.com/app/smsapi/index.php?";        
+    }
+
+
+    private function _d7()
+    { 
+        $this->_data = array();
+
+        $this->_username = Config::get('services.sms.username');
+        $this->_password = Config::get('services.sms.password');
+
+        $encodedmsg = urlencode($this->_message);
+        $this->_url = "https://http-api.d7networks.com/send?username=$this->_username&password=$this->_password&dlr-method=POST&dlr-url=https://4ba60af1.ngrok.io/receive&dlr=yes&dlr-level=3&to=$this->_to&from=smsinfo&content=$encodedmsg"; 
     }
 
 

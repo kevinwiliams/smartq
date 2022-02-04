@@ -214,6 +214,9 @@ Route::group(['middleware' => ['auth']], function() {
 	    ->group(function() { 
 		# home
 		Route::get('/', 'HomeController@home');
+		Route::post('confirmMobile', 'HomeController@confirmMobile');
+		Route::post('confirmOTP', 'HomeController@confirmOTP');
+		Route::post('getwaittime', 'HomeController@getwaittime');
 		// Route::get('/', function(){
 		// 	echo "<pre>";
 		// 	echo "<a href='".url('logout')."'>Logout</a>";
@@ -224,6 +227,7 @@ Route::group(['middleware' => ['auth']], function() {
 
 		# token
 		Route::get('token/auto','TokenController@tokenAutoView'); 
+		Route::post('token/client','TokenController@clientTokenAuto'); 
 		Route::post('token/auto','TokenController@tokenAuto'); 
 		Route::get('token/create','TokenController@showForm');
 		Route::post('token/create','TokenController@create');

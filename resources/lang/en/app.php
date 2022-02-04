@@ -63,6 +63,7 @@ return [
     'update_department' => 'Update Department',
     'description'       => 'Description',
     'key_for_keyboard_mode' => 'Key for Keyboard Mode',
+    'avg_wait_time' => 'Average Wait Time',
 
     /*Counter*/
     'counter'      => 'Counter',

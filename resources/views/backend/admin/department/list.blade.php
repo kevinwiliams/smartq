@@ -43,6 +43,7 @@
                                 <th>{{ trans('app.created_at') }}</th>
                                 <th>{{ trans('app.updated_at') }}</th>
                                 <th>{{ trans('app.status') }}</th>
+                                <th>{{ trans('app.avg_wait_time') }}</th>
                                 <th width="80"><i class="fa fa-cogs"></i></th>
                             </tr>
                         </thead> 
@@ -59,6 +60,7 @@
                                         <td>{{ (!empty($department->created_at)?date('j M Y h:i a',strtotime($department->created_at)):null) }}</td>
                                         <td>{{ (!empty($department->updated_at)?date('j M Y h:i a',strtotime($department->updated_at)):null) }}</td>
                                         <td>{!! (($department->status==1)?"<span class='badge bg-success text-white'>". trans('app.active') ."</span>":"<span class='badge bg-danger text-white'>". trans('app.deactive') ."</span>") !!}</td>
+                                        <td>{{ $department->avg_wait_time }}</td>
                                         <td>
                                             <div class="btn-group"> 
                                                 <a href="{{ url("admin/department/edit/$department->id") }}" class="btn btn-success btn-sm"><i class="fa fa-edit"></i></a>
