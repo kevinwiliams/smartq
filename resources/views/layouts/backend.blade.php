@@ -275,15 +275,14 @@
             <div class="sidebar-heading">
                 Ticketing
             </div>
-
+    
             <!-- Nav Item - Token Collapse Menu -->
             <li class="nav-item {{ (Request::segment(2)=='client' ? 'active' : '') }}">
-                <a class="nav-link {{ (Request::segment(2)=='client' ? '' : 'collapsed') }}" href="#" data-toggle="collapse" data-target="#collapseTokenC"
-                    aria-expanded="true" aria-controls="collapseTokenC">
+                <a class="nav-link" href="{{ url('client/token/current') }}">
                     <i class="fas fa-fw fa-ticket-alt rotate-15"></i>
                     <span>{{ trans('app.token') }}</span>
                 </a>
-                <div id="collapseTokenC" class="collapse {{ (Request::segment(2)=='client' ? '' : '') }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                {{-- <div id="collapseTokenC" class="collapse {{ (Request::segment(2)=='client' ? '' : '') }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Interface:</h6>
                         <a class="collapse-item {{ (Request::is('client/token/auto') ? 'active' : '') }}" href="{{ url('client/token/auto') }}">{{ trans('app.auto_token') }}</a>
@@ -291,7 +290,7 @@
                         <a class="collapse-item {{ (Request::is('client/token/current') ? 'active' : '') }}" href="{{ url('client/token/current') }}">{{ trans('app.active') }} / {{ trans('app.todays_token') }}</a>
 
                     </div>
-                </div>
+                </div> --}}
             </li>
         @endif
 
