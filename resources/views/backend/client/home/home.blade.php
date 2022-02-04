@@ -3,216 +3,126 @@
 
 @section('content')
 <div class="panel panel-primary">
-    <div class="panel-heading"><h3 class="text-left">{{ trans('app.dashboard') }}</h3></div>
+    <div class="panel-heading"><h5 class="text-left">Welcome to SmartQ</h5></div>
+    <hr>
     <div class="panel-body"> 
         <div class="row">
 
-            
+            <div class="container">
+                <div class="row form-group">
+                    <div class="col-lg-12">
+                        <ul class="nav nav-pills nav-justified thumbnail setup-panel">
+                            <li class="nav-item"><a class="nav-link active" href="#step-1">
+                                <h4 class="list-group-item-heading">Step 1</h4>
+                                <p class="list-group-item-text">How can we contact you?</p>
+                            </a></li>
+                            <li class="nav-item"><a class="nav-link disabled" href="#step-2">
+                                <h4 class="list-group-item-heading">Step 2</h4>
+                                <p class="list-group-item-text">What service are you seeking?</p>
+                            </a></li>
+                            <li class="nav-item"><a class="nav-link disabled" href="#step-3">
+                                <h4 class="list-group-item-heading">Step 3</h4>
+                                <p class="list-group-item-text">Joined the queue</p>
+                            </a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="row setup-content text-center" id="step-1">
+                    <div class="col-lg-12">
+                        <div class="col-md-12 card p-3">
+                            <span>What number should we text to alert you?</span>
+                            <div class="form-group">
+                                <input type="phone" class="form-control form-control-user"
+                                    id="email" aria-describedby="emailHelp" name="email"
+                                    placeholder="(555)555-1234 " value="{{ old('email') }}" autocomplete="off">
+                            <span class="text-danger">{{ $errors->first('email') }}</span>
+                            </div>
+                            <button id="activate-step-2" class="button btn btn-primary">Next</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="row setup-content text-center" id="step-2">
+                    <div class="col-lg-12">
+                        <div class="col-md-12 card p-3">
+                            <span>Please select below what you will be querying or need our help with:</span>
+
+                            <select class="js-example-basic-single" name="state">
+                                <option value="AL">Alabama</option>
+                                <option value="WY">Wyoming</option>
+                              </select>
+
+                            <span>Potential wait time <i class="fa fa-clock"></i> 30 mins</span>
+                            <br>
+                            <span>Are you still insterested?</span>
+                            <div class="form-group">
+                                <button id="activate-step-3" class=" button btn btn-primary mr-3">Next</button>
+                                <button class=" button btn btn-warning">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row setup-content text-center" id="step-3">
+                    <div class="col-lg-12">
+                        <div class="col-md-12 card p-3">
+                            <span>You are #3 in the line</span>
+                            <h1>A10001</h2>
+                            <button id="done" class="button btn btn-success">Finish</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
         </div> 
     </div>
 </div> 
 @endsection
-
 @push('scripts')
-<script src="{{ asset('public/assets/js/Chart.min.js') }}"></script>
-<script type="text/javascript"> 
-$(window).on('load', function(){
+<script>
+    $(document).ready(function() {
 
-    //line chart
-    var ctx = document.getElementById("lineChart");
-    var myChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: [
-                <?php 
-                if (!empty($month)) {
-                    for ($i=0; $i < sizeof($month) ; $i++) { 
-                       echo (!empty($month[$i])?$month[$i]->date:0).", ";
-                    }
-                }
-                ?>
-            ],
-            datasets: [
-                {
-                    label: "Total",
-                    borderColor: "rgba(24, 97, 142, .9)",
-                    borderWidth: "1",
-                    backgroundColor: "rgba(24, 97, 142, .09)",
-                    pointHighlightStroke: "rgba(24, 97, 142, 1)",
-                    data: [
-                        <?php 
-                        if (!empty($month)) {
-                            for ($i=0; $i < sizeof($month) ; $i++) { 
-                               echo (!empty($month[$i])?$month[$i]->total:0).", ";
-                            }
-                        }
-                        ?>
-                    ]
-                },
-                {
-                    label: "Success",
-                    borderColor: "rgba(225, 48, 91, 0.9)",
-                    borderWidth: "1",
-                    backgroundColor: "rgba(225, 48, 91, 0.09)",
-                    pointHighlightStroke: "rgba(26,179,148,1)",
-                    data: [
-                        <?php 
-                        if (!empty($month)) {
-                            for ($i=0; $i < sizeof($month) ; $i++) { 
-                               echo (!empty($month[$i])?$month[$i]->success:0).", ";
-                            }
-                        }
-                        ?>
-                    ]
-                },
-                {
-                    label: "Pending",
-                    borderColor: "rgba(0,0,0, 0.9)",
-                    borderWidth: "1",
-                    backgroundColor: "rgba(0,0,0, 0.09)",
-                    pointHighlightStroke: "rgba(26,179,148,1)",
-                    data: [
-                        <?php 
-                        if (!empty($month)) {
-                            for ($i=0; $i < sizeof($month) ; $i++) { 
-                               echo (!empty($month[$i])?$month[$i]->pending:0).", ";
-                            }
-                        }
-                        ?>
-                    ]
-                }
-            ]
-        },
-        options: {
-            responsive: true,
-            tooltips: {
-                mode: 'index',
-                intersect: false
-            },
-            hover: {
-                mode: 'nearest',
-                intersect: true
-            } 
+        $('.js-example-basic-single').select2();
+    
+    var navListItems = $('ul.setup-panel li a'),
+        allWells = $('.setup-content');
+
+    allWells.hide();
+
+    navListItems.click(function(e)
+    {
+        e.preventDefault();
+        var $target = $($(this).attr('href')),
+            $link = $(this).closest('a');
+            // console.log($link);
+        
+
+       if(!$link.hasClass('disabled')){
+            navListItems.closest('a').removeClass('active');
+            $link.addClass('active');
+            allWells.hide();
+            $target.show();
         }
     });
-
-
-    // single bar chart
-    var ctx = document.getElementById("singelBarChart");
-    var myChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: [
-                <?php 
-                if (!empty($year)) {
-                    for ($i=0; $i < sizeof($year) ; $i++) { 
-                       echo "'".(!empty($year[$i])?$year[$i]->month:0)."', ";
-                    }
-                }
-                ?>
-            ],
-            datasets: [
-                {
-                    label: "Total",
-                    borderColor: "rgba(24, 97, 142, 0.9)",
-                    borderWidth: "1",
-                    backgroundColor: "rgba(24, 97, 142, 0.5)",
-                    data: [
-                        <?php 
-                        if (!empty($year)) {
-                            for ($i=0; $i < sizeof($year) ; $i++) { 
-                               echo (!empty($year[$i])?$year[$i]->total:0).", ";
-                            }
-                        }
-                        ?>
-                    ]
-                },
-                {
-                    label: "Success",
-                    borderColor: "rgba(225, 48, 91, 0.9)",
-                    borderWidth: "1",
-                    backgroundColor: "rgba(225, 48, 91, 0.5)",
-                    data: [
-                        <?php 
-                        if (!empty($year)) {
-                            for ($i=0; $i < sizeof($year) ; $i++) { 
-                               echo (!empty($year[$i])?$year[$i]->success:0).", ";
-                            }
-                        }
-                        ?>
-                    ]
-                },
-                {
-                    label: "Pending",
-                    borderColor: "rgba(0,0,0, 0.9)",
-                    borderWidth: "1",
-                    backgroundColor: "rgba(0,0,0, 0.5)",
-                    data: [
-                        <?php 
-                        if (!empty($year)) {
-                            for ($i=0; $i < sizeof($year) ; $i++) { 
-                               echo (!empty($year[$i])?$year[$i]->pending:0).", ";
-                            }
-                        }
-                        ?>
-                    ]
-                }
-            ]
-        },
-        options: {
-            scales: {
-                yAxes: [{
-                        ticks: {
-                            beginAtZero: true
-                        }
-                    }]
-            }             
-        }
-    });
-
-
-
-    // pie chart
-    var ctx = document.getElementById("pieChart"); 
-    var myChart = new Chart(ctx, {
-        type: 'pie',
-        data: {
-            datasets: [{
-                    data: [
-                        <?php 
-                        if (!empty($begin) && is_array($begin)) { 
-                               echo (!empty($begin[0])?$begin[0]->total:0).", ";
-                               echo (!empty($begin[0])?$begin[0]->success:0).", ";
-                               echo (!empty($begin[0])?$begin[0]->pending:0); 
-                        }
-                        ?>
-                    ],
-                    backgroundColor: [
-                        "rgba(24, 97, 142,0.9)",
-                        "rgba(225, 48, 91,0.7)",
-                        "rgba(0,0,0,0.5)",
-                        "rgba(0,0,0,0.07)"
-                    ],
-                    hoverBackgroundColor: [
-                        "rgba(24, 97, 142,0.9)",
-                        "rgba(225, 48, 91,0.7)",
-                        "rgba(0,0,0,0.5)",
-                        "rgba(0,0,0,0.07)"
-                    ]
-
-                }],
-            labels: [
-                "Total",
-                "Success",
-                "Pending"
-            ]
-        },
-        options: {
-            responsive: true
-        }
-    });
- 
+    
+    $('ul.setup-panel li a.active').trigger('click');
+    
+    $('#activate-step-2').on('click', function(e) {
+        $('ul.setup-panel li a:eq(1)').removeClass('disabled');
+        $('ul.setup-panel li a[href="#step-2"]').trigger('click');
+        //$(this).remove();
+    })    
+    
+    $('#activate-step-3').on('click', function(e) {
+        $('ul.setup-panel li a:eq(2)').removeClass('disabled');
+        $('ul.setup-panel li a[href="#step-3"]').trigger('click');
+        //$(this).remove();
+    }) 
+    
+    
 });
-</script>
+
+
+    </script>
 @endpush
+
+

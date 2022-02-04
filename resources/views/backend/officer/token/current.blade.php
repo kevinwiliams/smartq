@@ -9,7 +9,7 @@
             <h1 class="h3 mb-0 text-gray-800">{{ trans('app.active') }} / {{ trans('app.todays_token') }}</h1>
         </div>
     </div>
-    <div class="h5 mb-3 font-weight-bold text-gray-800">Customers waiting: {{ count($tokens)}}</div>
+    <div class="h5 mb-3 text-gray-800"><i class="fas fa-users text-gray-500"></i> {{ count($tokens)}}</div>
     <div class="row">
         
         <div class="col-md-4 col-lg-4" style=" max-height: 500px; overflow: scroll">
