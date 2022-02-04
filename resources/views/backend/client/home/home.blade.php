@@ -41,6 +41,7 @@
                 <div class="row setup-content text-center" id="step-1">
                     <div class="col-lg-12">
                         <div class="col-md-12 card p-3">
+                            
                             <span>What number should we text to alert you?</span>
                             <div class="form-group">
                                 <input type="phone" class="form-control form-control-user" id="phone" aria-describedby="phoneHelp" name="phone" placeholder="(555)555-1234 " value="{{ old('phone', auth()->user()->mobile) }}" autocomplete="off">
@@ -93,7 +94,7 @@
                         <div class="col-md-12 card p-3">
                             <span id="tkn_position"></span>
                             <h1><span id="tkn_number"></span></h1>
-                                <button id="done" class="button btn btn-success">Finish</button>
+                                <a href="{{ url('client/token/current') }}"> <button id="done" class="button btn btn-success">Finish</button></a>
                         </div>
                     </div>
                 </div>               

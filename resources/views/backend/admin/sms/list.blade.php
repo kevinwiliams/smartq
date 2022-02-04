@@ -18,7 +18,7 @@
     <hr >
 
     <div class="panel-body">
-        <div class="col-md-12">
+        <div class="col-sm-12 col-md-12 col-lg-12">
             
 
             <div class="card shadow mb-4">
@@ -124,7 +124,7 @@ $(document).ready(function(){
             select    : true,
             pagingType: "full_numbers",
             lengthMenu: [[25, 50, 100, 150, 200, 500, -1], [25, 50, 100, 150, 200, 500, "All"]],
-            dom: "<'row'<'col-sm-4'l><'col-sm-4 text-center'B><'col-sm-4'f>><'row'<'col-md-12't>><'row'<'col-sm-6'i><'col-sm-6'p>>", 
+            dom: "<'row w-100'<'col-lg-4'l><'col-lg-4 text-center'B><'col-lg-4'f>><'row w-100'<'col-lg-12't>><'row'<'col-lg-6'i><'col-lg-6'p>>", 
             buttons: [
                 { extend:'copy', text:'<i class="fa fa-copy"></i>', className:'btn-sm',exportOptions:{columns:':visible'}},
                 { extend: 'print', text  :'<i class="fa fa-print"></i>', className:'btn-sm', exportOptions: { columns: ':visible',  modifier: { selected: null } }},  

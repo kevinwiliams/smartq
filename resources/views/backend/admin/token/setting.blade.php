@@ -52,7 +52,7 @@
 
         <!-- display setting option -->
         <div class="col-sm-6 col-lg-6">
-            <table class="display table table-bordered" width="100%" cellspacing="0">
+            <table class="display table" width="100%" cellspacing="0">
                 <thead>
                     <tr>
                         <th>#</th> 

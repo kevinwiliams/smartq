@@ -24,6 +24,7 @@ class TokenController extends Controller
     {
         @date_default_timezone_set(session('app.timezone'));
         $tokens = Token::where('status', '0')
+            ->where('client_id', auth()->user()->id )
             ->orderBy('is_vip', 'DESC')
             ->orderBy('id', 'ASC')
             ->get();
@@ -36,7 +37,7 @@ class TokenController extends Controller
             ->orderBy('firstname', 'ASC')
             ->pluck('name', 'id');
 
-        return view('backend.receptionist.token.current', compact('counters', 'departments', 'officers', 'tokens'));
+        return view('backend.client.token.current', compact('counters', 'departments', 'officers', 'tokens'));
     }
 
 

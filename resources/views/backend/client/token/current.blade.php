@@ -13,10 +13,42 @@
     </div>
 
     <div class="panel-body">
+        <input type="hidden" name="department_id" id="department_id" value="{{ !empty($tokens[0]->department)?$tokens[0]->department->id:null }}">
+        <div class="col-xl-4 col-md-4 mb-4">
+            <div class="card {!! (!empty($tokens[0]->is_vip)? "border-left-danger" :"border-left-primary") !!}  bg-gradient-light shadow h-100 py-2" style="min-height: 500px;">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col text-center" >
+                            
+                            <div class="text-xs font-weight-bold {!! (!empty($tokens[0]->is_vip)? "text-danger" :"text-primary") !!}  text-uppercase mb-1">
+                                {{ !empty($tokens[0]->department)?$tokens[0]->department->name:null }}</div>
+                            <div class="h1 mb-5 font-weight-bold text-gray-800"></i> Client L.</div>
+                            <div class="h3 mb-3 text-gray-800">{!! (!empty($tokens[0]->is_vip)?("<span class=\"badge bg-danger text-white\" title=\"VIP\">".$tokens[0]->token_no."</span>"):$tokens[0]->token_no) !!}</div>
+                            {{-- <div class="h5 b-0 text-gray-800">{{ !empty($tokens[0]->counter)?$tokens[0]->counter->name:null }}</div> --}}
+                            <div class="h5 mb-3 text-gray-800">{{ $tokens[0]->client_mobile }}<br/>
+                                {!! (!empty($tokens[0]->client)?("(<a href='".url("officer/user/view/{$tokens[0]->client->id}")."'>".$tokens[0]->client->firstname." ". $tokens[0]->client->lastname."</a>)"):null) !!}
+                            </div>
+                            <div class="h5 mb-5 text-gray-800"><i class="fas fa-calendar text-gray-500"></i> {{ (!empty($tokens[0]->created_at)?date('j M Y h:i a',strtotime($tokens[0]->created_at)):null) }}</div>
+                            <br><br>
+                            
+                            
+                            <a href="#"  class="btn btn-danger btn-sm" onclick="confirmation('{{ url("client/token/stoped/$tokens[0]->id") }}')" title="Stoped"><i class="fa fa-stop"></i> Get out of line</a>
+                        
+                            <span class="mx-5">Potential wait time <i class="fa fa-clock"></i>&nbsp;<span id="span_wait"></span></span>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-ticket-alt rotate-15 fa-8x text-gray-300"></i>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <table class="datatable display table table-bordered" width="100%" cellspacing="0">
             <thead>
                 <tr>
-                    <th>#</th>
+                    <th>No</th>
                     <th>{{ trans('app.token_no') }}</th>
                     <th>{{ trans('app.department') }}</th>
                     <th>{{ trans('app.counter') }}</th>
@@ -93,7 +125,24 @@
     function doMyStuff() { 
         window.location.reload();
     } 
-
+    $(document).ready(function() {
+        var dept = $("#department_id").val();    
+        $.ajax({
+                type: 'post',
+                url: '{{ URL::to("client/getwaittime") }}',
+                type:'POST',
+                dataType: 'json',
+                data: {
+                    'id' : dept,
+                    '_token':'<?php echo csrf_token() ?>'
+                },
+                success: function(data) {
+                    console.log(data);
+                  $("#span_wait").text(data);                                             
+                }
+            });
+    });
+            
     // print token
     $("body").on("click", ".tokenPrint", function(e) {
         e.preventDefault();

@@ -55,7 +55,7 @@
                 </div>
 
                 <div class="form-group">
-                    <button class="button btn btn-info" type="reset"><span>{{ trans('app.reset') }}</span></button>
+                    <button class="button btn btn-info mr-3" type="reset"><span>{{ trans('app.reset') }}</span></button>
                     <button class="button btn btn-success" type="submit"><span>{{ trans('app.update') }}</span></button> 
                 </div>
             </div>

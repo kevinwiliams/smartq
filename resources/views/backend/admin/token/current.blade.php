@@ -20,7 +20,7 @@
     </nav>
     <hr >
     <div class="panel-body">
-        <table class="datatable display table table-bordered" width="100%" cellspacing="0">
+        <table class="datatable display table" width="100%" cellspacing="0">
             <thead>
                 <tr>
                     <th>#</th>
