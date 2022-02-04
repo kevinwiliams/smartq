@@ -47,13 +47,13 @@
     }); 
 
     
-}(jQuery));
+});
 
  
 //preloader
-$(window).load(function() {
+// $(window).load(function() {
     // $(".loader").fadeOut("slow");
-});
+// });
 
 
 //print a div
