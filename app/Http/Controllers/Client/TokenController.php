@@ -24,20 +24,39 @@ class TokenController extends Controller
     {
         @date_default_timezone_set(session('app.timezone'));
         $token = Token::where('status', '0')
-            ->where('client_id', auth()->user()->id )
+            ->where('client_id', auth()->user()->id)
             ->orderBy('is_vip', 'DESC')
             ->orderBy('id', 'ASC')
             ->first();
 
-        return view('backend.client.token.current', compact('token'));
+        $dept = Department::find($token->department_id);
+
+        $list = Token::where('status', 0)
+            ->where('department_id', $token->department_id)
+            ->where('counter_id', $token->counter_id)
+            ->orderBy('id')->get();
+        $cntr = 1;
+        foreach ($list as $value) {
+            if ($value->token_no == $token->token_no) {
+                break;
+            }
+            $cntr++;
+        }
+
+        $waittime = $dept->avg_wait_time * ($cntr - 1);
+        
+        $position = $cntr;
+        $wait = date('H:i', mktime(0, $waittime));
+
+        return view('backend.client.token.current', compact('token','position','wait'));
     }
 
     public function stoped($id)
     {
         Token::where('id', $id)
-            ->where('client_id', auth()->user()->id )
+            ->where('client_id', auth()->user()->id)
             ->update([
-                'updated_at' => date('Y-m-d H:i:s'), 
+                'updated_at' => date('Y-m-d H:i:s'),
                 'status'     => 2,
                 'sms_status' => 1
             ]);
@@ -46,38 +65,38 @@ class TokenController extends Controller
         $data['exception'] = trans('app.update_successfully');
 
         return response()->json($data);
-    } 
+    }
 
-    
+
     public function currentposition()
     {
         $token = Token::where('status', '0')
-        ->where('client_id', auth()->user()->id )
-        ->orderBy('is_vip', 'DESC')
-        ->orderBy('id', 'ASC')
-        ->first();
+            ->where('client_id', auth()->user()->id)
+            ->orderBy('is_vip', 'DESC')
+            ->orderBy('id', 'ASC')
+            ->first();
 
         $dept = Department::find($token->department_id);
 
         $list = Token::where('status', 0)
-        ->where('department_id', $token->department_id)
-        ->where('counter_id', $token->counter_id)
-        ->orderBy('id')->get();
+            ->where('department_id', $token->department_id)
+            ->where('counter_id', $token->counter_id)
+            ->orderBy('id')->get();
         $cntr = 1;
         foreach ($list as $value) {
-            if($value->token_no == $token->token_no){
+            if ($value->token_no == $token->token_no) {
                 break;
             }
-            $cntr ++;
+            $cntr++;
         }
 
         $waittime = $dept->avg_wait_time * ($cntr - 1);
         $data['status'] = true;
         $data['position'] = $cntr;
-        $data['wait'] = date('H:i', mktime(0, $waittime));        
+        $data['wait'] = date('H:i', mktime(0, $waittime));
 
         return response()->json($data);
-    } 
+    }
 
     /*-----------------------------------
     | VIEW 
@@ -294,7 +313,7 @@ class TokenController extends Controller
 
         $client_id = auth()->user()->id;
         $client_mobile = auth()->user()->mobile;
-        
+
         //generate a token
         try {
             DB::beginTransaction();
@@ -372,15 +391,15 @@ class TokenController extends Controller
                     DB::commit();
 
                     $list = Token::where('status', 0)
-                    ->where('department_id', $saveToken["department_id"])
-                    ->where('counter_id', $saveToken["counter_id"])
-                    ->orderBy('id')->get();
+                        ->where('department_id', $saveToken["department_id"])
+                        ->where('counter_id', $saveToken["counter_id"])
+                        ->orderBy('id')->get();
                     $cntr = 1;
                     foreach ($list as $value) {
-                        if($value->token_no == $saveToken["token_no"]){
+                        if ($value->token_no == $saveToken["token_no"]) {
                             break;
                         }
-                        $cntr ++;
+                        $cntr++;
                     }
                     $data['status'] = true;
                     $data['message'] = trans('app.token_generate_successfully');

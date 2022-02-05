@@ -30,12 +30,11 @@
                             {!! (!empty($token->client)?("(<a href='".url("common/setting/profile")."'>".$token->client->firstname." ". $token->client->lastname."</a>)"):null) !!}
                         </div>
                         <br>
-                        <span class="h6 mx-3" id="tkn_position"></span>
-
+                        <span class="h6 mx-3" id="tkn_position">You are #{{ $position }} in the queue</span>
                         <br>
                         <span class="h6 mb-3">Potential wait time
                             <i class="fa fa-clock"></i>&nbsp;
-                            <span id="span_wait"></span>
+                            <span id="span_wait">{{ $wait }}</span>
                         </span>
                         <br><br>
                         <div class="btn-group">
