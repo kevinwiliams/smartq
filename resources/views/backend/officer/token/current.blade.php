@@ -9,7 +9,7 @@
             <h1 class="h3 mb-0 text-gray-800">{{ trans('app.active') }} / {{ trans('app.todays_token') }}</h1>
         </div>
     </div>
-    <div class="h5 mb-3 text-gray-800"><i class="fas fa-users text-gray-500"></i> {{ count($tokens)}}</div>
+    <div class="h5 mb-3 text-gray-800"><i class="fas fa-users text-gray-500"></i> {{ (!empty(count($tokens)))? (count($tokens)) - 1 : 0}} customers waiting</div>
     <div class="row">
         
         <div class="col-md-4 col-lg-4" style=" max-height: 500px; overflow: scroll">
@@ -58,6 +58,7 @@
         </div>
         <div class="col-md-8 col-lg-8">
             <div class="col-xl-12 col-md-12 mb-4" >
+                @if (!empty($tokens[0]))
                 <div class="card {!! (!empty($tokens[0]->is_vip)? "border-left-danger" :"border-left-primary") !!}  bg-gradient-light shadow h-100 py-2" style="min-height: 500px;">
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
@@ -65,7 +66,7 @@
                                 
                                 <div class="text-xs font-weight-bold {!! (!empty($tokens[0]->is_vip)? "text-danger" :"text-primary") !!}  text-uppercase mb-1">
                                     {{ !empty($tokens[0]->department)?$tokens[0]->department->name:null }}</div>
-                                <div class="h1 mb-5 font-weight-bold text-gray-800"></i> Client L.</div>
+                                <div class="h1 mb-5 font-weight-bold text-gray-800"></i>  {{ !empty($tokens[0]->client)? ($tokens[0]->client->firstname." ". $tokens[0]->client->lastname): null }}</div>
                                 <div class="h3 mb-3 text-gray-800">{!! (!empty($tokens[0]->is_vip)?("<span class=\"badge bg-danger text-white\" title=\"VIP\">".$tokens[0]->token_no."</span>"):$tokens[0]->token_no) !!}</div>
                                 {{-- <div class="h5 b-0 text-gray-800">{{ !empty($tokens[0]->counter)?$tokens[0]->counter->name:null }}</div> --}}
                                 <div class="h5 mb-3 text-gray-800">{{ $tokens[0]->client_mobile }}<br/>
@@ -86,6 +87,7 @@
                         </div>
                     </div>
                 </div>
+                @endif
             </div>
 
         </div>
