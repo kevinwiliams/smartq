@@ -230,6 +230,8 @@ Route::group(['middleware' => ['auth']], function() {
 		Route::post('token/client','TokenController@clientTokenAuto'); 
 		Route::post('token/auto','TokenController@tokenAuto'); 
 		Route::get('token/create','TokenController@showForm');
+		Route::get('token/stoped/{id}','TokenController@stoped');
+		Route::get('token/currentposition','TokenController@currentposition');		
 		Route::post('token/create','TokenController@create');
 		Route::get('token/current','TokenController@current'); 
 		Route::post('token/print', 'TokenController@viewSingleToken');

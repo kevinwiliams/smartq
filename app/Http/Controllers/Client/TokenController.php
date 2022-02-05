@@ -23,23 +23,61 @@ class TokenController extends Controller
     public function current()
     {
         @date_default_timezone_set(session('app.timezone'));
-        $tokens = Token::where('status', '0')
+        $token = Token::where('status', '0')
             ->where('client_id', auth()->user()->id )
             ->orderBy('is_vip', 'DESC')
             ->orderBy('id', 'ASC')
-            ->get();
+            ->first();
 
-        $counters = Counter::where('status', 1)->pluck('name', 'id');
-        $departments = Department::where('status', 1)->pluck('name', 'id');
-        $officers = User::select(DB::raw('CONCAT(firstname, " ", lastname) as name'), 'id')
-            ->where('user_type', 1)
-            ->where('status', 1)
-            ->orderBy('firstname', 'ASC')
-            ->pluck('name', 'id');
-
-        return view('backend.client.token.current', compact('counters', 'departments', 'officers', 'tokens'));
+        return view('backend.client.token.current', compact('token'));
     }
 
+    public function stoped($id)
+    {
+        Token::where('id', $id)
+            ->where('client_id', auth()->user()->id )
+            ->update([
+                'updated_at' => date('Y-m-d H:i:s'), 
+                'status'     => 2,
+                'sms_status' => 1
+            ]);
+
+        $data['status'] = true;
+        $data['exception'] = trans('app.update_successfully');
+
+        return response()->json($data);
+    } 
+
+    
+    public function currentposition()
+    {
+        $token = Token::where('status', '0')
+        ->where('client_id', auth()->user()->id )
+        ->orderBy('is_vip', 'DESC')
+        ->orderBy('id', 'ASC')
+        ->first();
+
+        $dept = Department::find($token->department_id);
+
+        $list = Token::where('status', 0)
+        ->where('department_id', $token->department_id)
+        ->where('counter_id', $token->counter_id)
+        ->orderBy('id')->get();
+        $cntr = 1;
+        foreach ($list as $value) {
+            if($value->token_no == $token->token_no){
+                break;
+            }
+            $cntr ++;
+        }
+
+        $waittime = $dept->avg_wait_time * ($cntr - 1);
+        $data['status'] = true;
+        $data['position'] = $cntr;
+        $data['wait'] = date('H:i', mktime(0, $waittime));        
+
+        return response()->json($data);
+    } 
 
     /*-----------------------------------
     | VIEW 

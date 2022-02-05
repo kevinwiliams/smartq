@@ -20,17 +20,13 @@
                             <li class="nav-item"><a class="nav-link active" href="#step-1">
                                     <h4 class="list-group-item-heading">Step 1</h4>
                                     <p class="list-group-item-text">How can we contact you?</p>
-                                </a></li>
+                                </a></li>                
                             <li class="nav-item"><a class="nav-link disabled" href="#step-2">
                                     <h4 class="list-group-item-heading">Step 2</h4>
-                                    <p class="list-group-item-text">Confirm your number?</p>
+                                    <p class="list-group-item-text">What service are you seeking?</p>
                                 </a></li>
                             <li class="nav-item"><a class="nav-link disabled" href="#step-3">
                                     <h4 class="list-group-item-heading">Step 3</h4>
-                                    <p class="list-group-item-text">What service are you seeking?</p>
-                                </a></li>
-                            <li class="nav-item"><a class="nav-link disabled" href="#step-4">
-                                    <h4 class="list-group-item-heading">Step 4</h4>
                                     <p class="list-group-item-text">Joined the queue</p>
                                 </a></li>
                            
@@ -40,34 +36,29 @@
               
                 <div class="row setup-content text-center" id="step-1">
                     <div class="col-lg-12">
-                        <div class="col-md-12 card p-3">
-                            
+                        <div class="col-md-12 card p-3" id="phoneCard">                            
                             <span>What number should we text to alert you?</span>
                             <div class="form-group">
                                 <input type="phone" class="form-control form-control-user" id="phone" aria-describedby="phoneHelp" name="phone" placeholder="(555)555-1234 " value="{{ old('phone', auth()->user()->mobile) }}" autocomplete="off">
 
                                 <span class="text-danger">{{ $errors->first('phone') }}</span>
                             </div>
-                            <button id="activate-step-2" class="button btn btn-primary">Next</button>
+                            <button id="btnConfirm" class="button btn btn-primary">Next</button>
                         </div>
-                    </div>
-                </div>
-                <div class="row setup-content text-center" id="step-2">
-                    <div class="col-lg-12">
-                        <div class="col-md-12 card p-3">
+                        <div class="col-md-12 card p-3" id="codeCard" style="display: none;">
                             <span>Confirm the SMS code we sent below:</span>
                             <input type="text" class="form-control form-control-user" id="code" aria-describedby="codeHelp" name="code" placeholder="555555" value="{{ old('code') }}" autocomplete="off">
 
                             <span>It might take a few minutes, please be patient</span>
                             
                             <div class="form-group">
-                                <button id="activate-step-3" class=" button btn btn-primary mr-3">Next</button>
+                                <button id="activate-step-2" class=" button btn btn-primary mr-3">Next</button>
                                 <button class=" button btn btn-warning">Cancel</button>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="row setup-content text-center" id="step-3">
+                </div>   
+                <div class="row setup-content text-center" id="step-2">
                     <div class="col-lg-12">
                         <div class="col-md-12 card p-3">
                             <span>Please select below what you will be querying or need our help with:</span>
@@ -82,14 +73,14 @@
                             <br>
                             <span>Are you still insterested?</span>
                             <div class="form-group">
-                                <button id="activate-step-4" class=" button btn btn-primary mr-3">Next</button>
+                                <button id="activate-step-3" class=" button btn btn-primary mr-3">Next</button>
                                 <button class=" button btn btn-warning">Cancel</button>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="row setup-content text-center" id="step-4">
+                <div class="row setup-content text-center" id="step-3">
                     <div class="col-lg-12">
                         <div class="col-md-12 card p-3">
                             <span id="tkn_position"></span>
@@ -132,7 +123,7 @@
 
         $('ul.setup-panel li a.active').trigger('click');
 
-        $('#activate-step-2').on('click', function(e) {
+        $('#btnConfirm').on('click', function(e) {
             var phone = $("#phone").val();
 
             if (phone == "") {
@@ -166,9 +157,8 @@
                                     '_token':'<?php echo csrf_token() ?>'
                                 },
                                 success: function(data) {
-                                    // console.log(data);
-                                    $('ul.setup-panel li a:eq(1)').removeClass('disabled');
-                                    $('ul.setup-panel li a[href="#step-2"]').trigger('click');                                 
+                                    $("#phoneCard").hide();
+                                    $("#codeCard").show();
                                 }
                             });
                             break;
@@ -180,7 +170,7 @@
             //$(this).remove();
         });
 
-        $('#activate-step-3').on('click', function(e) {
+        $('#activate-step-2').on('click', function(e) {
             var phone = $("#phone").val();
             var code = $("#code").val();
 
@@ -193,7 +183,7 @@
             }
 
             if (code == "") {
-                swal("Enter your contact number", {
+                swal("Enter your OTP code", {
                     title: 'Error',
                     icon: 'error'
                 });
@@ -212,8 +202,8 @@
                 },
                 success: function(data) {
                     if(data.status == true){
-                        $('ul.setup-panel li a:eq(2)').removeClass('disabled');
-                        $('ul.setup-panel li a[href="#step-3"]').trigger('click');  
+                        $('ul.setup-panel li a:eq(1)').removeClass('disabled');
+                        $('ul.setup-panel li a[href="#step-2"]').trigger('click');  
                     }else{
                         swal("Invalid Code", {
                             title: 'Error',
@@ -229,7 +219,7 @@
         });
 
 
-        $('#activate-step-4').on('click', function(e) {
+        $('#activate-step-3').on('click', function(e) {
             var dept = $("#department_id").find(':selected').val();            
 
             if (dept == "") {
@@ -254,8 +244,8 @@
                         var msg = "You are #" + data.position + " in the line";
                         $("#tkn_position").text(msg);
                         $("#tkn_number").text(data.token.token_no);
-                        $('ul.setup-panel li a:eq(3)').removeClass('disabled');
-                        $('ul.setup-panel li a[href="#step-4"]').trigger('click');  
+                        $('ul.setup-panel li a:eq(2)').removeClass('disabled');
+                        $('ul.setup-panel li a[href="#step-3"]').trigger('click');  
                     }
                                              
                 }
