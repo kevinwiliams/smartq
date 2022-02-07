@@ -153,6 +153,12 @@ class LoginController extends Controller
 
         if ($existsAccount) 
         { 
+            $currentuser = $existsAccount->user()->first();
+            if($currentuser->photo != $providerUser->getAvatar()){
+                $update = User::where('id', auth()->user()->id)
+                ->update([ 'photo' => $providerUser->getAvatar()]);
+            }
+
             return $existsAccount->user()->first();
         } 
         else 
