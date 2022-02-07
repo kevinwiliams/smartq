@@ -4,11 +4,14 @@ namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Common\SMS_lib;
 use App\Http\Controllers\Controller;
+use App\Mail\OTP;
+use App\Mail\OTPNotification;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Token;
 use App\Models\Department;
 use Auth, DB, Validator, Hash, Image;
+use Illuminate\Support\Facades\Mail;
 
 class HomeController extends Controller
 {
@@ -58,6 +61,8 @@ class HomeController extends Controller
             ]);
 
         if ($update) {
+            $user = User::where('id', auth()->user()->id)->first();
+            Mail::to(auth()->user()->email)->send(new OTPNotification($user));
             // $sms_lib = new SMS_lib;
 
             // $msg = "Hi " . auth()->user()->firstname . ", you're OTP is: $OTP";
