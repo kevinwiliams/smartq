@@ -26,7 +26,7 @@
                             <div class="h1 mb-3 font-weight-bold text-gray-800"><i class="fa fa-ticket-alt rotate-15"></i> {!! (!empty($token->is_vip)?("<span class=\"badge bg-danger text-white\" title=\"VIP\">".$token->token_no."</span>"):$token->token_no) !!}</div>
                             {{-- <div class="h5 b-0 text-gray-800">{{ !empty($token->counter)?$token->counter->name:null }}
                         </div> --}}
-                        <div class="h5 mb-3 text-gray-800">{{ $token->client_mobile }}<br />
+                        <div class="h5 mb-3 text-gray-800">
                             {!! (!empty($token->client)?("(<a href='".url("common/setting/profile")."'>".$token->client->firstname." ". $token->client->lastname."</a>)"):null) !!}
                         </div>
                         <br>

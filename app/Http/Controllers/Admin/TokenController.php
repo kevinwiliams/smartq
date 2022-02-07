@@ -431,7 +431,7 @@ class TokenController extends Controller
             ->where('status',1)
             ->orderBy('firstname', 'ASC')
             ->pluck('name', 'id'); 
-
+                    
         return view('backend.admin.token.current', compact('counters', 'departments', 'officers', 'tokens'));
     } 
 

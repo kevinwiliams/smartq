@@ -36,9 +36,11 @@
               
                 <div class="row setup-content text-center" id="step-1">
                     <div class="col-lg-12">
+                        @if($smsalert)
                         <div class="col-md-12 card p-3" id="phoneCard">                            
                             <span>What number should we text to alert you?</span>
                             <div class="form-group">
+                              
                                 <input type="phone" class="form-control form-control-user" id="phone" aria-describedby="phoneHelp" name="phone" placeholder="(555)555-1234 " value="{{ old('phone', auth()->user()->mobile) }}" autocomplete="off">
 
                                 <span class="text-danger">{{ $errors->first('phone') }}</span>
@@ -56,6 +58,28 @@
                                 <button class=" button btn btn-warning">Cancel</button>
                             </div>
                         </div>
+                        @else
+                        <div class="col-md-12 card p-3" id="phoneCard">                            
+                            <span>We'll send a password to your email</span>
+                            <div class="form-group">
+                                <span>{{ $maskedemail }}</span>
+                                <input type="hidden" id="phone" name="phone" value="{{ $maskedemail }}">
+                            </div>
+                            <button id="btnConfirm" class="button btn btn-primary">Next</button>
+                        </div>
+                        <div class="col-md-12 card p-3" id="codeCard" style="display: none;">
+                            <span>Confirm the OTP code we sent below:</span>
+                            <input type="text" class="form-control form-control-user" id="code" aria-describedby="codeHelp" name="code" placeholder="555555" value="{{ old('code') }}" autocomplete="off">
+
+                            <span>It might take a few minutes, please be patient</span>
+                            
+                            <div class="form-group">
+                                <button id="activate-step-2" class=" button btn btn-primary mr-3">Next</button>
+                                <button class=" button btn btn-warning">Cancel</button>
+                            </div>
+                        </div>
+
+                        @endif
                     </div>
                 </div>   
                 <div class="row setup-content text-center" id="step-2">
@@ -133,8 +157,14 @@
                 });
                 return;
             }
-
-            var msg = "My number is: " + phone;
+            var _smsalert = '{{ $smsalert }}';
+            var msg = ""
+            if (parseInt(_smsalert) == 1){
+                msg = "My number is: " + phone;
+            }else{
+                msg = "My email is: " + phone;
+            }
+            
             swal(msg, {
                     title: 'Are you sure?',
                     icon: 'warning',

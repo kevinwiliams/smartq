@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Token;
 use App\Models\Department;
+use App\Models\DisplaySetting;
 use Auth, DB, Validator, Hash, Image;
 use Illuminate\Support\Facades\Mail;
 
@@ -22,12 +23,12 @@ class HomeController extends Controller
         // $departments = Department::where('status', 1)->pluck('name', 'id');
 
         $current = Token::where('status', '0')
-        ->where('client_id', auth()->user()->id )
-        ->orderBy('is_vip', 'DESC')
-        ->orderBy('id', 'ASC')
-        ->first();
+            ->where('client_id', auth()->user()->id)
+            ->orderBy('is_vip', 'DESC')
+            ->orderBy('id', 'ASC')
+            ->first();
 
-        if($current){
+        if ($current) {
             return redirect('client/token/current');
         }
 
@@ -39,7 +40,13 @@ class HomeController extends Controller
             ->where('department.status', 1)
             ->pluck('name', 'id');
 
-        return view('backend.client.home.home', compact('departments'));
+        $display = DisplaySetting::first();
+
+        $smsalert = $display->sms_alert;
+
+        $maskedemail = $this->maskEmail(auth()->user()->email);
+
+        return view('backend.client.home.home', compact('departments', 'smsalert', 'maskedemail'));
     }
 
 
@@ -61,16 +68,23 @@ class HomeController extends Controller
             ]);
 
         if ($update) {
+            $display = DisplaySetting::first();
+
             $user = User::where('id', auth()->user()->id)->first();
-            Mail::to(auth()->user()->email)->send(new OTPNotification($user));
-            // $sms_lib = new SMS_lib;
 
-            // $msg = "Hi " . auth()->user()->firstname . ", you're OTP is: $OTP";
+            if ($display->sms_alert) {
+                $sms_lib = new SMS_lib;
 
-            // $data = $sms_lib                
-            //     ->to($request->phone)
-            //     ->message($msg)
-            //     ->response();
+                $msg = "Hi " . auth()->user()->firstname . ", you're OTP is: $OTP";
+
+                $data = $sms_lib
+                    ->to($request->phone)
+                    ->message($msg)
+                    ->response();
+            } else {
+
+                Mail::to(auth()->user()->email)->send(new OTPNotification($user));
+            }
 
             // return json_decode($data, true);
             return json_encode(array(
@@ -91,21 +105,23 @@ class HomeController extends Controller
 
     public function confirmOTP(Request $request)
     {
-        $OTP = auth()->user()->otp;
-        // echo '<pre>';
-        // print_r($OTP);
-        // echo '</pre>';
-        // echo '<pre>';
-        // print_r($request->code);
-        // echo '</pre>';
-        // die();
-     
+        $OTP = auth()->user()->otp;       
+
         if ($request->code == $OTP) {
+            $display = DisplaySetting::first();
+            
+            if ($display->sms_alert) {
             $update = User::where('id', auth()->user()->id)
                 ->update([
                     'mobile' => $request->phone,
                     'updated_at'  => date('Y-m-d'),
                 ]);
+            }else{
+                $update = User::where('id', auth()->user()->id)
+                ->update([                    
+                    'updated_at'  => date('Y-m-d'),
+                ]);
+            }
 
             return json_encode(array(
                 'status'      => true,
@@ -121,12 +137,12 @@ class HomeController extends Controller
     public function getwaittime(Request $request)
     {
         $dept = Department::find($request->id);
-        $waiting = Token::where('status',0)->where('department_id',$request->id)->count();
+        $waiting = Token::where('status', 0)->where('department_id', $request->id)->count();
         $waiting = $waiting - 1;
 
         $waittime = 0;
 
-        $waittime = ($dept->avg_wait_time != null)? $dept->avg_wait_time * $waiting :$waiting * 1;
+        $waittime = ($dept->avg_wait_time != null) ? $dept->avg_wait_time * $waiting : $waiting * 1;
         return json_encode(date('H:i', mktime(0, $waittime)));
     }
 
@@ -154,5 +170,12 @@ class HomeController extends Controller
 
         // Return result
         return $result;
+    }
+
+    function maskEmail($x)
+    {
+        $arr = explode("@", trim($x));
+
+        return $arr[0][0] . str_repeat("*", strlen($arr[0])  - 2) . $arr[0][strlen($arr[0]) - 1] . "@" . $arr[1];
     }
 }
