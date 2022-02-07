@@ -278,7 +278,7 @@
     
             <!-- Nav Item - Token Collapse Menu -->
             <li class="nav-item {{ (Request::segment(2)=='client' ? 'active' : '') }}">
-                <a class="nav-link" href="{{ url('client/token/current') }}">
+                <a class="nav-link" href="{{ url('client/') }}">
                     <i class="fas fa-fw fa-ticket-alt rotate-15"></i>
                     <span>{{ trans('app.token') }}</span>
                 </a>
