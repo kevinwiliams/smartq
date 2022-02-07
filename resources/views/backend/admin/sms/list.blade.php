@@ -124,7 +124,7 @@ $(document).ready(function(){
             select    : true,
             pagingType: "full_numbers",
             lengthMenu: [[25, 50, 100, 150, 200, 500, -1], [25, 50, 100, 150, 200, 500, "All"]],
-            dom: "<'row w-100'<'col-lg-4'l><'col-lg-4 text-center'B><'col-lg-4'f>><'row w-100'<'col-lg-12't>><'row'<'col-lg-6'i><'col-lg-6'p>>", 
+            dom: "<'row w-100'<'col-lg-4'l><'col-lg-4 text-center'B><'col-lg-4'f>><'row w-100'<'col-lg-12't>><'row w-100'<'col-lg-6'i><'col-lg-6'p>>", 
             buttons: [
                 { extend:'copy', text:'<i class="fa fa-copy"></i>', className:'btn-sm',exportOptions:{columns:':visible'}},
                 { extend: 'print', text  :'<i class="fa fa-print"></i>', className:'btn-sm', exportOptions: { columns: ':visible',  modifier: { selected: null } }},  

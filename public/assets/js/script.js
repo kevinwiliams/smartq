@@ -31,9 +31,8 @@
     //datatable 
     $('.datatable').DataTable({ 
         responsive: true,  
-        responsivePriority: 1,
         select    : true,
-        //pagingType: "full_numbers",
+        pagingType: "full_numbers",
         lengthMenu: [[25, 50, 100, 150, 200, 500, -1], [25, 50, 100, 150, 200, 500, "All"]],
         dom: "<'row'<'col-sm-4'l><'col-sm-4 text-center'B><'col-sm-4'f>><'row'<'col-sm-12't>><'row'<'col-sm-6'i><'col-sm-6'p>>", 
         buttons: [

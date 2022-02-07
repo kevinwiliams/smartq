@@ -11,7 +11,7 @@
     </div> 
 
     <div class="panel-body"> 
-        <table class="dataTables-server display table table-bordered " width="100%" cellspacing="0">
+        <table class="dataTables-server display table " width="100%" cellspacing="0">
             <thead>
                 <tr>
                     <th rowspan="3">#</th>

@@ -14,7 +14,7 @@
     </div>
 
     <div class="panel-body">
-        <table class="dataTables-server display table table-bordered" width="100%" cellspacing="0">
+        <table class="dataTables-server display table" width="100%" cellspacing="0">
             <thead>
                 <tr>
                     <th>#</th> 
@@ -85,7 +85,7 @@ $(document).ready(function(){
             select    : true,
             pagingType: "full_numbers",
             lengthMenu: [[25, 50, 100, 150, 200, 500, -1], [25, 50, 100, 150, 200, 500, "All"]],
-            dom: "<'row'<'col-sm-4'l><'col-sm-4 text-center'B><'col-sm-4'f>><'row'<'col-sm-12't>><'row'<'col-sm-6'i><'col-sm-6'p>>", 
+            dom: "<'row w-100'<'col-sm-4'l><'col-sm-4 text-center'B><'col-sm-4'f>><'row w-100'<'col-sm-12't>><'row w-100'<'col-sm-6'i><'col-sm-6'p>>", 
             columnDefs: [
                 { "orderable": false, "targets": [1,6,8] }
             ],

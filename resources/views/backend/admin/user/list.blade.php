@@ -169,7 +169,7 @@
             select    : true,
             pagingType: "full_numbers",
             lengthMenu: [[25, 50, 100, 150, 200, 500, -1], [25, 50, 100, 150, 200, 500, "All"]],
-            dom: "<'row w-100 '<'col-sm-4'l><'col-sm-4 text-center'B><'col-sm-4'f>><'row w-100'<'col-sm-12't>><'row'<'col-sm-6'i><'col-sm-6'p>>", 
+            dom: "<'row w-100 '<'col-sm-4'l><'col-sm-4 text-center'B><'col-sm-4'f>><'row w-100'<'col-sm-12't>><'row w-100'<'col-sm-6'i><'col-sm-6'p>>", 
             columnDefs: [
                 { "orderable": false, "targets": [1, 2, 5, 7] }
             ], 

@@ -646,7 +646,7 @@
      <!-- template -->
      <!-- datatable -->
      <script src="{{ asset('assets/js/dataTables.min.js') }}"></script>
-     {{-- <script src="{{ asset('assets/vendor/datatables/jquery.dataTables.min.js') }}"></script> --}}
+     <script src="{{ asset('assets/vendor/datatables/dataTables.bootstrap4.js') }}"></script>
    
      <!-- sweet alert -->
      <script src="{{ asset('assets/js/sweetalert.min.js') }}"></script>
