@@ -17,8 +17,6 @@
         <table class="dataTables-server display table" width="100%" cellspacing="0">
             <thead>
                 <tr>
-                    <th>#</th> 
-                    <th>{{ trans('app.photo') }} </th>
                     <th>{{ trans('app.sender') }} </th>
                     <th>{{ trans('app.subject') }}</th>
                     <th>{{ trans('app.message') }}</th>
@@ -71,8 +69,7 @@ $(document).ready(function(){
                 }
             },
             columns: [ 
-                { data: 'serial' },
-                { data: 'photo' },
+                
                 { data: 'sender' },
                 { data: 'subject' },
                 { data: 'message' },
@@ -87,7 +84,7 @@ $(document).ready(function(){
             lengthMenu: [[25, 50, 100, 150, 200, 500, -1], [25, 50, 100, 150, 200, 500, "All"]],
             dom: "<'row w-100'<'col-sm-4'l><'col-sm-4 text-center'B><'col-sm-4'f>><'row w-100'<'col-sm-12't>><'row w-100'<'col-sm-6'i><'col-sm-6'p>>", 
             columnDefs: [
-                { "orderable": false, "targets": [1,6,8] }
+                { "orderable": false, "targets": [1,2,6] }
             ],
             buttons: [
                 { extend:'copy', footer:true, text:'<i class="fa fa-copy"></i>', className:'btn-sm',exportOptions:{columns:':visible'}},

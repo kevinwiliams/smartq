@@ -146,8 +146,8 @@ class MessageController extends Controller
                 'sender'     => !empty($message->sender)?($message->sender->firstname. ' '.$message->sender->lastname . '<br/><i class="badge bg-success text-white">'. auth()->user()->roles($message->sender->user_type).'</i>'):null,
                 'subject'    => $message->subject,
                 'message'    => Str::limit($message->message, 500, '...'),
-                'datetime'   => (!empty($message->datetime)?date('j M Y h:i a',strtotime($message->datetime)):null),
-                'attachment' => (!empty($message->attachment)?'<i class="text-success fa fa-2x fa-check"></i>':'<i class="text-danger fa fa-2x fa-times"></i>'),
+                'datetime'   => (!empty($message->datetime)?date('M j'  ,strtotime($message->datetime)):null),
+                'attachment' => (!empty($message->attachment)?'<i class="text-success fa fa-2x fa-paperclip"></i>':'<i class="text-gray-300 fa fa-2x fa-paperclip"></i>'),
 
                 'receiver_status' => (($message->receiver_status==0)?'<i class="badge bg-warning">'.trans('app.not_seen').'</i>':'<i class="badge bg-success text-white">'.trans('app.seen').'</i>'),
 
