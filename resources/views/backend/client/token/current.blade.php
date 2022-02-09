@@ -38,7 +38,11 @@
                         </span>
                         <br><br>
                         <div class="btn-group">
+                            @if($token->status==0)  
                             <a href="#" class="btn btn-danger btn-sm" onclick="javascript:getOutOfLine('{{ $token->id }}')" title="Stoped"><i class="fa fa-stop"></i> Get out of line</a>
+                            @elseif($token->status==3)  
+                            <a href="#" class="btn btn-primary btn-sm" onclick="javascript:checkIn('{{ $token->id }}')" title="Check In"><i class="fa fa-user-check"></i> Check In</a>
+                            @endif
                         </div>
                     </div>
 
@@ -149,6 +153,35 @@
                     case "ok":
                         $.ajax({
                             url: '{{ URL::to("client/token/stoped") }}/' + id,
+                            type: 'get',
+                            dataType: 'json',
+                            success: function(data) {
+                                document.location.href = '/client';
+                            }
+                        });
+                        break;
+                }
+            });
+    }
+
+    function checkIn(id) {
+        // alert(id);
+        // var _url = '{{ URL::to("client/token/stoped") }}/' + id;
+        // alert(_url);
+        // return;
+        swal('Are you sure?', {
+                title: 'Are you sure?',
+                icon: 'warning',
+                buttons: {
+                    cancel: "Oops!!!",
+                    ok: true
+                }
+            })
+            .then((value) => {
+                switch (value) {
+                    case "ok":
+                        $.ajax({
+                            url: '{{ URL::to("client/token/checkin") }}/' + id,
                             type: 'get',
                             dataType: 'json',
                             success: function(data) {

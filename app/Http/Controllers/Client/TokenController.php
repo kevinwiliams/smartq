@@ -23,7 +23,7 @@ class TokenController extends Controller
     public function current()
     {
         @date_default_timezone_set(session('app.timezone'));
-        $token = Token::where('status', '0')
+        $token = Token::whereIn('status', ['0', '3'])
             ->where('client_id', auth()->user()->id)
             ->orderBy('is_vip', 'DESC')
             ->orderBy('id', 'ASC')
@@ -31,7 +31,7 @@ class TokenController extends Controller
 
         $dept = Department::find($token->department_id);
 
-        $list = Token::where('status', 0)
+        $list = Token::whereIn('status', [0, 3])
             ->where('department_id', $token->department_id)
             ->where('counter_id', $token->counter_id)
             ->orderBy('id')->get();
@@ -96,6 +96,20 @@ class TokenController extends Controller
         $data['wait'] = date('H:i', mktime(0, $waittime));
 
         return response()->json($data);
+    }
+
+    public function checkin($id = null)
+    {
+        Token::where('id', $id)
+            ->update([
+                'updated_at' => date('Y-m-d H:i:s'), 
+                'status'     => 0,
+                'sms_status' => 1
+            ]);
+
+        //RECALL 
+        return current();
+        //return redirect()->back()->with('message', trans('app.recall_successfully'));
     }
 
     /*-----------------------------------
@@ -337,7 +351,7 @@ class TokenController extends Controller
                         ->where('department_id', $setting->department_id)
                         ->where('counter_id', $setting->counter_id)
                         ->where('user_id', $setting->user_id)
-                        ->where('status', 0)
+                        ->whereIn('status', [0, 3])
                         ->whereRaw('DATE(created_at) = CURDATE()')
                         ->orderBy('total_tokens', 'asc')
                         ->groupBy('user_id')
@@ -365,7 +379,7 @@ class TokenController extends Controller
                     'created_by'    => auth()->user()->id,
                     'created_at'    => date('Y-m-d H:i:s'),
                     'updated_at'    => null,
-                    'status'        => 0
+                    'status'        => 3 //booked
                 ];
 
 
@@ -416,6 +430,7 @@ class TokenController extends Controller
             return response()->json($err->getMessage());
         }
     }
+    
     /*-----------------------------------
     | FORCE/MANUAL/VIP TOKEN 
     |-----------------------------------*/
@@ -496,7 +511,7 @@ class TokenController extends Controller
                 'created_at'    => date('Y-m-d H:i:s'),
                 'updated_at'    => null,
                 'is_vip'        => $request->is_vip,
-                'status'        => 0
+                'status'        => 3 //booked
             ]);
 
             if ($save) {

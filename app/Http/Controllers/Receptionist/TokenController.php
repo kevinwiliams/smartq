@@ -22,7 +22,7 @@ class TokenController extends Controller
     public function current()
     {  
         @date_default_timezone_set(session('app.timezone'));
-        $tokens = Token::where('status', '0')
+        $tokens = Token::whereIn('status', ['0', '3'])
         ->orderBy('is_vip', 'DESC')
         ->orderBy('id', 'ASC')
         ->get(); 
@@ -371,6 +371,149 @@ class TokenController extends Controller
         }
         return response()->json($data);
     } 
+
+    public function checkin($id = null)
+    {
+        Token::where('id', $id)
+            ->update([
+                'updated_at' => date('Y-m-d H:i:s'), 
+                'status'     => 0,
+                'sms_status' => 1
+            ]);
+
+        //RECALL 
+        return redirect()->back()->with('message', trans('app.recall_successfully'));
+    }
+
+    public function tokenData(Request $request)
+    {
+        $columns = [
+            0 => 'id',
+            1 => 'token_no',
+            2 => 'department',
+            3 => 'counter',
+            4 => 'client_mobile',
+            5 => 'note',
+            6 => 'status',
+            7 => 'created_by',
+            8 => 'created_at',
+            9 => 'id',
+        ]; 
+
+        $totalData = Token::count();
+        $totalFiltered = $totalData; 
+        $limit = $request->input('length');
+        $start = $request->input('start');
+        $order = $columns[$request->input('order.0.column')];
+        $dir   = $request->input('order.0.dir'); 
+        $search = $request->input('search'); 
+            
+        if(empty($search))
+        {            
+            $tokens = Token::whereIn('status', ['0', '3'])
+                ->offset($start)
+                ->limit($limit)
+                ->orderBy($order,$dir)
+                ->get();
+        }
+        else 
+        { 
+            $tokensProccess = Token::where(function($query)  use($search) {
+                $query->whereIN('status', ['0', '3']);
+
+                if (!empty($search['status'])) {
+                    $query->where('status', '=', $search['status']);
+                }
+                if (!empty($search['counter'])) {
+                    $query->where('counter_id', '=', $search['counter']);
+                }
+                if (!empty($search['department'])) {
+                    $query->where('department_id', '=', $search['department']);
+                } 
+
+                if (!empty($search['start_date']) && !empty($search['end_date'])) {
+                    $query->whereBetween("created_at",[
+                        date('Y-m-d', strtotime($search['start_date']))." 00:00:00", 
+                        date('Y-m-d', strtotime($search['end_date']))." 23:59:59"
+                    ]);
+                }
+
+                if (!empty($search['value'])) {
+                    if ((strtolower($search['value']))=='vip') 
+                    {
+                        $query->where('is_vip', '1');
+                    }
+                    else
+                    {
+                        $date = date('Y-m-d', strtotime($search['value']));
+                        $query->where('token_no', 'LIKE',"%{$search['value']}%")
+                            ->orWhere('client_mobile', 'LIKE',"%{$search['value']}%")
+                            ->orWhere('note', 'LIKE',"%{$search['value']}%")
+                            ->orWhere(function($query)  use($date) {
+                                $query->whereDate('created_at', 'LIKE',"%{$date}%");
+                            })
+                            ->orWhereHas('generated_by', function($query) use($search) {
+                                $query->where(DB::raw('CONCAT(firstname, " ", lastname)'), 'LIKE',"%{$search['value']}%");
+                            }); 
+                    }
+                }
+            });
+
+            $totalFiltered = $tokensProccess->count();
+            $tokens = $tokensProccess->offset($start)
+                ->limit($limit)
+                ->orderBy($order,$dir)
+                ->get(); 
+
+        }
+
+        $data = array();
+        if(!empty($tokens))
+        {
+            $loop = 1;
+            foreach ($tokens as $token)
+            {  
+
+                # buttons
+                $options = "<div class=\"btn-group\">";
+                if ($token->status == 3) {
+                    $options .= "<a href=\"".url("receptionist/token/checkin/$token->id")."\"  class=\"btn btn-info btn-sm\" onclick=\"return confirm('Are you sure?')\" title=\"Check In\"><i class=\"fa fa-user-check\"></i></a>";
+                }
+
+                $options .= "<button type=\"button\" href=\"".url("receptionist/token/print")."\" data-token-id='$token->id' class=\"tokenPrint btn btn-default btn-sm\" title=\"Print\"><i class=\"fa fa-print\"></i></button>"; 
+                $options .= "</div>"; 
+
+                $data[] = [
+                    'serial'     => $loop++,
+                    'token_no'   => (!empty($token->is_vip)?("<span class=\"badge bg-danger text-white\" title=\"VIP\">$token->token_no</span>"):$token->token_no),
+                    'department' => (!empty($token->department)?$token->department->name:null),
+                    'counter'    => (!empty($token->counter)?$token->counter->name:null), 
+                    'client_mobile'    => $token->client_mobile. "<br/>" .(!empty($token->client)?("(<a href='".url("officer/user/view/{$token->client->id}")."'>".$token->client->firstname." ". $token->client->lastname."</a>)"):null),
+
+                    'note'       => $token->note,
+                    'status'     => (
+                                        ($token->status==1)?("<span class='badge bg-success text-white'>".trans('app.complete')."</span>"):
+                                        (
+                                            ($token->status==2)? "<span class='badge bg-danger text-white'>".trans('app.stop')."</span>":
+                                            (($token->status==3)? "<span class='badge bg-warning text-white'>Booked</span>": 
+                                            "<span class='badge bg-primary text-white'>".trans('app.pending')."</span>"))
+                                        
+                                    )
+                                    .(!empty($token->is_vip)?('<span class="badge bg-danger text-white" title="VIP">VIP</span>'):''),
+                    'created_by'    => (!empty($token->generated_by)?("<a href='".url("officer/user/view/{$token->generated_by->id}")."'>".$token->generated_by->firstname." ". $token->generated_by->lastname."</a>"):null),
+                    'created_at' => (!empty($token->created_at)?date('j M Y h:i a',strtotime($token->created_at)):null),
+                    'options'    => $options
+                ];  
+            }
+        }
+            
+        return response()->json([
+            "draw"            => intval($request->input('draw')),  
+            "recordsTotal"    => intval($totalData),  
+            "recordsFiltered" => intval($totalFiltered), 
+            "data"            => $data   
+        ]);
+    }
 
 
 }

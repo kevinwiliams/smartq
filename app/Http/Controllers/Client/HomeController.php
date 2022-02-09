@@ -22,7 +22,7 @@ class HomeController extends Controller
         @date_default_timezone_set(session('app.timezone'));
         // $departments = Department::where('status', 1)->pluck('name', 'id');
 
-        $current = Token::where('status', '0')
+        $current = Token::whereIn('status', ['0', '3'])
             ->where('client_id', auth()->user()->id)
             ->orderBy('is_vip', 'DESC')
             ->orderBy('id', 'ASC')
@@ -137,7 +137,7 @@ class HomeController extends Controller
     public function getwaittime(Request $request)
     {
         $dept = Department::find($request->id);
-        $waiting = Token::where('status', 0)->where('department_id', $request->id)->count();
+        $waiting = Token::whereIn('status', [0, 3])->where('department_id', $request->id)->count();
         $waiting = $waiting - 1;
 
         $waittime = 0;

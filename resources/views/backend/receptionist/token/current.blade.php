@@ -13,61 +13,52 @@
     </div>
 
     <div class="panel-body">
-        <table class="datatable display table" width="100%" cellspacing="0">
+        <table class="dataTables-server display table" width="100%" cellspacing="0">
             <thead>
                 <tr>
-                    <th>#</th>
-                    <th>{{ trans('app.token_no') }}</th>
+                    <th rowspan="3">#</th>
+                    <td>
+                        <label>{{ trans('app.start_date') }}</label><br/>
+                        <input type="text" class="datepicker form-control input-sm filter" id="start_date" placeholder="{{ trans('app.start_date') }}" autocomplete="off" style="width:100px" />
+                    </td>
+                    <td>
+                        <label>{{ trans('app.end_date') }}</label><br/>
+                        <input type="text" class="datepicker form-control input-sm filter" id="end_date" placeholder="{{ trans('app.end_date') }}" autocomplete="off" style="width:100px"/>
+                    </td>
+                    <th colspan="9">
+                        
+                    </th>
+                </tr> 
+                <tr>
+                    <th></th>
+                    <th> 
+                        {{ Form::select('department', $departments, null, ['id'=>'department', 'class'=>'select2 filter', 'placeholder'=> trans('app.department')]) }} 
+                    </th>  
+                    <th> 
+                        {{ Form::select('counter', $counters, null, ['id'=>'counter', 'class'=>'select2 filter', 'placeholder'=> trans('app.counter')]) }} 
+                    </th>     
+                    <th></th>
+                    <th></th>
+                    <th> 
+                        {{ Form::select('status', ["'0'"=>trans("app.pending"), '1'=>trans("app.complete"), '2'=>trans("app.stop"), '3'=>'Booked'],  null,  ['placeholder' => trans("app.status"), 'id'=> 'status', 'class'=>'select2 filter']) }} 
+                    </th>  
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr> 
+                <tr>
+                    <th>{{ trans('app.token_no') }}</th> 
                     <th>{{ trans('app.department') }}</th>
                     <th>{{ trans('app.counter') }}</th>
-                    <th>{{ trans('app.officer') }}</th>
                     <th>{{ trans('app.client_mobile') }}</th>
-                    <th>{{ trans('app.note') }}</th>
+                    <th>{{ trans('app.note') }}</th> 
                     <th>{{ trans('app.status') }}</th>
                     <th>{{ trans('app.created_by') }}</th>
                     <th>{{ trans('app.created_at') }}</th>
-                    <th width="120">{{ trans('app.action') }}</th>
-                </tr>
-            </thead> 
-            <tbody>
-                @if (!empty($tokens))
-                    <?php $sl = 1 ?>
-                    @foreach ($tokens as $token)
-                        <tr>
-                            <td>{{ $sl++ }}</td>
-                            <td>
-                                {!! (!empty($token->is_vip)?("<span class=\"badge bg-danger text-white\" title=\"VIP\">$token->token_no</span>"):$token->token_no) !!} 
-                            </td>
-                            <td>{{ !empty($token->department)?$token->department->name:null }}</td>
-                            <td>{{ !empty($token->counter)?$token->counter->name:null }}</td>
-                            <td>{!! (!empty($token->officer)?($token->officer->firstname." ". $token->officer->lastname):null) !!}</td> 
-                            <td>
-                                {{ $token->client_mobile }}<br/>
-                                {!! (!empty($token->client)?($token->client->firstname." ". $token->client->lastname):null) !!}
-                            </td> 
-                            <td>{{ $token->note }}</td>
-                            <td> 
-                                @if($token->status==0) 
-                                <span class="badge bg-primary text-white">{{ trans('app.pending') }}</span> 
-                                @elseif($token->status==1)   
-                                <span class="badge bg-success text-white">{{ trans('app.complete') }}</span>
-                                @elseif($token->status==2) 
-                                <span class="badge bg-danger text-white">{{ trans('app.stop') }}</span>
-                                @endif
-                                {!! (!empty($token->is_vip)?('<span class="badge bg-danger text-white" title="VIP">VIP</span>'):'') !!}
-                            </td>
-                            <td>{!! (!empty($token->generated_by)?($token->generated_by->firstname." ". $token->generated_by->lastname):null) !!}</td> 
-                            <td>{{ (!empty($token->created_at)?date('j M Y h:i a',strtotime($token->created_at)):null) }}</td>
-                            <td>
-                                <div class="btn-group">  
-                                    <button type="button" href='{{ url("receptionist/token/print") }}' data-token-id='{{ $token->id }}' class="tokenPrint btn btn-default btn-sm" title="Print" ><i class="fa fa-print"></i></button> 
-                                </div>
-                            </td>
-                        </tr> 
-                    @endforeach
-                @endif
-            </tbody>
-        </table>
+                    <th>{{ trans('app.action') }}</th>
+                </tr> 
+            </thead>  
+        </table>  
     </div> 
 </div>  
  
@@ -92,6 +83,66 @@
 
     function doMyStuff() { 
         window.location.reload();
+    } 
+
+    // DATATABLE
+    drawDataTable();
+
+    $("body").on("change",".filter", function(){
+        drawDataTable();
+    });
+
+    function drawDataTable()
+    {   
+        $('.dataTables-server').DataTable().destroy();
+        $('.dataTables-server').DataTable({
+            responsive: true, 
+            processing: true,
+            serverSide: true,
+            ajax: {
+                url:'<?= url('receptionist/token/data'); ?>',
+                dataType: 'json',
+                type    : 'post',
+                data    : {
+                    _token : '{{ csrf_token() }}', 
+                    search: {
+                        status     : $('#status').val(),
+                        counter    : $('#counter').val(),
+                        department : $('#department').val(),
+                        start_date : $('#start_date').val(),
+                        end_date   : $('#end_date').val(),
+                    }
+                }
+            },
+            columns: [ 
+                { data: 'serial' },
+                { data: 'token_no' },
+                { data: 'department' },
+                { data: 'counter' },
+                { data: 'client_mobile' }, 
+                { data: 'note' }, 
+                { data: 'status' }, 
+                { data: 'created_by' },
+                { data: 'created_at' },
+                { data: 'options' }  
+            ],  
+            order: [ [0, 'desc'] ], 
+            select    : true,
+            pagingType: "full_numbers",
+            lengthMenu: [[25, 50, 100, 150, 200, 500, -1], [25, 50, 100, 150, 200, 500, "All"]],
+            dom: "<'row w-100'<'col-sm-4'l><'col-sm-4 text-center'B><'col-sm-4'f>><'row'<'col-sm-12't>><'row'<'col-sm-6'i><'col-sm-6'p>>", 
+            columnDefs: [
+                { "orderable": false, "targets": [9] }
+            ], 
+            buttons: [
+                { extend:'copy', text:'<i class="fa fa-copy"></i>', className:'btn-sm',exportOptions:{columns:':visible'}},
+                { extend: 'print', text  :'<i class="fa fa-print"></i>', className:'btn-sm', exportOptions: { columns: ':visible',  modifier: { selected: null } }},  
+                { extend: 'print', text:'<i class="fa fa-print"></i>  Selected', className:'btn-sm', exportOptions:{columns: ':visible'}},  
+                { extend:'excel',  text:'<i class="fa fa-file-excel-o"></i>', className:'btn-sm',exportOptions:{columns:':visible'}},
+                { extend:'pdf',  text:'<i class="fa fa-file-pdf-o"></i>',  className:'btn-sm',exportOptions:{columns:':visible'}},
+                { extend:'colvis', text:'<i class="fa fa-eye"></i>',className:'btn-sm'} 
+            ] 
+        });   
     } 
 
     // print token
