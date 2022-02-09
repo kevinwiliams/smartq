@@ -204,7 +204,8 @@ Route::group(['middleware' => ['auth']], function() {
 		Route::get('token/current','TokenController@current'); 
 		Route::post('token/print', 'TokenController@viewSingleToken');
 		Route::get('token/checkin/{id}','TokenController@checkin');
-		Route::post('token/data','TokenController@tokenData'); 
+		Route::post('token/data','TokenController@tokenData');
+		Route::post('token/transfer','TokenController@transfer');  
 	});
 
 	# -----------------------------------------------------------

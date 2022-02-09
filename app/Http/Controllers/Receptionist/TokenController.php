@@ -385,6 +385,55 @@ class TokenController extends Controller
         return redirect()->back()->with('message', trans('app.recall_successfully'));
     }
 
+    public function transfer(Request $request)
+    {
+        // transfer token
+        $validator = Validator::make($request->all(), [
+            'id'            => 'required|max:11',
+            'department_id' => 'required|max:11',
+            'counter_id'    => 'required|max:11',
+            'user_id'       => 'required|max:11' 
+        ])
+        ->setAttributeNames(array( 
+           'id'            => trans('app.token'),
+           'department_id' => trans('app.department'),
+           'counter_id'    => trans('app.counter'),
+           'user_id'       => trans('app.officer') 
+        )); 
+
+        if ($validator->fails()) 
+        {
+            $data['status'] = false;
+            $data['exception'] = "<ul class='list-unstyled'>"; 
+            $messages = $validator->messages();
+            foreach ($messages->all('<li>:message</li>') as $message)
+            {
+                $data['exception'] .= $message; 
+            }
+            $data['exception'] .= "</ul>"; 
+        } 
+        else 
+        { 
+            $update = Token::where('id', $request->id)
+            ->update([
+                'department_id' => $request->department_id,
+                'counter_id'    => $request->counter_id, 
+                'user_id'       => $request->user_id, 
+            ]);
+
+            if ($update) 
+            {  
+                $data['status'] = true;
+                $data['message'] = trans('app.token_transfered_successfully');
+            } else {
+                $data['status'] = false;
+                $data['exception'] = trans('app.please_try_again');
+            }
+        }
+        
+        return response()->json($data);
+    }
+
     public function tokenData(Request $request)
     {
         $columns = [
@@ -479,7 +528,7 @@ class TokenController extends Controller
                 if ($token->status == 3) {
                     $options .= "<a href=\"".url("receptionist/token/checkin/$token->id")."\"  class=\"btn btn-info btn-sm\" onclick=\"return confirm('Are you sure?')\" title=\"Check In\"><i class=\"fa fa-user-check\"></i></a>";
                 }
-
+                $options .= "<button type=\"button\" data-toggle=\"modal\" data-target=\".transferModal\" data-token-id='{$token->id}' class=\"btn btn-primary btn-sm\" title=\"Transfer\"><i class=\"fa fa-exchange-alt\"></i></button>";
                 $options .= "<button type=\"button\" href=\"".url("receptionist/token/print")."\" data-token-id='$token->id' class=\"tokenPrint btn btn-default btn-sm\" title=\"Print\"><i class=\"fa fa-print\"></i></button>"; 
                 $options .= "</div>"; 
 

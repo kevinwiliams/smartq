@@ -40,7 +40,7 @@
                     <th></th>
                     <th></th>
                     <th> 
-                        {{ Form::select('status', ["'0'"=>trans("app.pending"), '1'=>trans("app.complete"), '2'=>trans("app.stop"), '3'=>'Booked'],  null,  ['placeholder' => trans("app.status"), 'id'=> 'status', 'class'=>'select2 filter']) }} 
+                        {{ Form::select('status', ["'0'"=>trans("app.pending"), '3'=>'Booked'],  null,  ['placeholder' => trans("app.status"), 'id'=> 'status', 'class'=>'select2 filter']) }} 
                     </th>  
                     <th></th>
                     <th></th>
@@ -61,7 +61,41 @@
         </table>  
     </div> 
 </div>  
- 
+ <!-- Transfer Modal -->
+<div class="modal fade transferModal" tabindex="-1" role="dialog" aria-labelledby="transferModalLabel">
+    <div class="modal-dialog" role="document">
+      {{ Form::open(['url' => 'receptionist/token/transfer', 'class'=>'transferFrm']) }}
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="transferModalLabel">{{ trans('app.transfer_a_token_to_another_counter') }}</h4>
+        </div>
+        <div class="modal-body"> 
+          <div class="alert hide"></div>
+          <input type="hidden" name="id">
+          <p>
+              <label for="department_id" class="control-label">{{ trans('app.department') }} </label><br/>
+              {{ Form::select('department_id', $counters, null, ['placeholder' => 'Select Option', 'class'=>'select2', 'id'=>'department_id']) }}<br/>
+          </p>
+  
+          <p>
+              <label for="counter_id" class="control-label">{{ trans('app.counter') }} </label><br/>
+              {{ Form::select('counter_id', $departments, null, ['placeholder' => 'Select Option', 'class'=>'select2', 'id'=>'counter_id']) }}
+          </p> 
+  
+          <p>
+              <label for="user_id" class="control-label">{{ trans('app.officer') }} </label><br/>
+              {{ Form::select('user_id', $officers, null, ['placeholder' => 'Select Option', 'class'=>'select2', 'id'=>'user_id']) }}
+          </p>  
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button class="button btn btn-success" type="submit"><span>{{ trans('app.transfer') }}</span></button>
+        </div>
+      </div>
+      {{ Form::close() }}
+    </div>
+  </div> 
 @endsection
 
 @push("scripts")
@@ -144,6 +178,56 @@
             ] 
         });   
     } 
+
+      // modal open with token id
+      $('.modal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget);
+        $('input[name=id]').val(button.data('token-id'));
+    }); 
+
+    // transfer token
+    $('body').on('submit', '.transferFrm', function(e){
+        e.preventDefault();
+        $.ajax({
+            url: $(this).attr('action'),
+            type: $(this).attr('method'),
+            dataType: 'json', 
+            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+            contentType: false,  
+            // cache: false,  
+            processData: false,
+            data:  new FormData($(this)[0]),
+            beforeSend: function() {
+                $('.transferFrm').find('.alert')
+                    .addClass('hide')
+                    .html('');
+            },
+            success: function(data)
+            {
+                if (data.status)
+                {  
+                    $('.transferFrm').find('.alert')
+                        .addClass('alert-success')
+                        .removeClass('hide alert-danger')
+                        .html(data.message);
+
+                    setTimeout(() => { window.location.reload() }, 1500);
+                }
+                else
+                {
+                    $('.transferFrm').find('.alert')
+                        .addClass('alert-danger')
+                        .removeClass('hide alert-success')
+                        .html(data.exception);
+                }   
+            },
+            error: function(xhr)
+            {
+                alert('wait...');
+            }
+        });
+
+    });
 
     // print token
     $("body").on("click", ".tokenPrint", function(e) {
