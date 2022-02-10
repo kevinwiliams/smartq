@@ -107,9 +107,10 @@ class TokenController extends Controller
                 'sms_status' => 1
             ]);
 
-        //RECALL 
-        return current();
-        //return redirect()->back()->with('message', trans('app.recall_successfully'));
+        $data['status'] = true;
+        $data['exception'] = trans('app.update_successfully');
+
+        return response()->json($data);        
     }
 
     /*-----------------------------------
